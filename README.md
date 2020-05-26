@@ -92,8 +92,9 @@ General replacement for Tasks in Windows or cron in Unix, with the benefit of be
 
 # .4 view
 
-GUI for viewing a dataset in tabular format.
+GUI for viewing a dataset in tabular format. An example:
 
+![Vieste Tabular](/docs/Vieste_Tabular.png)
 
 
 # .5 console
@@ -130,8 +131,6 @@ File format:
 },
 
 ```
-
-
 
 
 ## A final word
