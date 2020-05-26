@@ -104,6 +104,14 @@ This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` 
 
 ![Madrid Archived](/docs/Madrid_Archived.png)
 
+These ``.dat`` files contain more than 1 station, so the user must select which station:
+
+![Choose Station](/docs/Choose_Station.png)
+
+Another example, with much inconsistent data from a station (Algiers)
+
+![Algiers Archived](/docs/Algiers_Archived.png)
+
 
 # .6 compile
 
@@ -113,9 +121,9 @@ File format:
 
 ```
 { id, city_name, {  { issue_date, { {date, min, max}, {date, min, max}, ... } },
-					{ issue_date, { {date, min, max}, {date, min, max}, ... } },
-					...
-				 },
+                    { issue_date, { {date, min, max}, {date, min, max}, ... } },
+                    ...
+                 },
 },
 
 { id, city_name, ...
