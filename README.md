@@ -1,7 +1,5 @@
 #  **WMOQuery**
 
-Query the W.M.O. site for datasets, and other little scripts.
-
 ## Project description - rel. 0.0.1 (20-May-2020)
 
 **WMOQuery** is a set of tiny scripts for monitoring weather world wide and retrieve statistics on it. Only forecast temperatures can be analyzed because climate values are shipped as aggregates over a year course and they are not updated by stations anymore.
@@ -102,6 +100,9 @@ GUI for viewing a dataset in tabular format.
 
 GUI interface for launching a script or to plot 1 or more dataset(s).
 
+This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder
+
+![Madrid Archived](/docs/Madrid_Archived.png)
 
 
 # .6 compile
@@ -111,7 +112,7 @@ This is an internal script to collect forecast data from the archive folder and 
 File format:
 
 ```
-{ id, city_name, {	{ issue_date, { {date, min, max}, {date, min, max}, ... } },
+{ id, city_name, {  { issue_date, { {date, min, max}, {date, min, max}, ... } },
 					{ issue_date, { {date, min, max}, {date, min, max}, ... } },
 					...
 				 },
