@@ -1,0 +1,1274 @@
+00001: 2020/05/26 20:06:22
+00002: compile [0.0.1] started
+00003: Current locale is [English_United States.1252]
+00004: 
+00005: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05]
+00006: 
+00007: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\17]
+00008: 
+00009: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14]
+00010: 
+00011: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Algiers.json]
+00012: Parsing forecast data for city: Algiers [2020-05-17 00:00:00]
+00013: CityId [242] TimedAt [2020-05-17 00:00:00]
+00014: 
+00015: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Athens.json]
+00016: Parsing forecast data for city: Athens [2020-05-17 11:00:00]
+00017: CityId [177] TimedAt [2020-05-17 11:00:00]
+00018: 
+00019: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Auckland.json]
+00020: Parsing forecast data for city: Auckland [2020-05-17 18:05:00]
+00021: CityId [538] TimedAt [2020-05-17 18:05:00]
+00022: 
+00023: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Berlin.json]
+00024: Parsing forecast data for city: Berlin [2020-05-17 11:00:00]
+00025: CityId [59] TimedAt [2020-05-17 11:00:00]
+00026: 
+00027: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Ciudad de Mexico.json]
+00028: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00029: CityId [279] TimedAt [N/A]
+00030: ---> Collect: no forecast dataset found, ignoring contents
+00031: 
+00032: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Hong Kong.json]
+00033: Parsing forecast data for city: Hong Kong [2020-05-17 19:50:00]
+00034: CityId [1] TimedAt [2020-05-17 19:50:00]
+00035: 
+00036: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\London.json]
+00037: Parsing forecast data for city: London [2020-05-17 12:00:00]
+00038: CityId [32] TimedAt [2020-05-17 12:00:00]
+00039: ---> Warnings raised because of invalid readings, total: 1
+00040: 
+00041: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Madrid.json]
+00042: Parsing forecast data for city: Madrid [2020-05-17 10:00:00]
+00043: CityId [195] TimedAt [2020-05-17 10:00:00]
+00044: 
+00045: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Moscow.json]
+00046: Parsing forecast data for city: Moscow [2020-05-17 18:06:00]
+00047: CityId [206] TimedAt [2020-05-17 18:06:00]
+00048: 
+00049: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\New Delhi (SFD).json]
+00050: Parsing forecast data for city: New Delhi (SFD) [2020-05-17 15:00:00]
+00051: CityId [224] TimedAt [2020-05-17 15:00:00]
+00052: 
+00053: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Paris.json]
+00054: Parsing forecast data for city: Paris [2020-05-17 13:00:00]
+00055: CityId [194] TimedAt [2020-05-17 13:00:00]
+00056: 
+00057: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Tel Aviv.json]
+00058: Parsing forecast data for city: Tel Aviv [2020-05-17 17:09:00]
+00059: CityId [44] TimedAt [2020-05-17 17:09:00]
+00060: 
+00061: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Vieste.json]
+00062: Parsing forecast data for city: Vieste [2020-05-17 07:00:23]
+00063: CityId [2078] TimedAt [2020-05-17 07:00:23]
+00064: 
+00065: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\17\18-24-14\Washington DC.json]
+00066: Parsing forecast data for city: Washington DC [2020-05-17 07:31:00]
+00067: CityId [270] TimedAt [2020-05-17 07:31:00]
+00068: ---> Warnings raised because of invalid readings, total: 1
+00069: 
+00070: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\18]
+00071: 
+00072: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47]
+00073: 
+00074: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Algiers.json]
+00075: Parsing forecast data for city: Algiers [2020-05-17 00:00:00]
+00076: CityId [242] TimedAt [2020-05-17 00:00:00]
+00077: ---> Collect: duplicate found, ignoring contents
+00078: 
+00079: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Athens.json]
+00080: Parsing forecast data for city: Athens [2020-05-18 05:00:00]
+00081: CityId [177] TimedAt [2020-05-18 05:00:00]
+00082: 
+00083: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Auckland.json]
+00084: Parsing forecast data for city: Auckland [2020-05-18 18:05:00]
+00085: CityId [538] TimedAt [2020-05-18 18:05:00]
+00086: 
+00087: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Berlin.json]
+00088: Parsing forecast data for city: Berlin [2020-05-18 11:00:00]
+00089: CityId [59] TimedAt [2020-05-18 11:00:00]
+00090: 
+00091: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Ciudad de Mexico.json]
+00092: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00093: CityId [279] TimedAt [N/A]
+00094: ---> Collect: no forecast dataset found, ignoring contents
+00095: 
+00096: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Hong Kong.json]
+00097: Parsing forecast data for city: Hong Kong [2020-05-18 16:30:00]
+00098: CityId [1] TimedAt [2020-05-18 16:30:00]
+00099: 
+00100: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\London.json]
+00101: Parsing forecast data for city: London [2020-05-18 06:00:00]
+00102: CityId [32] TimedAt [2020-05-18 06:00:00]
+00103: ---> Warnings raised because of invalid readings, total: 1
+00104: 
+00105: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Madrid.json]
+00106: Parsing forecast data for city: Madrid [2020-05-18 07:00:00]
+00107: CityId [195] TimedAt [2020-05-18 07:00:00]
+00108: 
+00109: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Moscow.json]
+00110: Parsing forecast data for city: Moscow [2020-05-18 10:06:00]
+00111: CityId [206] TimedAt [2020-05-18 10:06:00]
+00112: 
+00113: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\New Delhi (SFD).json]
+00114: Parsing forecast data for city: New Delhi (SFD) [2020-05-17 15:00:00]
+00115: CityId [224] TimedAt [2020-05-17 15:00:00]
+00116: ---> Collect: duplicate found, ignoring contents
+00117: 
+00118: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Paris.json]
+00119: Parsing forecast data for city: Paris [2020-05-18 13:00:00]
+00120: CityId [194] TimedAt [2020-05-18 13:00:00]
+00121: 
+00122: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Tel Aviv.json]
+00123: Parsing forecast data for city: Tel Aviv [2020-05-18 04:07:00]
+00124: CityId [44] TimedAt [2020-05-18 04:07:00]
+00125: 
+00126: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Vieste.json]
+00127: Parsing forecast data for city: Vieste [2020-05-18 07:00:20]
+00128: CityId [2078] TimedAt [2020-05-18 07:00:20]
+00129: 
+00130: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\11-47\Washington DC.json]
+00131: Parsing forecast data for city: Washington DC [2020-05-17 19:33:00]
+00132: CityId [270] TimedAt [2020-05-17 19:33:00]
+00133: 
+00134: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46]
+00135: 
+00136: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Algiers.json]
+00137: Parsing forecast data for city: Algiers [2020-05-18 00:00:00]
+00138: CityId [242] TimedAt [2020-05-18 00:00:00]
+00139: 
+00140: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Athens.json]
+00141: Parsing forecast data for city: Athens [2020-05-18 11:00:00]
+00142: CityId [177] TimedAt [2020-05-18 11:00:00]
+00143: 
+00144: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Auckland.json]
+00145: Parsing forecast data for city: Auckland [2020-05-19 06:05:00]
+00146: CityId [538] TimedAt [2020-05-19 06:05:00]
+00147: 
+00148: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Berlin.json]
+00149: Parsing forecast data for city: Berlin [2020-05-18 11:00:00]
+00150: CityId [59] TimedAt [2020-05-18 11:00:00]
+00151: ---> Collect: duplicate found, ignoring contents
+00152: 
+00153: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Ciudad de Mexico.json]
+00154: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00155: CityId [279] TimedAt [N/A]
+00156: ---> Collect: no forecast dataset found, ignoring contents
+00157: 
+00158: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Hong Kong.json]
+00159: Parsing forecast data for city: Hong Kong [2020-05-19 04:50:00]
+00160: CityId [1] TimedAt [2020-05-19 04:50:00]
+00161: 
+00162: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\London.json]
+00163: Parsing forecast data for city: London [2020-05-18 18:00:00]
+00164: CityId [32] TimedAt [2020-05-18 18:00:00]
+00165: ---> Warnings raised because of invalid readings, total: 1
+00166: 
+00167: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Madrid.json]
+00168: Parsing forecast data for city: Madrid [2020-05-18 19:00:00]
+00169: CityId [195] TimedAt [2020-05-18 19:00:00]
+00170: 
+00171: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Moscow.json]
+00172: Parsing forecast data for city: Moscow [2020-05-18 18:06:00]
+00173: CityId [206] TimedAt [2020-05-18 18:06:00]
+00174: 
+00175: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\New Delhi (SFD).json]
+00176: Parsing forecast data for city: New Delhi (SFD) [2020-05-18 15:00:00]
+00177: CityId [224] TimedAt [2020-05-18 15:00:00]
+00178: 
+00179: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Paris.json]
+00180: Parsing forecast data for city: Paris [2020-05-18 13:00:00]
+00181: CityId [194] TimedAt [2020-05-18 13:00:00]
+00182: ---> Collect: duplicate found, ignoring contents
+00183: 
+00184: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Tel Aviv.json]
+00185: Parsing forecast data for city: Tel Aviv [2020-05-18 15:37:00]
+00186: CityId [44] TimedAt [2020-05-18 15:37:00]
+00187: 
+00188: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Vieste.json]
+00189: Parsing forecast data for city: Vieste [2020-05-18 19:00:41]
+00190: CityId [2078] TimedAt [2020-05-18 19:00:41]
+00191: 
+00192: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\18\23-46\Washington DC.json]
+00193: Parsing forecast data for city: Washington DC [2020-05-18 12:08:00]
+00194: CityId [270] TimedAt [2020-05-18 12:08:00]
+00195: ---> Warnings raised because of invalid readings, total: 1
+00196: 
+00197: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\19]
+00198: 
+00199: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15]
+00200: 
+00201: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Algiers.json]
+00202: Parsing forecast data for city: Algiers [2020-05-18 00:00:00]
+00203: CityId [242] TimedAt [2020-05-18 00:00:00]
+00204: ---> Collect: duplicate found, ignoring contents
+00205: 
+00206: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Athens.json]
+00207: Parsing forecast data for city: Athens [2020-05-19 05:00:00]
+00208: CityId [177] TimedAt [2020-05-19 05:00:00]
+00209: 
+00210: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Auckland.json]
+00211: Parsing forecast data for city: Auckland [2020-05-19 06:05:00]
+00212: CityId [538] TimedAt [2020-05-19 06:05:00]
+00213: ---> Collect: duplicate found, ignoring contents
+00214: 
+00215: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Berlin.json]
+00216: Parsing forecast data for city: Berlin [2020-05-18 11:00:00]
+00217: CityId [59] TimedAt [2020-05-18 11:00:00]
+00218: ---> Collect: duplicate found, ignoring contents
+00219: 
+00220: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Ciudad de Mexico.json]
+00221: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00222: CityId [279] TimedAt [N/A]
+00223: ---> Collect: no forecast dataset found, ignoring contents
+00224: 
+00225: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Hong Kong.json]
+00226: Parsing forecast data for city: Hong Kong [2020-05-19 11:34:00]
+00227: CityId [1] TimedAt [2020-05-19 11:34:00]
+00228: 
+00229: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\London.json]
+00230: Parsing forecast data for city: London [2020-05-19 00:00:00]
+00231: CityId [32] TimedAt [2020-05-19 00:00:00]
+00232: ---> Warnings raised because of invalid readings, total: 1
+00233: 
+00234: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Madrid.json]
+00235: Parsing forecast data for city: Madrid [2020-05-18 22:00:00]
+00236: CityId [195] TimedAt [2020-05-18 22:00:00]
+00237: 
+00238: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Moscow.json]
+00239: Parsing forecast data for city: Moscow [2020-05-18 18:06:00]
+00240: CityId [206] TimedAt [2020-05-18 18:06:00]
+00241: ---> Collect: duplicate found, ignoring contents
+00242: 
+00243: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\New Delhi (SFD).json]
+00244: Parsing forecast data for city: New Delhi (SFD) [2020-05-18 15:00:00]
+00245: CityId [224] TimedAt [2020-05-18 15:00:00]
+00246: ---> Collect: duplicate found, ignoring contents
+00247: 
+00248: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Paris.json]
+00249: Parsing forecast data for city: Paris [2020-05-19 13:00:00]
+00250: CityId [194] TimedAt [2020-05-19 13:00:00]
+00251: 
+00252: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Tel Aviv.json]
+00253: Parsing forecast data for city: Tel Aviv [2020-05-19 05:06:00]
+00254: CityId [44] TimedAt [2020-05-19 05:06:00]
+00255: 
+00256: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Vieste.json]
+00257: Parsing forecast data for city: Vieste [2020-05-18 19:00:41]
+00258: CityId [2078] TimedAt [2020-05-18 19:00:41]
+00259: ---> Collect: duplicate found, ignoring contents
+00260: 
+00261: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\08-15\Washington DC.json]
+00262: Parsing forecast data for city: Washington DC [2020-05-18 22:32:00]
+00263: CityId [270] TimedAt [2020-05-18 22:32:00]
+00264: 
+00265: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57]
+00266: 
+00267: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Algiers.json]
+00268: Parsing forecast data for city: Algiers [2020-05-19 12:55:00]
+00269: CityId [242] TimedAt [2020-05-19 12:55:00]
+00270: 
+00271: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Athens.json]
+00272: Parsing forecast data for city: Athens [2020-05-19 11:00:00]
+00273: CityId [177] TimedAt [2020-05-19 11:00:00]
+00274: 
+00275: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Auckland.json]
+00276: Parsing forecast data for city: Auckland [2020-05-19 18:05:00]
+00277: CityId [538] TimedAt [2020-05-19 18:05:00]
+00278: 
+00279: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Berlin.json]
+00280: Parsing forecast data for city: Berlin [2020-05-19 11:00:00]
+00281: CityId [59] TimedAt [2020-05-19 11:00:00]
+00282: 
+00283: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Ciudad de Mexico.json]
+00284: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00285: CityId [279] TimedAt [N/A]
+00286: ---> Collect: no forecast dataset found, ignoring contents
+00287: 
+00288: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Hong Kong.json]
+00289: Parsing forecast data for city: Hong Kong [2020-05-19 19:50:00]
+00290: CityId [1] TimedAt [2020-05-19 19:50:00]
+00291: 
+00292: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\London.json]
+00293: Parsing forecast data for city: London [2020-05-19 12:00:00]
+00294: CityId [32] TimedAt [2020-05-19 12:00:00]
+00295: ---> Warnings raised because of invalid readings, total: 1
+00296: 
+00297: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Madrid.json]
+00298: Parsing forecast data for city: Madrid [2020-05-19 10:00:00]
+00299: CityId [195] TimedAt [2020-05-19 10:00:00]
+00300: 
+00301: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Moscow.json]
+00302: Parsing forecast data for city: Moscow [2020-05-19 10:06:00]
+00303: CityId [206] TimedAt [2020-05-19 10:06:00]
+00304: 
+00305: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\New Delhi (SFD).json]
+00306: Parsing forecast data for city: New Delhi (SFD) [2020-05-19 15:00:00]
+00307: CityId [224] TimedAt [2020-05-19 15:00:00]
+00308: 
+00309: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Paris.json]
+00310: Parsing forecast data for city: Paris [2020-05-19 13:00:00]
+00311: CityId [194] TimedAt [2020-05-19 13:00:00]
+00312: ---> Collect: duplicate found, ignoring contents
+00313: 
+00314: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Tel Aviv.json]
+00315: Parsing forecast data for city: Tel Aviv [2020-05-19 05:06:00]
+00316: CityId [44] TimedAt [2020-05-19 05:06:00]
+00317: ---> Collect: duplicate found, ignoring contents
+00318: 
+00319: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Vieste.json]
+00320: Parsing forecast data for city: Vieste [2020-05-19 07:00:38]
+00321: CityId [2078] TimedAt [2020-05-19 07:00:38]
+00322: 
+00323: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\19\15-57\Washington DC.json]
+00324: Parsing forecast data for city: Washington DC [2020-05-19 07:32:00]
+00325: CityId [270] TimedAt [2020-05-19 07:32:00]
+00326: ---> Warnings raised because of invalid readings, total: 1
+00327: 
+00328: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\20]
+00329: 
+00330: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44]
+00331: 
+00332: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Algiers.json]
+00333: Parsing forecast data for city: Algiers [2020-05-19 12:55:00]
+00334: CityId [242] TimedAt [2020-05-19 12:55:00]
+00335: ---> Collect: duplicate found, ignoring contents
+00336: 
+00337: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Athens.json]
+00338: Parsing forecast data for city: Athens [2020-05-20 05:00:00]
+00339: CityId [177] TimedAt [2020-05-20 05:00:00]
+00340: 
+00341: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Auckland.json]
+00342: Parsing forecast data for city: Auckland [2020-05-20 18:05:00]
+00343: CityId [538] TimedAt [2020-05-20 18:05:00]
+00344: 
+00345: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Berlin.json]
+00346: Parsing forecast data for city: Berlin [2020-05-19 11:00:00]
+00347: CityId [59] TimedAt [2020-05-19 11:00:00]
+00348: ---> Collect: duplicate found, ignoring contents
+00349: 
+00350: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Ciudad de Mexico.json]
+00351: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00352: CityId [279] TimedAt [N/A]
+00353: ---> Collect: no forecast dataset found, ignoring contents
+00354: 
+00355: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Hong Kong.json]
+00356: Parsing forecast data for city: Hong Kong [2020-05-20 11:34:00]
+00357: CityId [1] TimedAt [2020-05-20 11:34:00]
+00358: 
+00359: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\London.json]
+00360: Parsing forecast data for city: London [2020-05-20 06:00:00]
+00361: CityId [32] TimedAt [2020-05-20 06:00:00]
+00362: ---> Warnings raised because of invalid readings, total: 1
+00363: 
+00364: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Madrid.json]
+00365: Parsing forecast data for city: Madrid [2020-05-20 07:00:00]
+00366: CityId [195] TimedAt [2020-05-20 07:00:00]
+00367: 
+00368: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Moscow.json]
+00369: Parsing forecast data for city: Moscow [2020-05-20 10:06:00]
+00370: CityId [206] TimedAt [2020-05-20 10:06:00]
+00371: 
+00372: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\New Delhi (SFD).json]
+00373: Parsing forecast data for city: New Delhi (SFD) [2020-05-19 15:00:00]
+00374: CityId [224] TimedAt [2020-05-19 15:00:00]
+00375: ---> Collect: duplicate found, ignoring contents
+00376: 
+00377: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Paris.json]
+00378: Parsing forecast data for city: Paris [2020-05-20 13:00:00]
+00379: CityId [194] TimedAt [2020-05-20 13:00:00]
+00380: 
+00381: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Tel Aviv.json]
+00382: Parsing forecast data for city: Tel Aviv [2020-05-20 04:15:00]
+00383: CityId [44] TimedAt [2020-05-20 04:15:00]
+00384: 
+00385: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Vieste.json]
+00386: Parsing forecast data for city: Vieste [2020-05-20 07:03:21]
+00387: CityId [2078] TimedAt [2020-05-20 07:03:21]
+00388: 
+00389: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\10-44\Washington DC.json]
+00390: Parsing forecast data for city: Washington DC [2020-05-19 22:32:00]
+00391: CityId [270] TimedAt [2020-05-19 22:32:00]
+00392: 
+00393: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57]
+00394: 
+00395: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Algiers.json]
+00396: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00397: CityId [242] TimedAt [2020-05-20 13:50:00]
+00398: 
+00399: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Athens.json]
+00400: Parsing forecast data for city: Athens [2020-05-20 11:00:00]
+00401: CityId [177] TimedAt [2020-05-20 11:00:00]
+00402: 
+00403: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Auckland.json]
+00404: Parsing forecast data for city: Auckland [2020-05-20 18:05:00]
+00405: CityId [538] TimedAt [2020-05-20 18:05:00]
+00406: ---> Collect: duplicate found, ignoring contents
+00407: 
+00408: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Berlin.json]
+00409: Parsing forecast data for city: Berlin [2020-05-20 11:00:00]
+00410: CityId [59] TimedAt [2020-05-20 11:00:00]
+00411: 
+00412: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Ciudad de Mexico.json]
+00413: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00414: CityId [279] TimedAt [N/A]
+00415: ---> Collect: no forecast dataset found, ignoring contents
+00416: 
+00417: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Hong Kong.json]
+00418: Parsing forecast data for city: Hong Kong [2020-05-20 20:20:00]
+00419: CityId [1] TimedAt [2020-05-20 20:20:00]
+00420: 
+00421: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\London.json]
+00422: Parsing forecast data for city: London [2020-05-20 06:00:00]
+00423: CityId [32] TimedAt [2020-05-20 06:00:00]
+00424: ---> Collect: duplicate found, ignoring contents
+00425: 
+00426: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Madrid.json]
+00427: Parsing forecast data for city: Madrid [2020-05-20 10:00:00]
+00428: CityId [195] TimedAt [2020-05-20 10:00:00]
+00429: 
+00430: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Moscow.json]
+00431: Parsing forecast data for city: Moscow [2020-05-20 10:06:00]
+00432: CityId [206] TimedAt [2020-05-20 10:06:00]
+00433: ---> Collect: duplicate found, ignoring contents
+00434: 
+00435: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\New Delhi (SFD).json]
+00436: Parsing forecast data for city: New Delhi (SFD) [2020-05-20 15:00:00]
+00437: CityId [224] TimedAt [2020-05-20 15:00:00]
+00438: 
+00439: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Paris.json]
+00440: Parsing forecast data for city: Paris [2020-05-20 13:00:00]
+00441: CityId [194] TimedAt [2020-05-20 13:00:00]
+00442: ---> Collect: duplicate found, ignoring contents
+00443: 
+00444: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Tel Aviv.json]
+00445: Parsing forecast data for city: Tel Aviv [2020-05-20 04:15:00]
+00446: CityId [44] TimedAt [2020-05-20 04:15:00]
+00447: ---> Collect: duplicate found, ignoring contents
+00448: 
+00449: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Vieste.json]
+00450: Parsing forecast data for city: Vieste [2020-05-20 07:03:21]
+00451: CityId [2078] TimedAt [2020-05-20 07:03:21]
+00452: ---> Collect: duplicate found, ignoring contents
+00453: 
+00454: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\14-57\Washington DC.json]
+00455: Parsing forecast data for city: Washington DC [2020-05-20 07:31:00]
+00456: CityId [270] TimedAt [2020-05-20 07:31:00]
+00457: ---> Warnings raised because of invalid readings, total: 1
+00458: 
+00459: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00]
+00460: 
+00461: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Algiers.json]
+00462: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00463: CityId [242] TimedAt [2020-05-20 13:50:00]
+00464: ---> Collect: duplicate found, ignoring contents
+00465: 
+00466: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Athens.json]
+00467: Parsing forecast data for city: Athens [2020-05-20 11:00:00]
+00468: CityId [177] TimedAt [2020-05-20 11:00:00]
+00469: ---> Collect: duplicate found, ignoring contents
+00470: 
+00471: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Auckland.json]
+00472: Parsing forecast data for city: Auckland [2020-05-20 18:05:00]
+00473: CityId [538] TimedAt [2020-05-20 18:05:00]
+00474: ---> Collect: duplicate found, ignoring contents
+00475: 
+00476: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Berlin.json]
+00477: Parsing forecast data for city: Berlin [2020-05-20 11:00:00]
+00478: CityId [59] TimedAt [2020-05-20 11:00:00]
+00479: ---> Collect: duplicate found, ignoring contents
+00480: 
+00481: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Ciudad de Mexico.json]
+00482: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00483: CityId [279] TimedAt [N/A]
+00484: ---> Collect: no forecast dataset found, ignoring contents
+00485: 
+00486: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Hong Kong.json]
+00487: Parsing forecast data for city: Hong Kong [2020-05-20 21:15:00]
+00488: CityId [1] TimedAt [2020-05-20 21:15:00]
+00489: 
+00490: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\London.json]
+00491: Parsing forecast data for city: London [2020-05-20 12:00:00]
+00492: CityId [32] TimedAt [2020-05-20 12:00:00]
+00493: ---> Warnings raised because of invalid readings, total: 1
+00494: 
+00495: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Madrid.json]
+00496: Parsing forecast data for city: Madrid [2020-05-20 10:00:00]
+00497: CityId [195] TimedAt [2020-05-20 10:00:00]
+00498: ---> Collect: duplicate found, ignoring contents
+00499: 
+00500: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Moscow.json]
+00501: Parsing forecast data for city: Moscow [2020-05-20 10:06:00]
+00502: CityId [206] TimedAt [2020-05-20 10:06:00]
+00503: ---> Collect: duplicate found, ignoring contents
+00504: 
+00505: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\New Delhi (SFD).json]
+00506: Parsing forecast data for city: New Delhi (SFD) [2020-05-20 15:00:00]
+00507: CityId [224] TimedAt [2020-05-20 15:00:00]
+00508: ---> Collect: duplicate found, ignoring contents
+00509: 
+00510: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Paris.json]
+00511: Parsing forecast data for city: Paris [2020-05-20 13:00:00]
+00512: CityId [194] TimedAt [2020-05-20 13:00:00]
+00513: ---> Collect: duplicate found, ignoring contents
+00514: 
+00515: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Tel Aviv.json]
+00516: Parsing forecast data for city: Tel Aviv [2020-05-20 04:15:00]
+00517: CityId [44] TimedAt [2020-05-20 04:15:00]
+00518: ---> Collect: duplicate found, ignoring contents
+00519: 
+00520: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Vieste.json]
+00521: Parsing forecast data for city: Vieste [2020-05-20 07:03:21]
+00522: CityId [2078] TimedAt [2020-05-20 07:03:21]
+00523: ---> Collect: duplicate found, ignoring contents
+00524: 
+00525: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\20\16-00\Washington DC.json]
+00526: Parsing forecast data for city: Washington DC [2020-05-20 07:31:00]
+00527: CityId [270] TimedAt [2020-05-20 07:31:00]
+00528: ---> Collect: duplicate found, ignoring contents
+00529: 
+00530: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\21]
+00531: 
+00532: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35]
+00533: 
+00534: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Algiers.json]
+00535: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00536: CityId [242] TimedAt [2020-05-20 13:50:00]
+00537: ---> Collect: duplicate found, ignoring contents
+00538: 
+00539: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Athens.json]
+00540: Parsing forecast data for city: Athens [2020-05-20 11:00:00]
+00541: CityId [177] TimedAt [2020-05-20 11:00:00]
+00542: ---> Collect: duplicate found, ignoring contents
+00543: 
+00544: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Auckland.json]
+00545: Parsing forecast data for city: Auckland [2020-05-21 18:05:00]
+00546: CityId [538] TimedAt [2020-05-21 18:05:00]
+00547: 
+00548: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Berlin.json]
+00549: Parsing forecast data for city: Berlin [2020-05-20 11:00:00]
+00550: CityId [59] TimedAt [2020-05-20 11:00:00]
+00551: ---> Collect: duplicate found, ignoring contents
+00552: 
+00553: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Ciudad de Mexico.json]
+00554: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00555: CityId [279] TimedAt [N/A]
+00556: ---> Collect: no forecast dataset found, ignoring contents
+00557: 
+00558: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Hong Kong.json]
+00559: Parsing forecast data for city: Hong Kong [2020-05-21 11:37:00]
+00560: CityId [1] TimedAt [2020-05-21 11:37:00]
+00561: 
+00562: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\London.json]
+00563: Parsing forecast data for city: London [2020-05-21 06:00:00]
+00564: CityId [32] TimedAt [2020-05-21 06:00:00]
+00565: ---> Warnings raised because of invalid readings, total: 1
+00566: 
+00567: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Madrid.json]
+00568: Parsing forecast data for city: Madrid [2020-05-21 07:00:00]
+00569: CityId [195] TimedAt [2020-05-21 07:00:00]
+00570: 
+00571: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Moscow.json]
+00572: Parsing forecast data for city: Moscow [2020-05-21 10:06:00]
+00573: CityId [206] TimedAt [2020-05-21 10:06:00]
+00574: 
+00575: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\New Delhi (SFD).json]
+00576: Parsing forecast data for city: New Delhi (SFD) [2020-05-20 15:00:00]
+00577: CityId [224] TimedAt [2020-05-20 15:00:00]
+00578: ---> Collect: duplicate found, ignoring contents
+00579: 
+00580: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Paris.json]
+00581: Parsing forecast data for city: Paris [2020-05-21 13:00:00]
+00582: CityId [194] TimedAt [2020-05-21 13:00:00]
+00583: 
+00584: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Tel Aviv.json]
+00585: Parsing forecast data for city: Tel Aviv [2020-05-20 16:42:00]
+00586: CityId [44] TimedAt [2020-05-20 16:42:00]
+00587: 
+00588: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Vieste.json]
+00589: Parsing forecast data for city: Vieste [2020-05-21 07:00:55]
+00590: CityId [2078] TimedAt [2020-05-21 07:00:55]
+00591: 
+00592: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\10-35\Washington DC.json]
+00593: Parsing forecast data for city: Washington DC [2020-05-20 22:31:00]
+00594: CityId [270] TimedAt [2020-05-20 22:31:00]
+00595: 
+00596: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31]
+00597: 
+00598: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Algiers.json]
+00599: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00600: CityId [242] TimedAt [2020-05-20 13:50:00]
+00601: ---> Collect: duplicate found, ignoring contents
+00602: 
+00603: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Athens.json]
+00604: Parsing forecast data for city: Athens [2020-05-21 11:00:00]
+00605: CityId [177] TimedAt [2020-05-21 11:00:00]
+00606: 
+00607: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Auckland.json]
+00608: Parsing forecast data for city: Auckland [2020-05-22 06:05:00]
+00609: CityId [538] TimedAt [2020-05-22 06:05:00]
+00610: 
+00611: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Berlin.json]
+00612: Parsing forecast data for city: Berlin [2020-05-20 11:00:00]
+00613: CityId [59] TimedAt [2020-05-20 11:00:00]
+00614: ---> Collect: duplicate found, ignoring contents
+00615: 
+00616: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Ciudad de Mexico.json]
+00617: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00618: CityId [279] TimedAt [N/A]
+00619: ---> Collect: no forecast dataset found, ignoring contents
+00620: 
+00621: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Hong Kong.json]
+00622: Parsing forecast data for city: Hong Kong [2020-05-22 00:00:00]
+00623: CityId [1] TimedAt [2020-05-22 00:00:00]
+00624: 
+00625: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\London.json]
+00626: Parsing forecast data for city: London [2020-05-21 18:00:00]
+00627: CityId [32] TimedAt [2020-05-21 18:00:00]
+00628: ---> Warnings raised because of invalid readings, total: 1
+00629: 
+00630: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Madrid.json]
+00631: Parsing forecast data for city: Madrid [2020-05-21 19:00:00]
+00632: CityId [195] TimedAt [2020-05-21 19:00:00]
+00633: 
+00634: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Moscow.json]
+00635: Parsing forecast data for city: Moscow [2020-05-21 18:06:00]
+00636: CityId [206] TimedAt [2020-05-21 18:06:00]
+00637: 
+00638: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\New Delhi (SFD).json]
+00639: Parsing forecast data for city: New Delhi (SFD) [2020-05-21 15:00:00]
+00640: CityId [224] TimedAt [2020-05-21 15:00:00]
+00641: 
+00642: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Paris.json]
+00643: Parsing forecast data for city: Paris [2020-05-21 13:00:00]
+00644: CityId [194] TimedAt [2020-05-21 13:00:00]
+00645: ---> Collect: duplicate found, ignoring contents
+00646: 
+00647: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Tel Aviv.json]
+00648: Parsing forecast data for city: Tel Aviv [2020-05-21 18:03:00]
+00649: CityId [44] TimedAt [2020-05-21 18:03:00]
+00650: 
+00651: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Vieste.json]
+00652: Parsing forecast data for city: Vieste [2020-05-21 07:00:55]
+00653: CityId [2078] TimedAt [2020-05-21 07:00:55]
+00654: ---> Collect: duplicate found, ignoring contents
+00655: 
+00656: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\21\21-31\Washington DC.json]
+00657: Parsing forecast data for city: Washington DC [2020-05-21 10:31:00]
+00658: CityId [270] TimedAt [2020-05-21 10:31:00]
+00659: ---> Warnings raised because of invalid readings, total: 1
+00660: 
+00661: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\22]
+00662: 
+00663: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21]
+00664: 
+00665: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Algiers.json]
+00666: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00667: CityId [242] TimedAt [2020-05-20 13:50:00]
+00668: ---> Collect: duplicate found, ignoring contents
+00669: 
+00670: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Athens.json]
+00671: Parsing forecast data for city: Athens [2020-05-21 11:00:00]
+00672: CityId [177] TimedAt [2020-05-21 11:00:00]
+00673: ---> Collect: duplicate found, ignoring contents
+00674: 
+00675: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Auckland.json]
+00676: Parsing forecast data for city: Auckland [2020-05-22 06:05:00]
+00677: CityId [538] TimedAt [2020-05-22 06:05:00]
+00678: ---> Collect: duplicate found, ignoring contents
+00679: 
+00680: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Berlin.json]
+00681: Parsing forecast data for city: Berlin [2020-05-20 11:00:00]
+00682: CityId [59] TimedAt [2020-05-20 11:00:00]
+00683: ---> Collect: duplicate found, ignoring contents
+00684: 
+00685: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Ciudad de Mexico.json]
+00686: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00687: CityId [279] TimedAt [N/A]
+00688: ---> Collect: no forecast dataset found, ignoring contents
+00689: 
+00690: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Hong Kong.json]
+00691: Parsing forecast data for city: Hong Kong [2020-05-22 10:50:00]
+00692: CityId [1] TimedAt [2020-05-22 10:50:00]
+00693: 
+00694: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\London.json]
+00695: Parsing forecast data for city: London [2020-05-22 00:00:00]
+00696: CityId [32] TimedAt [2020-05-22 00:00:00]
+00697: ---> Warnings raised because of invalid readings, total: 1
+00698: 
+00699: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Madrid.json]
+00700: Parsing forecast data for city: Madrid [2020-05-21 22:00:00]
+00701: CityId [195] TimedAt [2020-05-21 22:00:00]
+00702: 
+00703: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Moscow.json]
+00704: Parsing forecast data for city: Moscow [2020-05-21 18:06:00]
+00705: CityId [206] TimedAt [2020-05-21 18:06:00]
+00706: ---> Collect: duplicate found, ignoring contents
+00707: 
+00708: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\New Delhi (SFD).json]
+00709: Parsing forecast data for city: New Delhi (SFD) [2020-05-21 15:00:00]
+00710: CityId [224] TimedAt [2020-05-21 15:00:00]
+00711: ---> Collect: duplicate found, ignoring contents
+00712: 
+00713: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Paris.json]
+00714: Parsing forecast data for city: Paris [2020-05-22 13:00:00]
+00715: CityId [194] TimedAt [2020-05-22 13:00:00]
+00716: 
+00717: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Tel Aviv.json]
+00718: Parsing forecast data for city: Tel Aviv [2020-05-22 04:12:00]
+00719: CityId [44] TimedAt [2020-05-22 04:12:00]
+00720: 
+00721: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Vieste.json]
+00722: Parsing forecast data for city: Vieste [2020-05-21 19:00:58]
+00723: CityId [2078] TimedAt [2020-05-21 19:00:58]
+00724: 
+00725: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\05-21\Washington DC.json]
+00726: Parsing forecast data for city: Washington DC [2020-05-21 19:32:00]
+00727: CityId [270] TimedAt [2020-05-21 19:32:00]
+00728: 
+00729: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02]
+00730: 
+00731: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Algiers.json]
+00732: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00733: CityId [242] TimedAt [2020-05-20 13:50:00]
+00734: ---> Collect: duplicate found, ignoring contents
+00735: 
+00736: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Athens.json]
+00737: Parsing forecast data for city: Athens [2020-05-22 11:00:00]
+00738: CityId [177] TimedAt [2020-05-22 11:00:00]
+00739: 
+00740: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Auckland.json]
+00741: Parsing forecast data for city: Auckland [2020-05-23 06:05:00]
+00742: CityId [538] TimedAt [2020-05-23 06:05:00]
+00743: 
+00744: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Berlin.json]
+00745: Parsing forecast data for city: Berlin [2020-05-22 11:00:00]
+00746: CityId [59] TimedAt [2020-05-22 11:00:00]
+00747: 
+00748: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Ciudad de Mexico.json]
+00749: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00750: CityId [279] TimedAt [N/A]
+00751: ---> Collect: no forecast dataset found, ignoring contents
+00752: 
+00753: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Hong Kong.json]
+00754: Parsing forecast data for city: Hong Kong [2020-05-22 23:15:00]
+00755: CityId [1] TimedAt [2020-05-22 23:15:00]
+00756: 
+00757: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\London.json]
+00758: Parsing forecast data for city: London [2020-05-22 12:00:00]
+00759: CityId [32] TimedAt [2020-05-22 12:00:00]
+00760: ---> Warnings raised because of invalid readings, total: 1
+00761: 
+00762: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Madrid.json]
+00763: Parsing forecast data for city: Madrid [2020-05-22 10:00:00]
+00764: CityId [195] TimedAt [2020-05-22 10:00:00]
+00765: 
+00766: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Moscow.json]
+00767: Parsing forecast data for city: Moscow [2020-05-22 18:06:00]
+00768: CityId [206] TimedAt [2020-05-22 18:06:00]
+00769: 
+00770: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\New Delhi (SFD).json]
+00771: Parsing forecast data for city: New Delhi (SFD) [2020-05-22 15:00:00]
+00772: CityId [224] TimedAt [2020-05-22 15:00:00]
+00773: 
+00774: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Paris.json]
+00775: Parsing forecast data for city: Paris [2020-05-22 13:00:00]
+00776: CityId [194] TimedAt [2020-05-22 13:00:00]
+00777: ---> Collect: duplicate found, ignoring contents
+00778: 
+00779: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Tel Aviv.json]
+00780: Parsing forecast data for city: Tel Aviv [2020-05-22 16:58:00]
+00781: CityId [44] TimedAt [2020-05-22 16:58:00]
+00782: 
+00783: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Vieste.json]
+00784: Parsing forecast data for city: Vieste [2020-05-22 06:52:05]
+00785: CityId [2078] TimedAt [2020-05-22 06:52:05]
+00786: 
+00787: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\22\21-02\Washington DC.json]
+00788: Parsing forecast data for city: Washington DC [2020-05-22 10:31:00]
+00789: CityId [270] TimedAt [2020-05-22 10:31:00]
+00790: ---> Warnings raised because of invalid readings, total: 1
+00791: 
+00792: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\23]
+00793: 
+00794: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19]
+00795: 
+00796: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Algiers.json]
+00797: Parsing forecast data for city: Algiers [2020-05-20 13:50:00]
+00798: CityId [242] TimedAt [2020-05-20 13:50:00]
+00799: ---> Collect: duplicate found, ignoring contents
+00800: 
+00801: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Athens.json]
+00802: Parsing forecast data for city: Athens [2020-05-23 05:00:00]
+00803: CityId [177] TimedAt [2020-05-23 05:00:00]
+00804: 
+00805: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Auckland.json]
+00806: Parsing forecast data for city: Auckland [2020-05-23 06:05:00]
+00807: CityId [538] TimedAt [2020-05-23 06:05:00]
+00808: ---> Collect: duplicate found, ignoring contents
+00809: 
+00810: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Berlin.json]
+00811: Parsing forecast data for city: Berlin [2020-05-22 11:00:00]
+00812: CityId [59] TimedAt [2020-05-22 11:00:00]
+00813: ---> Collect: duplicate found, ignoring contents
+00814: 
+00815: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Ciudad de Mexico.json]
+00816: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00817: CityId [279] TimedAt [N/A]
+00818: ---> Collect: no forecast dataset found, ignoring contents
+00819: 
+00820: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Hong Kong.json]
+00821: Parsing forecast data for city: Hong Kong [2020-05-23 11:36:00]
+00822: CityId [1] TimedAt [2020-05-23 11:36:00]
+00823: 
+00824: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\London.json]
+00825: Parsing forecast data for city: London [2020-05-23 00:00:00]
+00826: CityId [32] TimedAt [2020-05-23 00:00:00]
+00827: ---> Warnings raised because of invalid readings, total: 1
+00828: 
+00829: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Madrid.json]
+00830: Parsing forecast data for city: Madrid [2020-05-22 22:00:00]
+00831: CityId [195] TimedAt [2020-05-22 22:00:00]
+00832: 
+00833: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Moscow.json]
+00834: Parsing forecast data for city: Moscow [2020-05-22 18:06:00]
+00835: CityId [206] TimedAt [2020-05-22 18:06:00]
+00836: ---> Collect: duplicate found, ignoring contents
+00837: 
+00838: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\New Delhi (SFD).json]
+00839: Parsing forecast data for city: New Delhi (SFD) [2020-05-22 15:00:00]
+00840: CityId [224] TimedAt [2020-05-22 15:00:00]
+00841: ---> Collect: duplicate found, ignoring contents
+00842: 
+00843: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Paris.json]
+00844: Parsing forecast data for city: Paris [2020-05-23 13:00:00]
+00845: CityId [194] TimedAt [2020-05-23 13:00:00]
+00846: 
+00847: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Tel Aviv.json]
+00848: Parsing forecast data for city: Tel Aviv [2020-05-23 04:39:00]
+00849: CityId [44] TimedAt [2020-05-23 04:39:00]
+00850: 
+00851: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Vieste.json]
+00852: Parsing forecast data for city: Vieste [2020-05-22 19:00:24]
+00853: CityId [2078] TimedAt [2020-05-22 19:00:24]
+00854: 
+00855: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\08-19\Washington DC.json]
+00856: Parsing forecast data for city: Washington DC [2020-05-22 22:31:00]
+00857: CityId [270] TimedAt [2020-05-22 22:31:00]
+00858: 
+00859: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20]
+00860: 
+00861: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Algiers.json]
+00862: Parsing forecast data for city: Algiers [2020-05-23 10:17:00]
+00863: CityId [242] TimedAt [2020-05-23 10:17:00]
+00864: 
+00865: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Athens.json]
+00866: Parsing forecast data for city: Athens [2020-05-23 11:00:00]
+00867: CityId [177] TimedAt [2020-05-23 11:00:00]
+00868: 
+00869: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Auckland.json]
+00870: Parsing forecast data for city: Auckland [2020-05-23 18:05:00]
+00871: CityId [538] TimedAt [2020-05-23 18:05:00]
+00872: 
+00873: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Berlin.json]
+00874: Parsing forecast data for city: Berlin [2020-05-23 11:00:00]
+00875: CityId [59] TimedAt [2020-05-23 11:00:00]
+00876: 
+00877: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Ciudad de Mexico.json]
+00878: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00879: CityId [279] TimedAt [N/A]
+00880: ---> Collect: no forecast dataset found, ignoring contents
+00881: 
+00882: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Hong Kong.json]
+00883: Parsing forecast data for city: Hong Kong [2020-05-24 00:00:00]
+00884: CityId [1] TimedAt [2020-05-24 00:00:00]
+00885: 
+00886: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\London.json]
+00887: Parsing forecast data for city: London [2020-05-23 12:00:00]
+00888: CityId [32] TimedAt [2020-05-23 12:00:00]
+00889: ---> Warnings raised because of invalid readings, total: 1
+00890: 
+00891: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Madrid.json]
+00892: Parsing forecast data for city: Madrid [2020-05-23 10:00:00]
+00893: CityId [195] TimedAt [2020-05-23 10:00:00]
+00894: 
+00895: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Moscow.json]
+00896: Parsing forecast data for city: Moscow [2020-05-23 18:06:00]
+00897: CityId [206] TimedAt [2020-05-23 18:06:00]
+00898: 
+00899: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\New Delhi (SFD).json]
+00900: Parsing forecast data for city: New Delhi (SFD) [2020-05-23 15:00:00]
+00901: CityId [224] TimedAt [2020-05-23 15:00:00]
+00902: 
+00903: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Paris.json]
+00904: Parsing forecast data for city: Paris [2020-05-23 13:00:00]
+00905: CityId [194] TimedAt [2020-05-23 13:00:00]
+00906: ---> Collect: duplicate found, ignoring contents
+00907: 
+00908: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Tel Aviv.json]
+00909: Parsing forecast data for city: Tel Aviv [2020-05-23 16:06:00]
+00910: CityId [44] TimedAt [2020-05-23 16:06:00]
+00911: 
+00912: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Vieste.json]
+00913: Parsing forecast data for city: Vieste [2020-05-23 07:00:47]
+00914: CityId [2078] TimedAt [2020-05-23 07:00:47]
+00915: 
+00916: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\23\20-20\Washington DC.json]
+00917: Parsing forecast data for city: Washington DC [2020-05-23 11:43:00]
+00918: CityId [270] TimedAt [2020-05-23 11:43:00]
+00919: ---> Warnings raised because of invalid readings, total: 1
+00920: 
+00921: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\24]
+00922: 
+00923: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12]
+00924: 
+00925: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Algiers.json]
+00926: Parsing forecast data for city: Algiers [2020-05-23 10:17:00]
+00927: CityId [242] TimedAt [2020-05-23 10:17:00]
+00928: ---> Collect: duplicate found, ignoring contents
+00929: 
+00930: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Athens.json]
+00931: Parsing forecast data for city: Athens [2020-05-23 11:00:00]
+00932: CityId [177] TimedAt [2020-05-23 11:00:00]
+00933: ---> Collect: duplicate found, ignoring contents
+00934: 
+00935: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Auckland.json]
+00936: Parsing forecast data for city: Auckland [2020-05-24 06:05:00]
+00937: CityId [538] TimedAt [2020-05-24 06:05:00]
+00938: 
+00939: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Berlin.json]
+00940: Parsing forecast data for city: Berlin [2020-05-23 11:00:00]
+00941: CityId [59] TimedAt [2020-05-23 11:00:00]
+00942: ---> Collect: duplicate found, ignoring contents
+00943: 
+00944: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Ciudad de Mexico.json]
+00945: Parsing forecast data for city: Ciudad de Mexico [N/A]
+00946: CityId [279] TimedAt [N/A]
+00947: ---> Collect: no forecast dataset found, ignoring contents
+00948: 
+00949: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Hong Kong.json]
+00950: Parsing forecast data for city: Hong Kong [2020-05-24 11:30:00]
+00951: CityId [1] TimedAt [2020-05-24 11:30:00]
+00952: 
+00953: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\London.json]
+00954: Parsing forecast data for city: London [2020-05-24 00:00:00]
+00955: CityId [32] TimedAt [2020-05-24 00:00:00]
+00956: ---> Warnings raised because of invalid readings, total: 1
+00957: 
+00958: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Madrid.json]
+00959: Parsing forecast data for city: Madrid [2020-05-23 22:00:00]
+00960: CityId [195] TimedAt [2020-05-23 22:00:00]
+00961: 
+00962: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Moscow.json]
+00963: Parsing forecast data for city: Moscow [2020-05-23 18:06:00]
+00964: CityId [206] TimedAt [2020-05-23 18:06:00]
+00965: ---> Collect: duplicate found, ignoring contents
+00966: 
+00967: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\New Delhi (SFD).json]
+00968: Parsing forecast data for city: New Delhi (SFD) [2020-05-23 15:00:00]
+00969: CityId [224] TimedAt [2020-05-23 15:00:00]
+00970: ---> Collect: duplicate found, ignoring contents
+00971: 
+00972: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Paris.json]
+00973: Parsing forecast data for city: Paris [2020-05-24 13:00:00]
+00974: CityId [194] TimedAt [2020-05-24 13:00:00]
+00975: 
+00976: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Tel Aviv.json]
+00977: Parsing forecast data for city: Tel Aviv [2020-05-24 04:18:00]
+00978: CityId [44] TimedAt [2020-05-24 04:18:00]
+00979: 
+00980: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Vieste.json]
+00981: Parsing forecast data for city: Vieste [2020-05-23 19:00:26]
+00982: CityId [2078] TimedAt [2020-05-23 19:00:26]
+00983: 
+00984: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\06-12\Washington DC.json]
+00985: Parsing forecast data for city: Washington DC [2020-05-23 19:31:00]
+00986: CityId [270] TimedAt [2020-05-23 19:31:00]
+00987: 
+00988: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06]
+00989: 
+00990: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Algiers.json]
+00991: Parsing forecast data for city: Algiers [2020-05-24 13:16:00]
+00992: CityId [242] TimedAt [2020-05-24 13:16:00]
+00993: 
+00994: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Athens.json]
+00995: Parsing forecast data for city: Athens [2020-05-24 11:00:00]
+00996: CityId [177] TimedAt [2020-05-24 11:00:00]
+00997: 
+00998: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Auckland.json]
+00999: Parsing forecast data for city: Auckland [2020-05-24 06:05:00]
+01000: CityId [538] TimedAt [2020-05-24 06:05:00]
+01001: ---> Collect: duplicate found, ignoring contents
+01002: 
+01003: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Berlin.json]
+01004: Parsing forecast data for city: Berlin [2020-05-24 11:00:00]
+01005: CityId [59] TimedAt [2020-05-24 11:00:00]
+01006: 
+01007: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Bologna.json]
+01008: Parsing forecast data for city: Bologna [2020-05-24 19:00:10]
+01009: CityId [1944] TimedAt [2020-05-24 19:00:10]
+01010: 
+01011: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Ciudad de Mexico.json]
+01012: Parsing forecast data for city: Ciudad de Mexico [N/A]
+01013: CityId [279] TimedAt [N/A]
+01014: ---> Collect: no forecast dataset found, ignoring contents
+01015: 
+01016: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Firenze.json]
+01017: Parsing forecast data for city: Florence (FIRENZE) [2020-05-24 19:00:10]
+01018: CityId [602] TimedAt [2020-05-24 19:00:10]
+01019: 
+01020: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Hong Kong.json]
+01021: Parsing forecast data for city: Hong Kong [2020-05-25 01:50:00]
+01022: CityId [1] TimedAt [2020-05-25 01:50:00]
+01023: 
+01024: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\London.json]
+01025: Parsing forecast data for city: London [2020-05-24 18:00:00]
+01026: CityId [32] TimedAt [2020-05-24 18:00:00]
+01027: ---> Warnings raised because of invalid readings, total: 1
+01028: 
+01029: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Madrid.json]
+01030: Parsing forecast data for city: Madrid [2020-05-24 19:00:00]
+01031: CityId [195] TimedAt [2020-05-24 19:00:00]
+01032: 
+01033: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Milano.json]
+01034: Parsing forecast data for city: Milan (MILANO) [2020-05-24 19:00:10]
+01035: CityId [603] TimedAt [2020-05-24 19:00:10]
+01036: 
+01037: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Moscow.json]
+01038: Parsing forecast data for city: Moscow [2020-05-24 18:06:00]
+01039: CityId [206] TimedAt [2020-05-24 18:06:00]
+01040: 
+01041: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\New Delhi (SFD).json]
+01042: Parsing forecast data for city: New Delhi (SFD) [2020-05-24 15:00:00]
+01043: CityId [224] TimedAt [2020-05-24 15:00:00]
+01044: 
+01045: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Palermo.json]
+01046: Parsing forecast data for city: Palermo [2020-05-24 19:00:10]
+01047: CityId [605] TimedAt [2020-05-24 19:00:10]
+01048: 
+01049: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Paris.json]
+01050: Parsing forecast data for city: Paris [2020-05-24 13:00:00]
+01051: CityId [194] TimedAt [2020-05-24 13:00:00]
+01052: ---> Collect: duplicate found, ignoring contents
+01053: 
+01054: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Region.json]
+01055: ---> ProcessFile: format unknown!
+01056: 
+01057: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Roma.json]
+01058: Parsing forecast data for city: Rome (ROMA) [2020-05-24 19:00:10]
+01059: CityId [201] TimedAt [2020-05-24 19:00:10]
+01060: 
+01061: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Tel Aviv.json]
+01062: Parsing forecast data for city: Tel Aviv [2020-05-24 16:07:00]
+01063: CityId [44] TimedAt [2020-05-24 16:07:00]
+01064: 
+01065: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Venezia.json]
+01066: Parsing forecast data for city: Venice (VENEZIA) [2020-05-24 19:00:10]
+01067: CityId [606] TimedAt [2020-05-24 19:00:10]
+01068: 
+01069: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Vieste.json]
+01070: Parsing forecast data for city: Vieste [2020-05-24 19:00:10]
+01071: CityId [2078] TimedAt [2020-05-24 19:00:10]
+01072: 
+01073: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\24\23-06\Washington DC.json]
+01074: Parsing forecast data for city: Washington DC [2020-05-24 10:30:00]
+01075: CityId [270] TimedAt [2020-05-24 10:30:00]
+01076: ---> Warnings raised because of invalid readings, total: 1
+01077: 
+01078: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\25]
+01079: 
+01080: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00]
+01081: 
+01082: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Algiers.json]
+01083: Parsing forecast data for city: Algiers [2020-05-24 13:16:00]
+01084: CityId [242] TimedAt [2020-05-24 13:16:00]
+01085: ---> Collect: duplicate found, ignoring contents
+01086: 
+01087: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Athens.json]
+01088: Parsing forecast data for city: Athens [2020-05-24 11:00:00]
+01089: CityId [177] TimedAt [2020-05-24 11:00:00]
+01090: ---> Collect: duplicate found, ignoring contents
+01091: 
+01092: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Auckland.json]
+01093: Parsing forecast data for city: Auckland [2020-05-25 06:05:00]
+01094: CityId [538] TimedAt [2020-05-25 06:05:00]
+01095: 
+01096: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Berlin.json]
+01097: Parsing forecast data for city: Berlin [2020-05-24 11:00:00]
+01098: CityId [59] TimedAt [2020-05-24 11:00:00]
+01099: ---> Collect: duplicate found, ignoring contents
+01100: 
+01101: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Bologna.json]
+01102: Parsing forecast data for city: Bologna [2020-05-24 19:00:10]
+01103: CityId [1944] TimedAt [2020-05-24 19:00:10]
+01104: ---> Collect: duplicate found, ignoring contents
+01105: 
+01106: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Ciudad de Mexico.json]
+01107: Parsing forecast data for city: Ciudad de Mexico [N/A]
+01108: CityId [279] TimedAt [N/A]
+01109: ---> Collect: no forecast dataset found, ignoring contents
+01110: 
+01111: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Firenze.json]
+01112: Parsing forecast data for city: Florence (FIRENZE) [2020-05-24 19:00:10]
+01113: CityId [602] TimedAt [2020-05-24 19:00:10]
+01114: ---> Collect: duplicate found, ignoring contents
+01115: 
+01116: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Hong Kong.json]
+01117: Parsing forecast data for city: Hong Kong [2020-05-25 10:50:00]
+01118: CityId [1] TimedAt [2020-05-25 10:50:00]
+01119: 
+01120: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\London.json]
+01121: Parsing forecast data for city: London [2020-05-25 00:00:00]
+01122: CityId [32] TimedAt [2020-05-25 00:00:00]
+01123: ---> Warnings raised because of invalid readings, total: 1
+01124: 
+01125: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Madrid.json]
+01126: Parsing forecast data for city: Madrid [2020-05-24 22:00:00]
+01127: CityId [195] TimedAt [2020-05-24 22:00:00]
+01128: 
+01129: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Milano.json]
+01130: Parsing forecast data for city: Milan (MILANO) [2020-05-24 19:00:10]
+01131: CityId [603] TimedAt [2020-05-24 19:00:10]
+01132: ---> Collect: duplicate found, ignoring contents
+01133: 
+01134: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Moscow.json]
+01135: Parsing forecast data for city: Moscow [2020-05-24 18:06:00]
+01136: CityId [206] TimedAt [2020-05-24 18:06:00]
+01137: ---> Collect: duplicate found, ignoring contents
+01138: 
+01139: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\New Delhi (SFD).json]
+01140: Parsing forecast data for city: New Delhi (SFD) [2020-05-24 15:00:00]
+01141: CityId [224] TimedAt [2020-05-24 15:00:00]
+01142: ---> Collect: duplicate found, ignoring contents
+01143: 
+01144: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Palermo.json]
+01145: Parsing forecast data for city: Palermo [2020-05-24 19:00:10]
+01146: CityId [605] TimedAt [2020-05-24 19:00:10]
+01147: ---> Collect: duplicate found, ignoring contents
+01148: 
+01149: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Paris.json]
+01150: Parsing forecast data for city: Paris [2020-05-25 13:00:00]
+01151: CityId [194] TimedAt [2020-05-25 13:00:00]
+01152: 
+01153: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Roma.json]
+01154: Parsing forecast data for city: Rome (ROMA) [2020-05-24 19:00:10]
+01155: CityId [201] TimedAt [2020-05-24 19:00:10]
+01156: ---> Collect: duplicate found, ignoring contents
+01157: 
+01158: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Tel Aviv.json]
+01159: Parsing forecast data for city: Tel Aviv [2020-05-24 16:07:00]
+01160: CityId [44] TimedAt [2020-05-24 16:07:00]
+01161: ---> Collect: duplicate found, ignoring contents
+01162: 
+01163: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Venezia.json]
+01164: Parsing forecast data for city: Venice (VENEZIA) [2020-05-24 19:00:10]
+01165: CityId [606] TimedAt [2020-05-24 19:00:10]
+01166: ---> Collect: duplicate found, ignoring contents
+01167: 
+01168: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Vieste.json]
+01169: Parsing forecast data for city: Vieste [2020-05-24 19:00:10]
+01170: CityId [2078] TimedAt [2020-05-24 19:00:10]
+01171: ---> Collect: duplicate found, ignoring contents
+01172: 
+01173: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-00\Washington DC.json]
+01174: Parsing forecast data for city: Washington DC [2020-05-24 19:31:00]
+01175: CityId [270] TimedAt [2020-05-24 19:31:00]
+01176: 
+01177: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-17]
+01178: 
+01179: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\25\06-17\Venezia.json]
+01180: Parsing forecast data for city: Venice (VENEZIA) [2020-05-24 19:00:10]
+01181: CityId [606] TimedAt [2020-05-24 19:00:10]
+01182: ---> Collect: duplicate found, ignoring contents
+01183: 
+01184: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\26]
+01185: 
+01186: * ProcessDirectory [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54]
+01187: 
+01188: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Algiers.json]
+01189: Parsing forecast data for city: Algiers [2020-05-25 00:00:00]
+01190: CityId [242] TimedAt [2020-05-25 00:00:00]
+01191: 
+01192: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Athens.json]
+01193: Parsing forecast data for city: Athens [2020-05-25 11:00:00]
+01194: CityId [177] TimedAt [2020-05-25 11:00:00]
+01195: 
+01196: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Auckland.json]
+01197: Parsing forecast data for city: Auckland [2020-05-26 06:05:00]
+01198: CityId [538] TimedAt [2020-05-26 06:05:00]
+01199: 
+01200: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Berlin.json]
+01201: Parsing forecast data for city: Berlin [2020-05-25 11:00:00]
+01202: CityId [59] TimedAt [2020-05-25 11:00:00]
+01203: 
+01204: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Bologna.json]
+01205: Parsing forecast data for city: Bologna [2020-05-25 19:02:45]
+01206: CityId [1944] TimedAt [2020-05-25 19:02:45]
+01207: 
+01208: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Ciudad de Mexico.json]
+01209: Parsing forecast data for city: Ciudad de Mexico [N/A]
+01210: CityId [279] TimedAt [N/A]
+01211: ---> Collect: no forecast dataset found, ignoring contents
+01212: 
+01213: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Firenze.json]
+01214: Parsing forecast data for city: Florence (FIRENZE) [2020-05-25 19:02:45]
+01215: CityId [602] TimedAt [2020-05-25 19:02:45]
+01216: 
+01217: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Hong Kong.json]
+01218: Parsing forecast data for city: Hong Kong [2020-05-26 11:30:00]
+01219: CityId [1] TimedAt [2020-05-26 11:30:00]
+01220: 
+01221: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\London.json]
+01222: Parsing forecast data for city: London [2020-05-26 00:00:00]
+01223: CityId [32] TimedAt [2020-05-26 00:00:00]
+01224: ---> Warnings raised because of invalid readings, total: 1
+01225: 
+01226: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Madrid.json]
+01227: Parsing forecast data for city: Madrid [2020-05-25 22:00:00]
+01228: CityId [195] TimedAt [2020-05-25 22:00:00]
+01229: 
+01230: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Milano.json]
+01231: Parsing forecast data for city: Milan (MILANO) [2020-05-25 19:02:45]
+01232: CityId [603] TimedAt [2020-05-25 19:02:45]
+01233: 
+01234: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Moscow.json]
+01235: Parsing forecast data for city: Moscow [2020-05-25 18:06:00]
+01236: CityId [206] TimedAt [2020-05-25 18:06:00]
+01237: 
+01238: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\New Delhi (SFD).json]
+01239: Parsing forecast data for city: New Delhi (SFD) [2020-05-25 15:00:00]
+01240: CityId [224] TimedAt [2020-05-25 15:00:00]
+01241: 
+01242: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Palermo.json]
+01243: Parsing forecast data for city: Palermo [2020-05-25 19:02:45]
+01244: CityId [605] TimedAt [2020-05-25 19:02:45]
+01245: 
+01246: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Paris.json]
+01247: Parsing forecast data for city: Paris [2020-05-26 13:00:00]
+01248: CityId [194] TimedAt [2020-05-26 13:00:00]
+01249: 
+01250: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Roma.json]
+01251: Parsing forecast data for city: Rome (ROMA) [2020-05-25 19:02:45]
+01252: CityId [201] TimedAt [2020-05-25 19:02:45]
+01253: 
+01254: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Tel Aviv.json]
+01255: Parsing forecast data for city: Tel Aviv [2020-05-26 04:13:00]
+01256: CityId [44] TimedAt [2020-05-26 04:13:00]
+01257: 
+01258: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Venezia.json]
+01259: Parsing forecast data for city: Venice (VENEZIA) [2020-05-25 19:02:45]
+01260: CityId [606] TimedAt [2020-05-25 19:02:45]
+01261: 
+01262: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Vieste.json]
+01263: Parsing forecast data for city: Vieste [2020-05-25 19:02:45]
+01264: CityId [2078] TimedAt [2020-05-25 19:02:45]
+01265: 
+01266: ProcessFile [C:\USR_2\LUA\WMOQuery\data\2020\05\26\05-54\Washington DC.json]
+01267: Parsing forecast data for city: Washington DC [2020-05-25 19:31:00]
+01268: CityId [270] TimedAt [2020-05-25 19:31:00]
+01269: 
+01270: Output saved in [C:\USR_2\LUA\WMOQuery\data\2020\05\WMO Samples.dat]
+01271: Compile took - 0.806 secs
+01272: 
+01273: ================================================================================
+01274: Touched files [272] Failed: [94]
