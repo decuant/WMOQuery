@@ -9,7 +9,7 @@ Datasets are collected daily from the World Meteorology Organization, whose Inte
 
 Some stations provide 1 reading a day, some 2; the number of days in a forecast table are station dependent and range from 3 to 9; some stations provide less days than usual for weekends (possibly in bank holidays too). There might be missing values, usually the very first value for minimum temperature, a fixture for some (London), at random for others (Washington DC). Under developed countries or war zones don't provide updates at all (Afghanistan and Mexico are an example).
 
-Mainly aimed at meteorologists and scientists, code has been written in the most simple way and commented where necessary, thinking that it is a starting point for tailoring or as source of new ideas, aimed at engineers with little practice of programming.
+Mainly aimed at meteorologists and scientists, code has been written in the most simple way and commented where necessary, assuming this a starting point and aimed at engineers with little practice of programming. As for statistics or predictions over long periods, data collection might take long to build up.
 
 The project uses Lua as programming language and benefits of some external libraries. It was developed on Windows 10 and should be easily used on Unix provided some necessary modifications.  With this in mind code can possibly be an example of using wxWidgets with Lua, both for GUI and facilities. The IDE of choice is ``ZeroBrane``.
 
@@ -58,7 +58,7 @@ File formats:
 
 ## Modules
 
-Here the list of modules that can be launched at command prompt, all of which are in the ``root`` folder, sub-modules are their own configuration files (as said they reside in the ``config`` folder) :
+Here the list of modules that can be launched at command prompt, all of which are in the ``root`` folder, sub-modules are their own configuration files (in the ``config`` folder) :
 
 ```
   .1 download
@@ -80,7 +80,7 @@ Executes the download of 1 or more datasets from the WMO' site. Uses the GET com
 
 # .2 archive
 
-Copies datasets from the ``update`` folder to the archive folder, structuring it with the current date and time. An option in its configuration file ``folders.lua`` allows to use the modification date of the file with the most recent date-time in the set. This option might be useful or not, depends where updates are stored, in fact when downloads use the same target folders new files will overwrite older ones.
+Copies datasets from the ``update`` folder to the archive folder, structuring it with the current date and time. An option in its configuration file ``folders.lua`` allows to use the modification date of the file with the most recent date-time in the set. This option might be useful or not, depends where updates are stored.
 
 
 
@@ -116,7 +116,7 @@ Another example, with much inconsistent data from a station (Algiers)
 
 # .6 compile
 
-This is an internal script to collect forecast data from the archive folder and used by the plot function in ``console``. Given a start (root) directory it will inspect any sub-folder searching for ``json`` file extension. It does parse each file and build a table of stations, for each station will build a sub-table collecting data using the ``issue date``. Thus the user can collect data just for a specific day/month/year only specifying the root directory of interest. The file contains all stations found. Note that fields ``id`` and ``city_name`` do represent the same station, it is useful though for displaying on screen. When an ``issue date`` for a station is already compiled it won't be collected again or overwrite the previous one and as such the first issue date found is treated as the valid one.
+This is an internal script to collect forecast data from the archive folder and used by the plot function in ``console``. Given a start (root) directory it will inspect any sub-folder searching for ``json`` file extension. It does parse each file and build a table of stations, for each station will build a sub-table collecting data using the ``issue date``. Thus the user can collect data just for a specific day/month/year only specifying the root directory of interest. The file contains all stations found. Note that fields ``id`` and ``city_name`` do represent the same station. When an ``issue date`` for a station is already compiled it won't be collected again.
 
 File format:
 
@@ -133,106 +133,20 @@ File format:
 ```
 
 
+
 ## Tracing
 
 All the scripts use the ``trace`` function from ``lib/trace.lua``, which is a debugging utility to log interesting information. It contains a number of functions for displaying simple messages or dumping buffers or Lua's tables.
-A simple implementation of such a feature would require just 2 lines of code in Lua profiting of the ``stdout`` stream, and this feature would be visible across Lua's modules.
-Something like this:
+A simple implementation of such a feature would require just 2 lines of code in Lua profiting of the ``stdout`` stream, and this feature would be visible across Lua's modules. But I needed to have inter-process communication too. So I modified the original trace implementation to an object factory with a local table of named traces.
 
-
-```
--- Lua module_1.lua
---
--- redirect output to file
---
-io.output("/log/tracing.log")
-
--- run script
---
-DoSomething()
-
-Call_Module2()
-
--- stop redirect
---
-io.output():close()
-
--------------------
-
--- Lua module_2.lua
---
-
-io:write("some text")
-
-```
-
-I use something a step more complex instead, creating an object factory for tracing files, with a table of active traces. The first module opens the log with a name and the second module will do the same thing. The second module will opaquely reuse the existing trace.
-
-
-```
--- Lua module_1.lua
---
-
-local m_trace = trace.new("schedule")
-m_trace:open()
-
--- run script
---
-DoSomething()
-
-Call_Module2()
-
--- stop logging
---
-m_trace:close()
-
--------------------
-
--- Lua module_2.lua
---
-
-local m_trace = trace.new("schedule")
-
-```
-
-This allows to leave ``stdout`` available for inter-process communication. To make things clear, I copy here a bit of code from ``automatic.lua``:
-
-```
-
-local function DownloadFavorites()
-	m_trace:line("DownloadFavorites")
-	
-	local hFile, sError = io.popen("lua ./download.lua --favorites", "r")
-	
-	if sError and 0 < #sError then
-		
-		m_trace:line("On DownloadFavorites got an error: " .. sError)
-		
-		return sError
-	end
-	
-	hFile:read("a")
-	hFile:close()
-	
-	return nil
-end
-
-```
-
-This allows to wait for completion of the script (``popen`` actually spawns a process) and having feedback. In this case ``download.lua`` reports a tiny string, something like ``14/14``, which is the number of files effectively downloaded and the total requested for downloading (the 0 difference means that no failure happened).
-
-Much long explanation for a single little feature!
 
 
 ## Lua sub-classing wxWidgets windows
 
-When I decided to graphically visualize data I opted for a stand-alone module that would do just that. This way I could create a script just for visualization or include the thing into another GUI part. Looking at the current ``console.lua`` GUI there are 2 panes, the left for graphics and the right for directories listing. To keep things simple I display 1 chart at a time, but a more complex implementation could display 2 panes laid horizontally or a 4 by 4 grid of panes.
+When I decided to graphically visualize data I opted for a stand-alone module that would allow me to choose or to create a script just for visualization or include the drawing rectangle into another GUI. Looking at the current ``console.lua`` there are 2 panes, the left for graphics and the right for directories listing. To keep things simple I display 1 chart at a time, but a more complex implementation could display 2 panes laid horizontally or a 4 by 4 grid of panes.
 
-Shortly I'll get to the point. With meta-indexes object factories can extend features from a generic implementation to a specialized one, like declaring a point and then inflating it with steroids and making it a circle (adding a radius definition).
+Have a look in the comments in ``drwPanel.lua`` how routing window's messages to the correct Lua object works.
 
-The ``pnlDraw.lua`` is itself an object factory that creates panels for drawing. It creates a ``wxWdigets`` ``wxWindow`` with a set of properties to command it. Now there's the problem of intercepting Windows (GTK) messages that the O.S. GUI framework sends when events occur, like sizing the window. Messages are dispatched correctly, but in Lua we only get an ``event`` without knowledge of the Lua's object that is the target.
-
-Therefore upon creation the Lua's object will register itself in a shared table local to the module, with a tuple {windows_ID, Lua_self}. When an event occurs, I extract the target window's ID from the event and scan the table for the matching ``self``.
 
 
 ## A final word
