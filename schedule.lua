@@ -88,7 +88,7 @@ local function TraceNextTime()
 end
 
 -- ----------------------------------------------------------------------------
--- check for expired entries at start time
+-- check if today's date has changed
 --
 local function DayChanged()
 --	m_trace:line("DayChanged")
@@ -193,10 +193,11 @@ end
 local function IsTimeDue()
 --	m_trace:line("IsTimeDue")
 	
-	local tTimesAt	= m_App.tTimesAt	local iWindow	= m_App.iTimeWindow
+	local tTimesAt	= m_App.tTimesAt
+	local iWindow	= m_App.iTimeWindow
 	local tmNow 	= _time()
 	local iDiff
-	
+
 	for _, tTimed in next, tTimesAt do
 		
 		if -1 ~= tTimed[m_time] then
@@ -374,7 +375,7 @@ local function RunApplication(...)
 end
 
 -- ----------------------------------------------------------------------------
--- redirect logging
+-- open logging
 --
 m_trace:open()
 	
