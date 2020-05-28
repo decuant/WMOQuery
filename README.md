@@ -143,9 +143,9 @@ A simple implementation of such a feature would require just 2 lines of code in 
 
 ## Lua sub-classing wxWidgets windows
 
-When I decided to graphically visualize data I opted for a stand-alone module that would allow me to choose or to create a script just for visualization or include the drawing rectangle into another GUI. Looking at the current ``console.lua`` there are 2 panes, the left for graphics and the right for directories listing. To keep things simple I display 1 chart at a time, but a more complex implementation could display 2 panes laid horizontally or a 4 by 4 grid of panes.
+When I decided to graphically visualize data I opted for a stand-alone module that would allow me either to create a script just for visualization or include the drawing rectangle into another GUI. Looking at the current ``console.lua`` there are 2 panes, the left for graphics and the right for directories listing. To keep things simple I display 1 chart at a time, but a more complex implementation could display 2 panes laid horizontally or a 4 by 4 grid of panes.
 
-Have a look in the comments in ``drwPanel.lua`` how routing window's messages to the correct Lua object works.
+Have a look in the comments in ``pnlDraw.lua`` how routing window's messages to the correct Lua object works.
 
 
 
