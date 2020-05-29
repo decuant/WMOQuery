@@ -113,6 +113,13 @@ Another example, with much inconsistent data from a station (Algiers)
 
 ![Algiers Archived](/docs/Algiers_Archived.png)
 
+Changing preferences and refreshing from console:
+
+![Berlin_Small](/docs/Berlin_Small.png)
+![Berlin_Medium](/docs/Berlin_Medium.png)
+![Berlin_Big](/docs/Berlin_Big.png)
+![New_Delhi_1](/docs/New_Delhi_1.png)
+
 
 # .6 compile
 
