@@ -3,7 +3,7 @@
 *
 *   Create a trace in the logging folder.
 *
-*   Trwce's name will be used for both registering it the active traces list
+*   Trace's name will be used for both registering in the active traces list
 *   and for the filename to use.
 *
 ]]
