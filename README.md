@@ -119,7 +119,7 @@ Changing preferences and refreshing from console:
 ![Berlin_Medium](/docs/Berlin_Medium.png)
 ![Berlin_Big](/docs/Berlin_Big.png)
 ![New_Delhi_1](/docs/New_Delhi_1.png)
-
+![Vieste_1](/docs/Vieste_1.png)
 
 # .6 compile
 
