@@ -13,6 +13,7 @@ local dlgSamples= require("lib.dlgSamples")
 local palette	= require("lib.wxX11Palette")
 
 local _format	= string.format
+local _gsub		= string.gsub
 
 -- ----------------------------------------------------------------------------
 --
@@ -30,6 +31,7 @@ local tDefColours =
 	clrOrigin		= palette.Snow1,
 	clrMinimum		= palette.DodgerBlue2,
 	clrMaximum		= palette.IndianRed2,
+	clrExcursion	= palette.Gray5,
 	
 	clrLegenda		= palette.Firebrick4,
 	clrGridText		= palette.Gray10,
@@ -44,7 +46,7 @@ local m_App =
 	sRelDate 	= "26/04/2020",
 	sConfigFile	= "config/preferences.lua",
 	
-	sDefPath 	= "C:/USR_2/LUA/WMOQuery/data/update",
+	sDefPath 	= "data/update",
 	
 	iMaxMem		= 5,	-- higher limit before forcing a collect call,
 						-- set 0 or very low for continuos memory reclaim
@@ -61,8 +63,8 @@ local m_Frame =
 	hDirSel		= nil,  -- dir/file selector
 	hStatus		= nil,	-- statusbar
 	
-	iWidthWin	= 1600,	-- set the dir. list to a fixed size
-	iWidthDir	= 400,	-- thus making it dominant when win resized
+	iWidthWin	= 1000,	-- set the dir. list to a fixed size
+	iWidthDir	= 250,	-- thus making it dominant when win resized
 	
 	hWindowsTmr	= nil,	-- Windows Timer object attached to the frame
 	tmStatbar	= 0,	-- date for the statusbar
@@ -75,6 +77,16 @@ local m_FileFilter =
 	[[WMO site datasets|*.json|
 	Compiiled datasets|*.dat|
 	All files except hidden|*.*]]
+
+-- ----------------------------------------------------------------------------
+-- given a relative path builds a full path
+--
+local function BuildDirName(inRelPath)
+
+	local sCwd = wx.wxFileName.GetCwd() .. "\\" .. inRelPath
+	
+	return _gsub(sCwd, "\\", "/")		-- normalize
+end
 
 -- ----------------------------------------------------------------------------
 -- Simple interface to pop up a message
@@ -175,26 +187,12 @@ local function InstallTimers()
 	-- setup each tick timer resolution and enable state
 	-- values are in seconds
 	--
-	if not tTimers.Display:IsEnabled() then
-		
-		-- this is disabled, will get enabled upon
-		-- calling SetStatusText
-		--
-		tTimers.Display:Setup(10, false)
-	end
-
-	if not tTimers.Garbage:IsEnabled() then
-		
-		tTimers.Garbage:Setup(30, true)
-	end
-
-	if not tTimers.Today:IsEnabled() then
-		
-		tTimers.Today:Setup(60, true)
-	end
+	if not tTimers.Display:IsEnabled() then	tTimers.Display:Setup(10, false) end
+	if not tTimers.Garbage:IsEnabled() then	tTimers.Garbage:Setup(30, true) end
+	if not tTimers.Today:IsEnabled() then tTimers.Today:Setup(60, true) end
 	
 	-- create and start a Windows timer object
-	-- witha fair resolution for this application
+	-- with a fair resolution for this application
 	--
 	m_Frame.hWindowsTmr = wx.wxTimer(m_Frame.hWindow, wx.wxID_ANY)
 	m_Frame.hWindowsTmr:Start(500, false)
@@ -213,7 +211,7 @@ local function OnTimer()
 	-- this is to cleanup the statusbar message
 	--
 	if tTimers.Display:HasFired() then
-
+		
 		-- cleanup the status bar
 		-- then disable the timer
 		--
@@ -246,12 +244,12 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function SetupSplitter()
---	m_trace:line("SetupSplitter")
+	m_trace:line("SetupSplitter")
 
 	local shWin		= m_Frame.hSash
 	local iWidthWin = m_Frame.iWidthWin
 	local iWidthDir = m_Frame.iWidthDir
-	
+
 	shWin:SetSashGravity(1.0)
 	shWin:SplitVertically(m_Frame.hPnlDraw:GetHandle(), m_Frame.hDirSel, iWidthWin - iWidthDir)
 	shWin:SetMinimumPaneSize(iWidthDir)
@@ -260,7 +258,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnToggleViewDirList()
---	m_trace:line("OnToggleViewDirList")
+	m_trace:line("OnToggleViewDirList")
 
 	local hWin = m_Frame.hSash
 
@@ -276,7 +274,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnSize()
---	m_trace:line("OnSize")
+	m_trace:line("OnSize")
 
 	local sizeWin = m_Frame.hWindow:GetClientRect()
 
@@ -311,18 +309,37 @@ local function OnDownloadFavorites()
 	local hFile, sError = io.popen("lua ./download.lua --favorites", "r")
 	
 	if not hFile or (sError and 0 < #sError) then
+		
 		DlgMessage(_format("On downloading favorites got an error\n%s", sError))
 		return
 	end
 	
-	local sStdOut
-	
-	sStdOut = hFile:read("l")
+	-- read from stdout
+	--
+	local sStdOut = hFile:read("l")
 	hFile:close()
 	
-	if sStdOut then
-		SetStatusText( "Download Favorites: " .. sStdOut)
+	if sStdOut then	SetStatusText( "Download Favorites: " .. sStdOut) end
+end
+
+-- ----------------------------------------------------------------------------
+--
+local function OnArchiveUpdates()
+	m_trace:line("OnArchiveUpdates")
+	
+	local hFile, sError = io.popen("lua ./archive.lua", "r")
+	
+	if not hFile or (sError and 0 < #sError) then
+		DlgMessage(_format("On archiving updates got an error\n%s", sError))
+		return
 	end
+
+	-- read from stdout
+	--
+	local sStdOut = hFile:read("l")
+	hFile:close()
+
+	if sStdOut then	SetStatusText( "Archive Updates: " .. sStdOut) end
 end
 
 -- ----------------------------------------------------------------------------
@@ -330,7 +347,7 @@ end
 local function DoOpenView(inFilename)
 	m_trace:line("DoOpenView")
 
-	local hFile, sError = io.popen("lua ./view.lua \"" .. inFilename .. "\"", "r")
+	local _, sError = io.popen("lua ./view.lua \"" .. inFilename .. "\"", "r")
 	
 	if sError and 0 < #sError then
 		DlgMessage(_format("Failed to open file\n%s", sError))
@@ -342,8 +359,8 @@ end
 local function DoCompileDirectory(inDirectory)
 	m_trace:line("DoCompileDirectory")
 
-	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\"", "r")
-	
+	local _, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\"", "r")
+
 	if sError and 0 < #sError then
 		DlgMessage(_format("Failed to open file\n%s", sError))
 	end
@@ -404,19 +421,21 @@ local function LoadConfig()
 	-- set the choosen path
 	--
 	if tOverride.sDefPath and 0 < #tOverride.sDefPath then
+		
 		m_App.sDefPath = tOverride.sDefPath
 		
-		m_Frame.hDirSel:SetPath(m_App.sDefPath)
+		m_Frame.hDirSel:SetPath(BuildDirName(m_App.sDefPath))
 	end
 	
-	hPanel:SetTempBoxing(tOverride.iGridMinTemp, tOverride.iGridMaxTemp, tOverride.bAdaptiveTemp)	
+	hPanel:SetDrawOpts(tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace)
+	hPanel:SetTempBoxing(tOverride.iGridMinTemp, tOverride.iGridMaxTemp, tOverride.bAdaptiveTemp)
 	
 	-- if no colorset is specified then restore the defaults
 	--
 	tColours = tColours or tDefColours
 	
 	if tColours then
-			
+		
 		hTree:SetBackgroundColour(tColours.clrDirListBack)
 		hTree:SetForegroundColour(tColours.clrDirListFore)
 		
@@ -425,6 +444,7 @@ local function LoadConfig()
 									tColours.clrOrigin,
 									tColours.clrMinimum,
 									tColours.clrMaximum,
+									tColours.clrExcursion,
 									tColours.clrLegenda,
 									tColours.clrGridText)
 	end
@@ -490,8 +510,8 @@ local function OnCompileDirectory()
 	
 	if item then
 		
-		local sFile = hWin:GetFilePath(item)	
-	
+		local sFile = hWin:GetFilePath(item)
+		
 		if 0 == #sFile then
 			
 			sFile = hWin:GetPath(item)
@@ -510,9 +530,9 @@ local function OnDirListShowMenu(event)
 --	m_trace:line("OnDirListShowMenu")
 
 	local hWin  = m_Frame.hDirSel
-	local item  = event:GetItem()	
 	local hTree = hWin:GetTreeCtrl() 
-
+	local item  = event:GetItem()
+	
 	-- select this item
 	--
 	hTree:SelectItem(item)
@@ -577,8 +597,8 @@ local function CreateFrame(inAppTitle)
 	-- create the frame
 	--
 	local frame = wx.wxFrame(wx.NULL, wx.wxID_ANY, inAppTitle,
-							 wx.wxPoint(600, 300), 
-							 wx.wxSize(iWidthWin, 700))
+							 wx.wxPoint(100, 100), 
+							 wx.wxSize(iWidthWin, 600))
 
 	-- creta the menu entries
 	--
@@ -588,6 +608,7 @@ local function CreateFrame(inAppTitle)
 	local rcMnuConfig   = UniqueID()	
 	local rcMnuCompile  = UniqueID()	
 	local rcMnuDownload = UniqueID()
+	local rcMnuArchive	= UniqueID()
 	
 	local mnuFile = wx.wxMenu("", wx.wxMENU_TEAROFF)
 	mnuFile:Append(rcMnuOpenFile,"&Open file\tCtrl-O", "Select a json file")
@@ -597,6 +618,7 @@ local function CreateFrame(inAppTitle)
 	local mnuTools = wx.wxMenu("", wx.wxMENU_TEAROFF)
 	mnuTools:Append(rcMnuCompile, "&Compile Dataset\tCtrl-C", "Recurse directories to collect data")
 	mnuTools:Append(rcMnuDownload,"&Download favorites\tCtrl-D", "Launch download of favorites readings")
+	mnuTools:Append(rcMnuArchive, "&Archive Updates\tCtrl-A", "Copy data from updates to archive")
 
 	local mnuView = wx.wxMenu("", wx.wxMENU_TEAROFF)
 	mnuView:Append(rcMnuViewData, "&Graph Dataset\tCtrl-G", "Graph data for a station")
@@ -631,19 +653,19 @@ local function CreateFrame(inAppTitle)
 	
 	local lsDir = wx.wxGenericDirCtrl(shSash, wx.wxID_ANY, "File selector",
 									  wx.wxDefaultPosition, wx.wxSize(iWidthDir, 600), 
-									  wx.wxDIRCTRL_3D_INTERNAL |wx.wxDIRCTRL_SHOW_FILTERS,
+									  wx.wxDIRCTRL_3D_INTERNAL | wx.wxDIRCTRL_SHOW_FILTERS,
 									  m_FileFilter)
 
 	local pnlDraw = panels.New()
 	pnlDraw:CreatePanel(shSash, 500, 600)
-	
+
 	-- set the choosen path from defaults
 	--
-	lsDir:SetPath(m_App.sDefPath)
+	lsDir:SetPath(BuildDirName(m_App.sDefPath))
 
 	-- apply styles
 	--
-	local fntTree = wx.wxFont(  10, wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
+	local fntTree = wx.wxFont(  8, wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
 									wx.wxFONTWEIGHT_LIGHT, false, "Segoe UI", wx.wxFONTENCODING_SYSTEM)
 	local hTree = lsDir:GetTreeCtrl()
 	hTree:SetFont(fntTree)
@@ -656,6 +678,7 @@ local function CreateFrame(inAppTitle)
 	frame:Connect(rcMnuViewDir,  wx.wxEVT_COMMAND_MENU_SELECTED, OnToggleViewDirList)
 	frame:Connect(rcMnuCompile,  wx.wxEVT_COMMAND_MENU_SELECTED, OnCompileDirectory)
 	frame:Connect(rcMnuDownload, wx.wxEVT_COMMAND_MENU_SELECTED, OnDownloadFavorites)
+	frame:Connect(rcMnuArchive,  wx.wxEVT_COMMAND_MENU_SELECTED, OnArchiveUpdates)
 	
 	frame:Connect(wx.wxID_EXIT,  wx.wxEVT_COMMAND_MENU_SELECTED, OnClose)	
 	frame:Connect(wx.wxID_ABOUT, wx.wxEVT_COMMAND_MENU_SELECTED, OnAbout)
@@ -666,7 +689,6 @@ local function CreateFrame(inAppTitle)
 	
 	frame:Connect(wx.wxEVT_TREE_ITEM_ACTIVATED,		OnDirListActivated)
 	frame:Connect(wx.wxEVT_TREE_ITEM_RIGHT_CLICK,	OnDirListShowMenu)
-	
 
 	-- assign an icon to frame
 	--
