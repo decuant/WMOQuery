@@ -5,20 +5,19 @@
 ]]
 
 local wx		= require("wx")
-local trace 	= require("lib.trace")
+-- local trace 	= require("lib.trace")
 local utility 	= require("lib.utility")
 local palette	= require("lib.wxX11Palette")
 
 local _format	= string.format
 local _floor	= math.floor
-local _ceil		= math.ceil
 local _remove	= table.remove
 local _todate	= utility.StringToDate
 
 -- ----------------------------------------------------------------------------
 -- attach tracing to the container
 --
-local m_trace = trace.new("console")
+-- local m_trace = trace.new("console")
 
 -------------------------------------------------------------------------------
 --
@@ -80,7 +79,7 @@ local m_ZoomStep	= 0.025				-- stepping for zoom
 local m_ZoomMin		= 0.0075			-- minimum for zoom
 
 local m_PenNull    = wx.wxPen(palette.Black, 1, wx.wxTRANSPARENT)
-local m_BrushNull  = wx.wxBrush(palette.Black, wx.wxTRANSPARENT)
+-- local m_BrushNull  = wx.wxBrush(palette.Black, wx.wxTRANSPARENT)
 
 -- ----------------------------------------------------------------------------
 -- objects factory
@@ -118,6 +117,7 @@ function pnlDraw.New()
 		iGridMinT	= -10,		-- minimum temperature shown in grid
 		iGridMaxT	=  50,		-- maximum temperature shown in grid
 		bAdaptive 	= false,	-- adapt grid to samples' temperature values
+		iDrawOption = 0,		-- 0 draw both, 1 details, 2 normals
 
 		hBackDc		= nil,		-- background device context
 		hForeDc		= nil,		-- device context for the window
@@ -127,6 +127,7 @@ function pnlDraw.New()
 		clrGrid		= nil,		-- used only once!
 		clrMinimum	= nil,
 		clrMaximum	= nil,
+		clrHighLight= nil,
 
 		clrLegenda	= nil,
 		clrGridText	= nil,
@@ -145,6 +146,7 @@ function pnlDraw.New()
 		penMaxTs	= nil,
 		brBackT		= nil,		-- brush for back of temperature
 		brExcursion = nil,
+		penHighLight= nil,
 		fntLegenda	= nil,		-- font for the legenda
 		fntGridDate	= nil,		-- font for dates on grid
 --		fntIssueDate= nil,		-- font for the issue date
@@ -158,11 +160,14 @@ function pnlDraw.New()
 		iLowestT	= 50,		-- minimum temperature read from samples
 		iHighestT	= -50,		-- maximum	"	"	"	"	"	"	"
 		iExcursion	= 0,		-- difference between min and max
-		dtExcursion = "",		-- date of highest excursion
+		dtExcursion = -1,		-- date of highest excursion
 		
 		iMinDate	= 0,
 		iMaxDate	= 0,
 		iTotDays	= 0,
+		
+		tNormMin 	= { },
+		tNormMax 	= { },
 	}
 
 	return setmetatable(t, pnlDraw)
@@ -180,8 +185,12 @@ function pnlDraw.GetLegenda(self)
 	tLegenda[#tLegenda + 1] =        ("Station ID: " .. self.sCityId)
 	tLegenda[#tLegenda + 1] = _format("Lowest T:   %d C", self.iLowestT)
 	tLegenda[#tLegenda + 1] = _format("Highest T:  %d C", self.iHighestT)
-	tLegenda[#tLegenda + 1] = _format("Excursion:  %d C", self.iExcursion)
-	tLegenda[#tLegenda + 1] = os.date("         :  %A %B %d %Y", self.dtExcursion)
+		
+	if 0 <= self.dtExcursion then
+		tLegenda[#tLegenda + 1] = _format("Excursion:  %d C", self.iExcursion)
+		tLegenda[#tLegenda + 1] = os.date("         :  %A %B %d %Y", self.dtExcursion)
+	end
+	
 	tLegenda[#tLegenda + 1] = os.date("First day:  %A %B %d %Y", self.iMinDate)
 	tLegenda[#tLegenda + 1] = os.date("Last day:   %A %B %d %Y", self.iMaxDate)
 	tLegenda[#tLegenda + 1] = _format("Tot. days:  %d", self.iTotDays)
@@ -220,7 +229,7 @@ function pnlDraw.CreateGDIObjs(self)
 	-- thus showing a little line at both ends when set at 3 pixels wide.
 	-- with CAP_BUTT wxWidgets will square the end
 	--
-	self.penOrigin	= wx.wxPen(self.clrOrigin,3, wx.wxSOLID)
+	self.penOrigin	= wx.wxPen(self.clrOrigin, 2, wx.wxSOLID)
 	self.penOrigin:SetCap(wx.wxCAP_BUTT)
 
 	self.penGrid	= wx.wxPen(self.clrFore, 1, wx.wxSOLID)
@@ -233,6 +242,8 @@ function pnlDraw.CreateGDIObjs(self)
 
 	self.brBackT	= self.brushBack
 	self.brExcursion= wx.wxBrush(self.clrExcursion, wx.wxBRUSHSTYLE_FDIAGONAL_HATCH)
+	
+	self.penHighLight = wx.wxPen(self.clrHighLight, self.iLineSz + 2, wx.wxSOLID)
 
 	self.fntLegenda = wx.wxFont( self.iFntSize,
 								 wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
@@ -252,7 +263,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 function pnlDraw.SetDefaultColours(self, inBackground, inGridLines, inOrigin, inMin, inMax,
-										 inExcursion, inLegenda, inGridText)
+										 inExcursion, inLegenda, inGridText, inHighLight)
 --	m_trace:line("pnlDraw.SetDefaultColours")
 
 	-- apply styles
@@ -263,6 +274,7 @@ function pnlDraw.SetDefaultColours(self, inBackground, inGridLines, inOrigin, in
 	self.clrMinimum	= inMin
 	self.clrMaximum	= inMax
 	self.clrExcursion= inExcursion
+	self.clrHighLight=inHighLight
 	
 	self.clrLegenda	= inLegenda
 	self.clrGridText= inGridText
@@ -272,7 +284,8 @@ end
 
 -- ----------------------------------------------------------------------------
 --
-function pnlDraw.SetDrawOpts(self, inLineSize, inFontSize, inFontFace)
+function pnlDraw.SetDrawOpts(self, inLineSize, inFontSize, inFontFace, inOption)
+--	m_trace:line("pnlDraw.SetDrawOpts")
 
 	local iLineSize = inLineSize or 3
 	local iFontSize = inFontSize or 11
@@ -284,6 +297,7 @@ function pnlDraw.SetDrawOpts(self, inLineSize, inFontSize, inFontFace)
 	self.iLineSz	= iLineSize
 	self.iFntSize	= iFontSize
 	self.sFontFace	= sFontFace
+	self.iDrawOption= inOption
 end
 
 -- ----------------------------------------------------------------------------
@@ -504,7 +518,7 @@ function pnlDraw.DrawPoints(self, inDc)
 			
 			penMinT  = self.penMinTS
 			penMaxT  = self.penMaxTS
-			iOffsetY = self.iLineSz
+			iOffsetY = self.iLineSz * 2
 		end
 		
 		-- get the first day of the current row
@@ -557,7 +571,7 @@ function pnlDraw.DrawPoints(self, inDc)
 			--
 			inDc:SetPen(self.penOrigin)
 			
-			inDc:DrawCircle(tDrawPoints[1][1], tDrawPoints[1][2] + iOffsetY, iLineSz)
+			inDc:DrawCircle(tDrawPoints[1][1], tDrawPoints[1][2], iLineSz)
 		end
 	end
 	
@@ -578,6 +592,44 @@ function pnlDraw.DrawPoints(self, inDc)
 	inDc:SetBrush(self.brExcursion)
 	inDc:SetPen(m_PenNull)
 	inDc:DrawRectangle(x1, y1, (x2 - x1), (y2 - y1))
+end
+
+-- ----------------------------------------------------------------------------
+-- makes an array remapped to screen
+--
+function pnlDraw.MakeArrayOf(self, inPointList)
+--	m_trace:line("pnlDraw.MakeArrayOf")
+
+	local tDrawPoints = { }
+	
+	for iList=1, #inPointList do
+		
+		local iDayX  = inPointList[iList][1]
+		local iTemp  = inPointList[iList][2]
+		local xA, yA = self:MapToOrigin(iDayX, iTemp)
+		
+		tDrawPoints[iList] = {xA, yA}		-- collect GUI points
+	end
+	
+	return tDrawPoints
+end
+
+-- ----------------------------------------------------------------------------
+-- draw spline of normalized vectors
+--
+function pnlDraw.DrawNormalized(self, inDc)
+--	m_trace:line("pnlDraw.DrawNormalized")
+	
+	local tSamples	= self.vSamples
+	if not tSamples then return end
+
+	-- draw here
+	--
+	inDc:SetBrush(self.brBackT)
+	inDc:SetPen(self.penHighLight)
+	
+	inDc:DrawSpline(self:MakeArrayOf(self.tNormMin))
+	inDc:DrawSpline(self:MakeArrayOf(self.tNormMax))		
 end
 
 -- ----------------------------------------------------------------------------
@@ -608,7 +660,11 @@ function pnlDraw.NewMemDC(self)
 
 	-- draw the points
 	--
-	self:DrawPoints(memDC)
+	local iOpt = self.iDrawOption
+	
+	if 2 ~= iOpt then self:DrawPoints(memDC) end
+	if 1 ~= iOpt then self:DrawNormalized(memDC) end
+
 --	self:DrawIssueDates(memDC)
 
 	return memDC
@@ -755,7 +811,9 @@ function pnlDraw.CreatePanel(self, inOwner, inSizeX, inSizeY)
 							palette.Firebrick1,
 							palette.DeepSkyBlue2,
 							palette.MidnightBlue,
-							palette.DarkGreen)
+							palette.DarkGreen,
+							palette.DeepSkyBlue2,
+							palette.Gray20)
 
 	return true
 end
@@ -891,8 +949,18 @@ function pnlDraw.OnKeyUp(event)
 	local key	= event:GetKeyCode()
 	
 	if not aSelf.vSamples then return end			-- safety check
-	
 
+	-- get the codes for '1', '2' and '3'
+	--
+	if 48 < key and 52 > key then
+		
+		key = key - 48
+		if key ~= aSelf.iDrawOption then 
+			
+			aSelf.iDrawOption = key
+			aSelf:Refresh()
+		end
+	end
 end
 
 -- ----------------------------------------------------------------------------
@@ -967,9 +1035,9 @@ function pnlDraw.UpdateScaling(self)
 	-- Days
 	--
 	if     2.00 <= dZoomX then iScaleX =  1
-	elseif 1.75 <= dZoomX then iScaleX =  2
-	elseif 1.25 <= dZoomX then iScaleX =  7
-	elseif 1.00 <= dZoomX then iScaleX = 14
+	elseif 1.50 <= dZoomX then iScaleX =  2
+	elseif 1.00 <= dZoomX then iScaleX =  7
+	elseif 0.50 <= dZoomX then iScaleX = 14
 	else		 			   iScaleX = 30
 	end
 	
@@ -1010,6 +1078,62 @@ function pnlDraw.AdaptMinMaxTemp(self)
 
 	self:Refresh()
 end
+
+-- ----------------------------------------------------------------------------
+-- get the normalized vectors of min and max
+--
+function pnlDraw.GetNormals(self)
+--	m_trace:line("pnlDraw.GetNormals")
+	
+	local tSamples	= self.vSamples
+	if not tSamples then return end	
+
+	local tByDate
+	local iStartDay
+	local tNormMin = { }
+	local tNormMax = { }
+
+	tSamples = tSamples[3]				-- skip identification
+
+	-- cycle all samples
+	--
+	for iList=1, #tSamples do
+		
+		tByDate 	= tSamples[iList]		-- shortcut it
+		tByDate		= tByDate[2]			-- shortcut it
+		
+		-- get the first day of the current row
+		--
+		iStartDay = _todate(tByDate[1][1])
+		iStartDay = (iStartDay - self.iMinDate) / m_OneDay
+		
+		local iMin = tByDate[1][2]
+		
+		if 0 < #tNormMin and iStartDay == tNormMin[#tNormMin][1] then
+		
+			tNormMin[#tNormMin][2] = ((tNormMin[#tNormMin][2] + iMin) / 2)
+		else
+		
+			tNormMin[#tNormMin + 1] = {iStartDay, iMin}
+		end
+		
+		local iMax = tByDate[1][3]
+		
+		if 0 < #tNormMax and iStartDay == tNormMax[#tNormMax][1] then
+		
+			tNormMax[#tNormMax][2] = ((tNormMax[#tNormMax][2] + iMax) / 2)
+		else
+		
+			tNormMax[#tNormMax + 1] = {iStartDay, iMax}
+		end	
+	end
+	
+	-- update self
+	--
+	self.tNormMin = tNormMin
+	self.tNormMax = tNormMax
+end
+
 -- ----------------------------------------------------------------------------
 --
 function pnlDraw.SetSamples(self, inSamples)
@@ -1044,19 +1168,16 @@ function pnlDraw.SetSamples(self, inSamples)
 		
 		for i, vForecast in next, tByDate[2] do
 			
-			-- minimum temp
-			--
 			iTempMin = vForecast[2]
-			if 1 == i and iTempMin < iLowT  then iLowT  = iTempMin end
-			
-			-- maximum temp
-			--
 			iTempMax = vForecast[3]
-			if 1 == i and iTempMax > iHighT then iHighT = iTempMax end
 			
-			-- max excursion
+			-- assume first reading not being a forecast
 			--
 			if 1 == i then
+				
+				if iTempMin < iLowT  then iLowT  = iTempMin end
+				if iTempMax > iHighT then iHighT = iTempMax end
+				
 				iTempMax = iTempMax - iTempMin
 				if iMaxExcr < iTempMax then 
 					
@@ -1066,7 +1187,7 @@ function pnlDraw.SetSamples(self, inSamples)
 			end
 		end
 	end
-	
+
 	-- from readings extract dates' interval
 	--
 	local iMinDate
@@ -1081,7 +1202,7 @@ function pnlDraw.SetSamples(self, inSamples)
 	
 	iMinDate	= _todate(iMinDate)
 	iMaxDate	= _todate(iMaxDate)
-	dtExcursion = _todate(sDateExcr)
+	dtExcursion = _todate(sDateExcr)	-- date of excursion might be invalid
 	
 	-- -------------
 	-- store results
@@ -1100,6 +1221,14 @@ function pnlDraw.SetSamples(self, inSamples)
 	-- must include the starting date as well
 	--
 	self.iTotDays	= utility.DaysInInterval(iMinDate, iMaxDate) + 1
+	
+	-- get the normalized vectors
+	--
+	self:GetNormals()
+	
+	-- update units for drawing
+	--
+	self:UpdateUnits()
 	
 	-- this can result in a reset of the origin if a new dataset is loaded
 	--
