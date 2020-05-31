@@ -103,7 +103,7 @@ GUI interface for launching a script or to plot 1 or more dataset(s).
 
 This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder
 
-![Madrid Archived](/docs/Madrid_Archived.png)
+![Moscow Archived](/docs/Moscow_Archived.png)
 
 These ``.dat`` files contain more than 1 station, so the user must select which one:
 
@@ -113,13 +113,11 @@ Another example, with much inconsistent data from a station (Algiers)
 
 ![Algiers Archived](/docs/Algiers_Archived.png)
 
-Changing preferences and refreshing from console:
+Changing preferences and refreshing from console, see comments in code for scroll/zoom/options:
 
 ![Berlin_Small](/docs/Berlin_Small.png)
 ![Berlin_Medium](/docs/Berlin_Medium.png)
 ![Berlin_Big](/docs/Berlin_Big.png)
-![New_Delhi_1](/docs/New_Delhi_1.png)
-![Vieste_1](/docs/Vieste_1.png)
 
 # .6 compile
 
