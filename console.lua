@@ -23,18 +23,19 @@ local m_trace = trace.new("console")
 --
 local tDefColours =
 {
-	clrDirListBack	= palette.NavajoWhite4,
-	clrDirListFore	= palette.LightSteelBlue1,
+	clrDirListBack	= palette.Azure4,
+	clrDirListFore	= palette.Gray5,
 	
-	clrBackground	= palette.Bisque3,
-	clrGridLines	= palette.LemonChiffon4,
-	clrOrigin		= palette.Snow1,
-	clrMinimum		= palette.DodgerBlue2,
-	clrMaximum		= palette.IndianRed2,
-	clrExcursion	= palette.Gray5,
+	clrBackground	= palette.Gray90,
+	clrGridLines	= palette.Gray80,
+	clrOrigin		= palette.Gray0,
+	clrMinimum		= palette.ForestGreen,
+	clrMaximum		= palette.DarkOrchid4,
+	clrExcursion	= palette.Gold3,
+	clrHighLight	= palette.IndianRed2,
 	
-	clrLegenda		= palette.Firebrick4,
-	clrGridText		= palette.Gray10,
+	clrLegenda		= palette.Gray50,
+	clrGridText		= palette.Gray20,
 }
 
 -- ----------------------------------------------------------------------------
@@ -42,8 +43,8 @@ local tDefColours =
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.1",
-	sRelDate 	= "26/04/2020",
+	sAppVer  	= "0.0.3",
+	sRelDate 	= "30/05/2020",
 	sConfigFile	= "config/preferences.lua",
 	
 	sDefPath 	= "data/update",
@@ -244,7 +245,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function SetupSplitter()
-	m_trace:line("SetupSplitter")
+--	m_trace:line("SetupSplitter")
 
 	local shWin		= m_Frame.hSash
 	local iWidthWin = m_Frame.iWidthWin
@@ -258,7 +259,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnToggleViewDirList()
-	m_trace:line("OnToggleViewDirList")
+--	m_trace:line("OnToggleViewDirList")
 
 	local hWin = m_Frame.hSash
 
@@ -274,7 +275,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnSize()
-	m_trace:line("OnSize")
+--	m_trace:line("OnSize")
 
 	local sizeWin = m_Frame.hWindow:GetClientRect()
 
@@ -345,7 +346,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function DoOpenView(inFilename)
-	m_trace:line("DoOpenView")
+--	m_trace:line("DoOpenView")
 
 	local _, sError = io.popen("lua ./view.lua \"" .. inFilename .. "\"", "r")
 	
@@ -427,7 +428,7 @@ local function LoadConfig()
 		m_Frame.hDirSel:SetPath(BuildDirName(m_App.sDefPath))
 	end
 	
-	hPanel:SetDrawOpts(tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace)
+	hPanel:SetDrawOpts(tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace, tOverride.iDrawOption)
 	hPanel:SetTempBoxing(tOverride.iGridMinTemp, tOverride.iGridMaxTemp, tOverride.bAdaptiveTemp)
 	
 	-- if no colorset is specified then restore the defaults
@@ -446,7 +447,8 @@ local function LoadConfig()
 									tColours.clrMaximum,
 									tColours.clrExcursion,
 									tColours.clrLegenda,
-									tColours.clrGridText)
+									tColours.clrGridText,
+									tColours.clrHighLight)
 	end
 end
 
@@ -484,7 +486,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnOpenFile()
-	m_trace:line("OnOpenFile")
+--	m_trace:line("OnOpenFile")
 	
 	local hWin  = m_Frame.hDirSel
 	local item  = hWin:GetTreeCtrl():GetSelection()
@@ -503,7 +505,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnCompileDirectory()
-	m_trace:line("OnCompileDirectory")
+--	m_trace:line("OnCompileDirectory")
 	
 	local hWin  = m_Frame.hDirSel
 	local item  = hWin:GetTreeCtrl():GetSelection()
@@ -712,7 +714,7 @@ local function CreateFrame(inAppTitle)
 	
 	-- set up the frame
 	--
-	frame:SetMinSize(wx.wxSize(600, 350))
+	frame:SetMinSize(wx.wxSize(300, 125))
 	frame:SetStatusBarPane(0)                   -- this is reserved for the menu	
 
 	return true
