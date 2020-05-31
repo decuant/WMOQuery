@@ -53,14 +53,14 @@ local tConfiguration =
 	sVersion	= "0.0.1",
 	
 	sRemoteAddr	= "http://worldweather.wmo.int/en/json/",		-- remote address and directory
-	sLocalStore	= "./data/update/",								-- local directory
+	sLocalStore	= "data/update/",								-- local directory
 	
 	bUseNames	= true,											-- use Station names instead of IDs
 	
 	-- -----------------------
 	-- sFavorites index
 	--
-	tFavorites	= tTestSetVoid,
+	tFavorites	= tTestSetItalyGeneric,
 }
 
 return tConfiguration

@@ -20,6 +20,7 @@ local tColours =
 		clrMinimum		= palette.Turquoise,
 		clrMaximum		= palette.IndianRed,
 		clrExcursion	= palette.Gray0,
+		clrHighLight	= palette.Orange,
 		
 		clrLegenda		= palette.RoyalBlue2,
 		clrGridText		= palette.Firebrick2,
@@ -30,15 +31,33 @@ local tColours =
 		clrDirListBack	= palette.SteelBlue4,
 		clrDirListFore	= palette.WhiteSmoke,
 		
-		clrBackground	= palette.Gray20,
-		clrGridLines	= palette.Gray30,
+		clrBackground	= palette.Gray30,
+		clrGridLines	= palette.Gray40,
 		clrOrigin		= palette.Thistle1,
 		clrMinimum		= palette.MediumPurple2,
 		clrMaximum		= palette.PaleVioletRed3,
-		clrExcursion	= palette.Azure2,
+		clrExcursion	= palette.Turquoise3,
+		clrHighLight	= palette.SpringGreen2,
 		
-		clrLegenda		= palette.SeaGreen4,
+		clrLegenda		= palette.WhiteSmoke,
 		clrGridText		= palette.Azure2,
+	},
+	
+	["Black"] =
+	{
+		clrDirListBack	= palette.Gray20,
+		clrDirListFore	= palette.LightSteelBlue1,
+		
+		clrBackground	= palette.Gray20,
+		clrGridLines	= palette.Gray40,
+		clrOrigin		= palette.Snow1,
+		clrMinimum		= palette.Turquoise3,
+		clrMaximum		= palette.Firebrick2,
+		clrExcursion	= palette.Yellow1,
+		clrHighLight	= palette.Gray80,
+		
+		clrLegenda		= palette.LightSteelBlue1,
+		clrGridText		= palette.Gray40,	
 	},
 }
 
@@ -54,19 +73,19 @@ end
 --
 local tConfiguration = 
 {
-	sCfgVersion	= "0.0.1",
+	sCfgVersion		= "0.0.3",
 	
-	sDefPath 		= TodaysDir(),		-- use today's date or might fail if no data available
+	sDefPath 		= "data/2020",		-- use today's date or might fail if no data available
 	
 	iGridMinTemp	= -10,				-- minimum temperature shown in grid
 	iGridMaxTemp	=  50,				-- maximum temperature shown in grid
 	bAdaptiveTemp 	= false, 			-- adapt grid to samples' temperature values
-
-	tColourScheme	= tColours.Light,	-- comment this line or set value = nil to use defaults
-	iLineSize		= 20,				-- size of line when drawing
-	iFontSize		= 7,				-- font size for the legenda
-	sFontFace		= "Source Code Pro",
+	iDrawOption		= 3,				-- 1 details, 2 normals, 3 both
 	
+	tColourScheme	= tColours.Dark,	-- comment this line or set value = nil to use defaults
+	iLineSize		= 1,				-- size of line when drawing
+	iFontSize		= 7,				-- font size for the legenda
+	sFontFace		= "DejaVu Sans Mono",
 }
 
 return tConfiguration
