@@ -7,14 +7,18 @@
 *
 ]]
 
-local wx	= require("wx")
-local trace = require("lib.trace")
+-- ----------------------------------------------------------------------------
+--
+local wx		= require("wx")
+local utility	= require("lib.utility")
+local trace		= require("lib.trace")
 
-local _cat	= table.concat
-local _sort	= table.sort
-local _date	= os.date
-local _time	= os.time
-local _gsub	= string.gsub
+local _cat		= table.concat
+local _sort		= table.sort
+local _date		= os.date
+local _time		= os.time
+local _gsub		= string.gsub
+local _mkdir	= utility.CreateDirectory
 
 -- ----------------------------------------------------------------------------
 --
@@ -27,22 +31,46 @@ local m_App =
 	-- private
 	--
 	sAppName 	= "archive",
-	sAppVer  	= "0.0.1",
-	sRelDate 	= "16/05/2020",
+	sAppVer  	= "0.0.2",
+	sRelDate 	= "30/05/2020",
 	
 	sConfigFile	= "config/folders.lua",
 	
 	sDestPath	= "",					-- working target directory
-
+	iTotFound	= 0,					-- total files to copy/move
+	iTotCopies	= 0,					-- result of the operation
+	
 	-- public, override in configuration file
 	--
-	bUseMove	= false,				-- move files instead of copy
-	bUseCurDay	= false,				-- use todays' date or modification time of 
-										-- newest file in source directory
-	sTargetFldr	= "C:\\Temp",
-	sSourceFldr	= "C:\\Usr_2\\Lua\\WMOQuery\\data\\update",
+	bUseMove	= false,			-- move files instead of copy
+	bUseCurDay	= true,				-- use todays' date or modification time of 
+									-- newest file in source directory
+	sTargetFldr	= "data",
+	sSourceFldr	= "data/update",
 	sExtFilter	= "*.json",
 }
+
+-- ----------------------------------------------------------------------------
+-- given a relative path builds a full path
+-- take into account bot "/" and "\\"
+--
+local function BuildDirName(inRelPath)
+
+	local sCwd	= inRelPath
+	local sTest	= inRelPath:sub(1, 1)
+	
+	if "/" ~= sTest then
+		
+		sTest = inRelPath:sub(1, 2)
+		
+		if "\\\\" ~= sTest then
+			
+			sCwd = wx.wxFileName.GetCwd() .. "/" .. inRelPath
+		end
+	end
+
+	return _gsub(sCwd, "\\", "/")		-- normalize
+end
 
 -- ----------------------------------------------------------------------------
 --
@@ -66,8 +94,7 @@ local function LoadConfig()
 
 	m_App.sTargetFldr	= tOverride.sTargetFldr
 	m_App.sSourceFldr	= tOverride.sSourceFldr
-	m_App.sExtFilter	= tOverride.sExtFilter	
-
+	m_App.sExtFilter	= tOverride.sExtFilter
 end
 
 -- ----------------------------------------------------------------------------
@@ -104,7 +131,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function TargetDirFromCurDay()
-	m_trace:line("Building target folder name from todays' date")
+	m_trace:line("Building target folder name from today's date")
 
 	local tmNow 	= _time()
 	local tFolders	= { }
@@ -115,7 +142,7 @@ local function TargetDirFromCurDay()
 	tFolders[#tFolders + 1] = _date("%d", tmNow)
 	tFolders[#tFolders + 1] = _date("%H-%M", tmNow)		
 	
-	local sTarget = _cat(tFolders, "\\")
+	local sTarget = _cat(tFolders, "/")
 	
 	return sTarget
 end
@@ -138,15 +165,15 @@ local function TargetDirFromFileAccess()
 	local tmValue
 	local sDateTime
 	local tResults = { }
-		
+
 	local _, sFilename = dir:GetFirst(sFilter, wx.wxDIR_FILES)
 	
 	while sFilename and 0 < #sFilename do
 		
-		fCurrent 	= wx.wxFileName(sPathnm .. "\\" .. sFilename)
+		fCurrent 	= wx.wxFileName(sPathnm .. "/" .. sFilename)
 		
 		tmValue		= fCurrent:GetModificationTime()
-		sDateTime	= _date("%Y\\%m\\%d\\%H-%M", tmValue:GetTicks())
+		sDateTime	= _date("%Y/%m/%d/%H-%M", tmValue:GetTicks())
 		
 		-- add to list
 		--
@@ -163,7 +190,7 @@ local function TargetDirFromFileAccess()
 	--
 	_sort(tResults, function (a, b) return a > b end)
 	
-	return (m_App.sTargetFldr .. "\\" .. tResults[1])
+	return (m_App.sTargetFldr .. "/" .. tResults[1])
 end
 
 -- ----------------------------------------------------------------------------
@@ -172,8 +199,8 @@ local function CopyFilesSimple()
 --	m_trace:line("CopyFilesSimple")
 
 	local dir		= wx.wxDir()
-	local sSrcPath 	= m_App.sSourceFldr .. "\\" 
-	local sDstPath	= m_App.sDestPath .. "\\" 
+	local sSrcPath 	= m_App.sSourceFldr .. "/" 
+	local sDstPath	= m_App.sDestPath .. "/" 
 	local sFilter	= m_App.sExtFilter
 	
 	-- at this stage everything should be ok
@@ -192,60 +219,18 @@ local function CopyFilesSimple()
 		sSrcName = sSrcPath .. sFilename
 		sTgtName = sDstPath .. sFilename
 		
-		wx.wxCopyFile(sSrcName, sTgtName, true)
+		if wx.wxCopyFile(sSrcName, sTgtName, true) then
+			
+			-- check for moving files
+			--
+			if m_App.bUseMove then wx.wxRemoveFile(sSrcName) end
+			
+			m_App.iTotCopies = m_App.iTotCopies + 1
+		end
 		
 		_, sFilename = dir:GetNext()
 	end
 	
-end
-
--- ----------------------------------------------------------------------------
--- given a full pathname makes all the required subdirectories
--- in DOS os.execute will create all the partials but this is
--- not the case when on Unix or using the wxWidgets' Make function
---
-local function CreateDirectory(inPathname, isFilename)
---	m_trace:line("CreateDirectory")
-
-	-- sanity check
-	--
-	if not inPathname or 0 == #inPathname then return false end
-	
-	inPathname = _gsub(inPathname, "\\", "/")		-- normalize
-	
-	-- to cycle through all partials add a terminator
-	--
-	if not isFilename and not inPathname:find("/", #inPathname, true) then
-		
-		inPathname = inPathname .. "/"
-	end
-	
-	-- do make all directories in between "\\"
-	--
-	local dir = wx.wxDir()
-	local x1  = 1
-	
-	while x1 < #inPathname do
-		
-		local i1 = inPathname:find("/", x1, true)
-		
-		if i1 then
-			
-			local sPartial = inPathname:sub(1, i1 - 1)
-			
-			if not dir.Exists(sPartial) then
-				
-				if not dir.Make(sPartial) then return false end
-			end
-			
-			x1 = i1 + 1
-		else
-		
-			break
-		end
-	end
-	
-	return true
 end
 
 -- ----------------------------------------------------------------------------
@@ -267,10 +252,14 @@ local function DoProcess()
 	
 	if sTarget  then
 		
+		-- create the target directory
+		--
 		m_trace:line("TARGET directory [" .. sTarget .. "]")
 	
-		if CreateDirectory(sTarget, false) then
+		if _mkdir(sTarget, false) then
 			
+			-- copy/move files
+			--
 			m_App.sDestPath = sTarget
 			CopyFilesSimple()
 		else
@@ -295,19 +284,28 @@ local function RunApplication(...)
 	-- try opening the application's associated configuration file
 	--
 	LoadConfig()
+
+	m_App.sTargetFldr	= BuildDirName(m_App.sTargetFldr)
+	m_App.sSourceFldr	= BuildDirName(m_App.sSourceFldr)
 	
 	-- this is a test both for valid source directory
 	-- and for number of files to copy
 	--
-	if 0 < GetNumberOfFiles() then
+	m_App.iTotFound = GetNumberOfFiles()
+	
+	m_trace:line("SOURCE directory [" .. m_App.sSourceFldr .. "] Files [" .. m_App.iTotFound .. "] Ext. [" .. m_App.sExtFilter .. "]")
+	
+	if 0 < m_App.iTotFound then
 		
 		DoProcess()
 	else
 		
 		m_trace:line("Nothing to do")
 	end
-
-	m_trace:newline(sAppTitle .. " terminated ###")
+	
+	-- give feedback
+	--
+	m_trace:summary("Copied files [" .. m_App.iTotCopies .. "] out of [" .. m_App.iTotFound .. "]")
 end
 
 -- ----------------------------------------------------------------------------

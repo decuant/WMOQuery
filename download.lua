@@ -15,13 +15,16 @@
 *	Note: enclose filename in double quotes if the name contains spaces.
 ]]
 
+-- ----------------------------------------------------------------------------
+--
 local wx		= require("wx")
+local utility	= require("lib.utility")
 local trace 	= require("lib.trace")	
 
 local _format	= string.format
 local _find		= string.find
 local _sub		= string.sub
-local _gsub		= string.gsub
+local _mkdir	= utility.CreateDirectory
 
 -- ----------------------------------------------------------------------------
 --
@@ -32,8 +35,8 @@ local m_trace = trace.new("download")
 local m_App = 
 {
 	sAppName	= "download",
-	sAppVer 	= "0.0.1",
-	sRelDate	= "24/04/2020",
+	sAppVer 	= "0.0.2",
+	sRelDate	= "30/05/2020",
 	
 	sConfigFile	= "config/favorites.lua",
 	
@@ -371,60 +374,11 @@ local function GetFileFromURL(inCurCmd)
 end
 
 -- ----------------------------------------------------------------------------
--- given a full pathname makes all the required subdirectories
--- in DOS os.execute will create all the partials but this is
--- not the case when on Unix or using the wxWidgets' Make function
---
-local function CreateDirectory(inPathname, isFilename)
---	m_trace:line("CreateDirectory")
-
-	-- sanity check
-	--
-	if not inPathname or 0 == #inPathname then return false end
-	
-	inPathname = _gsub(inPathname, "\\", "/")		-- normalize
-	
-	-- to cycle through all partials add a terminator
-	--
-	if not isFilename and not inPathname:find("/", #inPathname, true) then
-		
-		inPathname = inPathname .. "/"
-	end
-	
-	-- do make all directories in between "\\"
-	--
-	local dir = wx.wxDir()
-	local x1  = 1
-	
-	while x1 < #inPathname do
-		
-		local i1 = inPathname:find("/", x1, true)
-		
-		if i1 then
-			
-			local sPartial = inPathname:sub(1, i1 - 1)
-			
-			if not dir.Exists(sPartial) then
-				
-				if not dir.Make(sPartial) then return false end
-			end
-			
-			x1 = i1 + 1
-		else
-		
-			break
-		end
-	end
-	
-	return true
-end
-
--- ----------------------------------------------------------------------------
 --
 local function SaveFile(inFilename, inBuffer)
 --	m_trace:line("SaveFile")
 
-	CreateDirectory(inFilename, true)
+	_mkdir(inFilename, true)
 	
 	local hFile = io.open(inFilename, "w")
 	if hFile then
@@ -484,7 +438,6 @@ local function DownloadFavorites()
 	local tOverride = nil
 	
 	-- try opening the application's associated configuration file
-	--
 	--
 	if wx.wxFileName().Exists(sConfig) then
 		
