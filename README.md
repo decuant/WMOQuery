@@ -1,6 +1,6 @@
 #  **WMOQuery**
 
-## Project description - rel. 0.0.1 (20-May-2020)
+## Project description - rel. 0.0.3 (30-May-2020)
 
 **WMOQuery** is a set of tiny scripts for monitoring weather world wide and retrieve statistics on it. Only forecast temperatures can be analyzed because climate values are shipped as aggregates over a year course and they are not updated by stations anymore.
 
@@ -101,23 +101,25 @@ GUI for viewing a dataset in tabular format. An example:
 
 GUI interface for launching a script or to plot 1 or more dataset(s).
 
-This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder
+This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder:
 
-![Moscow Archived](/docs/Moscow_Archived.png)
+![Moscow Small All Options](/docs/Moscow_Archived.png)
 
 These ``.dat`` files contain more than 1 station, so the user must select which one:
 
 ![Choose Station](/docs/Choose_Station.png)
 
-Another example, with much inconsistent data from a station (Algiers)
+Another example, with much inconsistent data from a station (Algiers):
 
 ![Algiers Archived](/docs/Algiers_Archived.png)
 
 Changing preferences and refreshing from console, see comments in code for scroll/zoom/options:
 
-![Berlin_Small](/docs/Berlin_Small.png)
-![Berlin_Medium](/docs/Berlin_Medium.png)
-![Berlin_Big](/docs/Berlin_Big.png)
+![Berlin Big Details Only](/docs/Berlin_Big.png)
+
+Displaying the normals over the details:
+
+![Tel Aviv Zoomed with Normals](/docs/Tel_Aviv_Normal.png)
 
 # .6 compile
 
