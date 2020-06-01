@@ -36,8 +36,8 @@ local tColours =
 		clrOrigin		= palette.Thistle1,
 		clrMinimum		= palette.MediumPurple2,
 		clrMaximum		= palette.PaleVioletRed3,
-		clrExcursion	= palette.Turquoise3,
-		clrHighLight	= palette.SpringGreen2,
+		clrExcursion	= palette.Yellow1,
+		clrHighLight	= palette.Gray20,
 		
 		clrLegenda		= palette.WhiteSmoke,
 		clrGridText		= palette.Azure2,
@@ -77,15 +77,15 @@ local tConfiguration =
 	
 	sDefPath 		= "data/2020",		-- use today's date or might fail if no data available
 	
-	iGridMinTemp	= -10,				-- minimum temperature shown in grid
+	iGridMinTemp	= -5,				-- minimum temperature shown in grid
 	iGridMaxTemp	=  50,				-- maximum temperature shown in grid
 	bAdaptiveTemp 	= false, 			-- adapt grid to samples' temperature values
 	iDrawOption		= 3,				-- 1 details, 2 normals, 3 both
 	
-	tColourScheme	= tColours.Dark,	-- comment this line or set value = nil to use defaults
-	iLineSize		= 1,				-- size of line when drawing
-	iFontSize		= 7,				-- font size for the legenda
-	sFontFace		= "DejaVu Sans Mono",
+	tColourScheme	= tColours.Black,	-- comment this line or set value = nil to use defaults
+	iLineSize		= 2,				-- size of line when drawing
+	iFontSize		= 8,				-- font size for the legenda
+	sFontFace		= "Dejavu Sans Mono",
 }
 
 return tConfiguration
