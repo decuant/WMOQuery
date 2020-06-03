@@ -9,55 +9,58 @@ local palette = require("lib.wxX11Palette")
 --
 local tColours = 
 {
-	["Light"] =
+	["brighter"] =
 	{
-		clrDirListBack	= palette.LightYellow1,
+		clrDirListBack	= palette.Cornsilk2,
 		clrDirListFore	= palette.Firebrick4,
 		
 		clrBackground	= palette.WhiteSmoke,
 		clrGridLines	= palette.Wheat,
-		clrOrigin		= palette.SlateGray,
+		clrOrigin		= palette.SkyBlue4,
+		clrStartDay		= palette.Gray20,
 		clrMinimum		= palette.Turquoise,
 		clrMaximum		= palette.IndianRed,
 		clrExcursion	= palette.Gray0,
-		clrHighLight	= palette.Orange,
+		clrNormals		= palette.Orange,
 		
-		clrLegenda		= palette.RoyalBlue2,
-		clrGridText		= palette.Firebrick2,
+		clrLegenda		= palette.Chartreuse4,
+		clrGridText		= palette.SkyBlue3,
 	},
 	
-	["Dark"] =
+	["blueprint"] =
 	{
-		clrDirListBack	= palette.SteelBlue4,
-		clrDirListFore	= palette.WhiteSmoke,
+		clrDirListBack	= palette.Purple4,
+		clrDirListFore	= palette.Orange1,
 		
-		clrBackground	= palette.Gray30,
-		clrGridLines	= palette.Gray40,
-		clrOrigin		= palette.Thistle1,
-		clrMinimum		= palette.MediumPurple2,
+		clrBackground	= palette.RoyalBlue4,
+		clrGridLines	= palette.SteelBlue4,
+		clrOrigin		= palette.Brown,
+		clrStartDay		= palette.Khaki3,
+		clrMinimum		= palette.DodgerBlue2,
 		clrMaximum		= palette.PaleVioletRed3,
 		clrExcursion	= palette.Yellow1,
-		clrHighLight	= palette.Gray20,
+		clrNormals		= palette.Gray10,
 		
-		clrLegenda		= palette.WhiteSmoke,
-		clrGridText		= palette.Azure2,
+		clrLegenda		= palette.Azure3,
+		clrGridText		= palette.WhiteSmoke,
 	},
 	
-	["Black"] =
+	["contraband"] =
 	{
-		clrDirListBack	= palette.Gray20,
-		clrDirListFore	= palette.LightSteelBlue1,
+		clrDirListBack	= palette.Gray10,
+		clrDirListFore	= palette.Aquamarine3,
 		
-		clrBackground	= palette.Gray20,
-		clrGridLines	= palette.Gray40,
-		clrOrigin		= palette.Snow1,
-		clrMinimum		= palette.Turquoise3,
-		clrMaximum		= palette.Firebrick2,
-		clrExcursion	= palette.Yellow1,
-		clrHighLight	= palette.Gray80,
+		clrBackground	= palette.Gray0,
+		clrGridLines	= palette.Gray10,
+		clrOrigin		= palette.Orange,
+		clrStartDay		= palette.Yellow1,
+		clrMinimum		= palette.CadetBlue2,
+		clrMaximum		= palette.IndianRed3,
+		clrExcursion	= palette.DeepPink1,
+		clrNormals		= palette.SpringGreen4,
 		
-		clrLegenda		= palette.LightSteelBlue1,
-		clrGridText		= palette.Gray40,	
+		clrLegenda		= palette.Cyan4,
+		clrGridText		= palette.Sienna2,	
 	},
 }
 
@@ -73,7 +76,7 @@ end
 --
 local tConfiguration = 
 {
-	sCfgVersion		= "0.0.3",
+	sCfgVersion		= "0.0.4",
 	
 	sDefPath 		= "data/2020",		-- use today's date or might fail if no data available
 	
@@ -81,11 +84,14 @@ local tConfiguration =
 	iGridMaxTemp	=  50,				-- maximum temperature shown in grid
 	bAdaptiveTemp 	= false, 			-- adapt grid to samples' temperature values
 	iDrawOption		= 3,				-- 1 details, 2 normals, 3 both
+	bRasterOp		= false,			-- use a raster inverse
 	
-	tColourScheme	= tColours.Black,	-- comment this line or set value = nil to use defaults
+	-- comment this line or set value = nil to use defaults
+	--
+	tColourScheme	= tColours.blueprint,
 	iLineSize		= 2,				-- size of line when drawing
 	iFontSize		= 8,				-- font size for the legenda
-	sFontFace		= "Dejavu Sans Mono",
+	sFontFace		= "Liberation Mono",
 }
 
 return tConfiguration
