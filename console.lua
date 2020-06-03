@@ -32,11 +32,11 @@ local tDefColours =
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.4",
-	sRelDate 	= "01/06/2020",
+	sAppVer  	= "0.0.5",
+	sRelDate 	= "03/06/2020",
 	sConfigFile	= "config/preferences.lua",
 
-	sDefPath 	= "data/update",
+	sDefPath 	= "data",
 
 	iMaxMem		= 5,	-- higher limit before forcing a collect call,
 						-- set 0 or very low for continuos memory reclaim
@@ -419,8 +419,10 @@ local function LoadConfig()
 	
 	-- options
 	--
-	hPanel:SetDrawOpts(tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace, tOverride.iDrawOption)
-	hPanel:SetTempBoxing(tOverride.iGridMinTemp, tOverride.iGridMaxTemp, tOverride.bAdaptiveTemp)
+	hPanel:SetDrawOpts(	tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace, 
+						tOverride.iDrawOption, tOverride.bRasterOp)
+	hPanel:SetTempBoxing(tOverride.iGridMinTemp, tOverride.iGridMaxTemp, 
+						 tOverride.bAdaptiveTemp)
 	
 	-- color scheme
 	--
