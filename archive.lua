@@ -17,6 +17,7 @@ local _cat		= table.concat
 local _sort		= table.sort
 local _date		= os.date
 local _time		= os.time
+local _format	= string.format
 local _gsub		= string.gsub
 local _mkdir	= utility.CreateDirectory
 
@@ -31,8 +32,8 @@ local m_App =
 	-- private
 	--
 	sAppName 	= "archive",
-	sAppVer  	= "0.0.2",
-	sRelDate 	= "30/05/2020",
+	sAppVer  	= "0.0.4",
+	sRelDate 	= "2020/06/06",
 	
 	sConfigFile	= "config/folders.lua",
 	
@@ -43,7 +44,7 @@ local m_App =
 	-- public, override in configuration file
 	--
 	bUseMove	= false,			-- move files instead of copy
-	bUseCurDay	= true,				-- use todays' date or modification time of 
+	bUseCurDay	= false,			-- use todays' date or modification time of 
 									-- newest file in source directory
 	sTargetFldr	= "data",
 	sSourceFldr	= "data/update",
@@ -306,6 +307,20 @@ local function RunApplication(...)
 	-- give feedback
 	--
 	m_trace:summary("Copied files [" .. m_App.iTotCopies .. "] out of [" .. m_App.iTotFound .. "]")
+	
+	-- give feedback
+	--
+	local iTotal   = m_App.iTotFound 
+	local iSuccess = m_App.iTotCopies
+	local iFailed  = iTotal - iSuccess
+
+	m_trace:summary("Downloaded [" .. iTotal .. "] Failed: [" .. iFailed .. "]")
+	
+	-- report to caller
+	--
+	io.stdout:write(_format("%d/%d\n", iSuccess, iTotal))	
+	
+	
 end
 
 -- ----------------------------------------------------------------------------

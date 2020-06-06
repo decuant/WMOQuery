@@ -32,8 +32,8 @@ local tDefColours =
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.5",
-	sRelDate 	= "03/06/2020",
+	sAppVer  	= "0.0.6",
+	sRelDate 	= "2020/06/06",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
@@ -177,7 +177,7 @@ local function InstallTimers()
 	-- setup each tick timer resolution and enable state
 	-- values are in seconds
 	--
-	if not tTimers.Display:IsEnabled() then	tTimers.Display:Setup(10, false) end
+	if not tTimers.Display:IsEnabled() then	tTimers.Display:Setup(6, false) end
 	if not tTimers.Garbage:IsEnabled() then	tTimers.Garbage:Setup(30, true) end
 	if not tTimers.Today:IsEnabled() then tTimers.Today:Setup(60, true) end
 
@@ -292,6 +292,21 @@ local function OnClose()
 end
 
 -- ----------------------------------------------------------------------------
+-- wait for a process to complete, reads stdout from caller
+-- gives result in statusbar
+--
+local function WaitForComplete(inHFile, inMessage)
+
+	if inHFile then
+		
+		local sStdOut = inHFile:read("l")
+		inHFile:close()
+		
+		if sStdOut then	SetStatusText(inMessage .. ": " .. sStdOut) end
+	end
+end
+
+-- ----------------------------------------------------------------------------
 --
 local function OnDownloadFavorites()
 	m_trace:line("OnDownloadFavorites")
@@ -304,12 +319,7 @@ local function OnDownloadFavorites()
 		return
 	end
 
-	-- read from stdout
-	--
-	local sStdOut = hFile:read("l")
-	hFile:close()
-
-	if sStdOut then	SetStatusText( "Download Favorites: " .. sStdOut) end
+	WaitForComplete(hFile, "Download Favorites")
 end
 
 -- ----------------------------------------------------------------------------
@@ -320,16 +330,12 @@ local function OnArchiveUpdates()
 	local hFile, sError = io.popen("lua ./archive.lua", "r")
 
 	if not hFile or (sError and 0 < #sError) then
+		
 		DlgMessage(_format("On archiving updates got an error\n%s", sError))
 		return
 	end
 
-	-- read from stdout
-	--
-	local sStdOut = hFile:read("l")
-	hFile:close()
-
-	if sStdOut then	SetStatusText( "Archive Updates: " .. sStdOut) end
+	WaitForComplete(hFile, "Archive Updates")
 end
 
 -- ----------------------------------------------------------------------------
@@ -349,11 +355,15 @@ end
 local function DoCompileDirectory(inDirectory)
 	m_trace:line("DoCompileDirectory")
 
-	local _, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\"", "r")
+	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\"", "r")
 
-	if sError and 0 < #sError then
+	if not hFile or (sError and 0 < #sError) then
+		
 		DlgMessage(_format("Failed to open file\n%s", sError))
+		return
 	end
+	
+	WaitForComplete(hFile, "Compiled Datasets")
 end
 
 -- ----------------------------------------------------------------------------

@@ -13,6 +13,7 @@ local json 		= require("lib.json")
 local serpent	= require("lib.serpent")
 local trace 	= require("lib.trace")
 
+local _format	= string.format
 local _insert	= table.insert
 
 -- ----------------------------------------------------------------------------
@@ -24,10 +25,10 @@ local m_trace = trace.new("compile")
 local m_App = 
 {
 	sAppName = "compile",
-	sAppVer  = "0.0.1",
-	sRelDate = "28/04/2020",
+	sAppVer  = "0.0.2",
+	sRelDate = "2020/06/06",
 	
-	sDefPath	= "C:\\USR_2\\LUA\\WMOQuery\\data\\update",		-- default path	
+	sDefPath	= "D:\\USR_2\\LUA\\WMOQuery\\data\\update",		-- default path	
 	tFilters	= { },										-- table with result data
 	iTotScan	= 0,										-- total files processed
 	iFailed		= 0,										-- counter for any error
@@ -364,7 +365,15 @@ local function RunApplication(...)
 	
 	-- give feedback
 	--
-	m_trace:summary("Touched files [" .. m_App.iTotScan .. "] Failed: [" .. m_App.iFailed .. "]")
+	local iTotal   = m_App.iTotScan 
+	local iFailed  = m_App.iFailed
+	local iSuccess = iTotal - iFailed
+	
+	m_trace:summary("Touched files [" .. iTotal .. "] Failed: [" .. iFailed .. "]")
+	
+	-- report to caller
+	--
+	io.stdout:write(_format("%d/%d\n", iSuccess, iTotal))
 end
 
 -- ----------------------------------------------------------------------------

@@ -35,8 +35,8 @@ local m_trace = trace.new("download")
 local m_App = 
 {
 	sAppName	= "download",
-	sAppVer 	= "0.0.2",
-	sRelDate	= "30/05/2020",
+	sAppVer 	= "0.0.3",
+	sRelDate	= "2020/06/06",
 	
 	sConfigFile	= "config/favorites.lua",
 	
@@ -544,13 +544,17 @@ local function RunApplication(...)
 		m_trace:line("Nothing to download specified!")
 	end
 
-	m_trace:summary("Downloaded [" .. m_App.iTotRequest .. "] Failed: [" .. m_App.iTotFailed .. "]")
-	
-	-- report to any listener
+	-- give feedback
 	--
-	local sReport = _format("%d/%d\n", m_App.iTotRequest - m_App.iTotFailed, m_App.iTotRequest)
-
-	io.stdout:write(sReport)
+	local iTotal   = m_App.iTotRequest 
+	local iFailed  = m_App.iTotFailed
+	local iSuccess = iTotal - iFailed
+	
+	m_trace:summary("Downloaded [" .. iTotal .. "] Failed: [" .. iFailed .. "]")
+	
+	-- report to caller
+	--
+	io.stdout:write(_format("%d/%d\n", iSuccess, iTotal))
 end
 
 -- ----------------------------------------------------------------------------
