@@ -195,6 +195,31 @@ function pnlDraw.GetHandle(self)
 end
 
 -- ----------------------------------------------------------------------------
+-- will return the wxWindow handle
+--
+function pnlDraw.ResetView(self)
+--	m_trace:line("pnlDraw.ResetView")
+
+	self.iScaleDays	= 7		-- scaling for days
+	self.iScaleTemp	= 5		-- scaling factor for temperatures
+	self.dZoomX		= 1.00
+	self.dZoomY		= 1.00
+	
+	-- update units for drawing
+	--
+	self:UpdateUnits()
+	
+	-- this can result in a reset of the origin if a new dataset is loaded
+	--
+	self.iOriginX	= m_BoxingX / 2
+	self.iOriginY	= m_BoxingY / 2 + self.iUnitY * self.iGridMaxT
+	
+	-- force a redraw
+	--
+	self:Redraw()
+end
+
+-- ----------------------------------------------------------------------------
 -- get a table of strings describing forecast values
 --
 function pnlDraw.GetLegenda(self) 
@@ -295,12 +320,12 @@ function pnlDraw.CreateGDIObjs(self)
 	self.brExcursion= wx.wxBrush(tColors.clrExcursion, wx.wxBRUSHSTYLE_FDIAGONAL_HATCH)
 	
 	self.fntLegenda = wx.wxFont( self.iFntSize,
-								 wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
+								 wx.wxFONTFAMILY_DEFAULT, wx.wxFONTSTYLE_NORMAL,
 								 wx.wxFONTWEIGHT_LIGHT, false, self.sFontFace, 
 								 wx.wxFONTENCODING_SYSTEM)
 
 	self.fntGridDate= wx.wxFont( self.iFntSize - 1, 
-								 wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
+								 wx.wxFONTFAMILY_DEFAULT, wx.wxFONTSTYLE_NORMAL,
 								 wx.wxFONTWEIGHT_BOLD, false, self.sFontFace, 
 								 wx.wxFONTENCODING_SYSTEM)
 
@@ -907,8 +932,6 @@ function pnlDraw.OnMouseWheel(event)
 --	m_trace:line("pnlDraw.OnMouseWheel")
 
 	local aSelf = RoutingTable_Get(event:GetId())
-	local zoomX = aSelf.dZoomX
-	local zoomY = aSelf.dZoomY
 	
 	if not aSelf.vSamples then return end			-- safety check
 	
@@ -919,30 +942,26 @@ function pnlDraw.OnMouseWheel(event)
 		-- change the X zoom only
 		--
 		if 0 > event:GetWheelRotation() then
-			zoomX = zoomX - m_ZoomStep
+			
+			aSelf:NewZoomFromKey(wx.WXK_LEFT)
 		else
-			zoomX = zoomX + m_ZoomStep
+			
+			aSelf:NewZoomFromKey(wx.WXK_RIGHT)
 		end
-		
-		if m_ZoomMin >= zoomX then zoomX = m_ZoomStep end
 	else
 		-- change the Y zoom only
 		--
 		if 0 > event:GetWheelRotation() then
-			zoomY = zoomY - m_ZoomStep
+			
+			aSelf:NewZoomFromKey(wx.WXK_DOWN)
 		else
-			zoomY = zoomY + m_ZoomStep
+			
+			aSelf:NewZoomFromKey(wx.WXK_UP)
 		end
-		
-		if m_ZoomMin >= zoomY then zoomY = m_ZoomStep end
 	end
 
-	-- store and invalidate
+	-- Update display
 	--
-	aSelf.dZoomX = zoomX
-	aSelf.dZoomY = zoomY
-	
-	aSelf:UpdateScaling()
 	aSelf:Refresh()
 end
 
@@ -966,9 +985,85 @@ function pnlDraw.OnKeyUp(event)
 			aSelf.iDrawOption = key
 		end
 	end
-	
---	event:Skip()
+
+	-- Update display
+	--
 	aSelf:Refresh()
+end
+
+-- ----------------------------------------------------------------------------
+--
+function pnlDraw.NewOriginFromKey(self, inKey)
+--	m_trace:line("pnlDraw.NewOriginFromKey")
+
+	if not self.vSamples then return end			-- safety check
+
+	if wx.WXK_HOME == inKey then
+		
+		self.iOriginX	= (m_BoxingX / 2)
+		self.iOriginY	= (m_BoxingY / 2) + (self.iUnitY * self.iGridMaxT)
+		
+	elseif wx.WXK_DOWN == inKey then
+		
+		self.iOriginY	= self.iOriginY - self.iUnitY
+		
+	elseif wx.WXK_UP == inKey then
+		
+		self.iOriginY	= self.iOriginY + self.iUnitY
+		
+	elseif wx.WXK_LEFT == inKey then
+		
+		self.iOriginX	= self.iOriginX + self.iUnitX
+		
+	elseif wx.WXK_RIGHT == inKey then
+		
+		self.iOriginX	= self.iOriginX - self.iUnitX
+	end
+end
+
+-- ----------------------------------------------------------------------------
+--
+function pnlDraw.NewZoomFromKey(self, inKey)
+--	m_trace:line("pnlDraw.NewZoomFromKey")
+
+	local zoomX = self.dZoomX
+	local zoomY = self.dZoomY
+
+	if not self.vSamples then return end			-- safety check
+
+	if wx.WXK_HOME == inKey then
+		
+		zoomX = 1.0
+		zoomY = 1.0
+		
+	elseif wx.WXK_DOWN == inKey then
+		
+		zoomY = zoomY - m_ZoomStep
+		
+	elseif wx.WXK_UP == inKey then
+		
+		zoomY = zoomY + m_ZoomStep
+		
+	elseif wx.WXK_LEFT == inKey then
+		
+		zoomX = zoomX - m_ZoomStep
+		
+	elseif wx.WXK_RIGHT == inKey then
+		
+		zoomX = zoomX + m_ZoomStep
+	end
+
+	-- sanity check
+	--
+	if m_ZoomMin >= zoomX then zoomX = m_ZoomStep end
+	if m_ZoomMin >= zoomY then zoomY = m_ZoomStep end
+
+	-- store and update
+	--
+	self.dZoomX = zoomX
+	self.dZoomY = zoomY
+	
+	self:UpdateScaling()
 end
 
 -- ----------------------------------------------------------------------------
@@ -978,32 +1073,16 @@ function pnlDraw.OnKeyDown(event)
 
 	local aSelf = RoutingTable_Get(event:GetId())
 	local key	= event:GetKeyCode()
+	local bAlt	= event:AltDown()
 	
 	if not aSelf.vSamples then return end			-- safety check
 
-	if wx.WXK_HOME == key then
-		
-		aSelf.iOriginX	= (m_BoxingX / 2)
-		aSelf.iOriginY	= (m_BoxingY / 2) + (aSelf.iUnitY * aSelf.iGridMaxT)
-		
-	elseif wx.WXK_DOWN == key then
-		
-		aSelf.iOriginY	= aSelf.iOriginY - aSelf.iUnitY
-		
-	elseif wx.WXK_UP == key then
-		
-		aSelf.iOriginY	= aSelf.iOriginY + aSelf.iUnitY
-		
-	elseif wx.WXK_LEFT == key then
-		
-		aSelf.iOriginX	= aSelf.iOriginX + aSelf.iUnitX
-		
-	elseif wx.WXK_RIGHT == key then
-		
-		aSelf.iOriginX	= aSelf.iOriginX - aSelf.iUnitX
+	if bAlt then aSelf:NewZoomFromKey(key)
+	else 		 aSelf:NewOriginFromKey(key)
 	end
 	
---	event:Skip()
+	-- Update display
+	--
 	aSelf:Refresh()
 end
 
@@ -1261,18 +1340,11 @@ function pnlDraw.SetSamples(self, inSamples)
 	--
 	self:GetSpotList()
 	
-	-- update units for drawing
+	-- will reset all values for zooming and pan/tilt
+	-- update the units
+	-- call a redraw
 	--
-	self:UpdateUnits()
-	
-	-- this can result in a reset of the origin if a new dataset is loaded
-	--
-	self.iOriginX	= m_BoxingX / 2
-	self.iOriginY	= m_BoxingY / 2 + self.iUnitY * self.iGridMaxT
-	
-	-- force a redraw
-	--
-	self:Redraw()
+	self:ResetView()
 end
 
 -- ----------------------------------------------------------------------------
