@@ -99,7 +99,19 @@ GUI for viewing a dataset in tabular format. An example:
 
 # .5 console
 
-GUI interface for launching a script or to plot 1 or more dataset(s).
+GUI interface for launching a script or to plot a dataset. Much of the code of it is handling user events and drawing.
+
+The grid on the right side allows for file selection and menu operation. Uses a file filter.
+
+The panel on the left draws the min/max forecast for a station on a compiled dataset.
+You can control it with [Alt] + 4 Cursors.
+
+* A dot is a reading on the very first day.
+* Two forecasts sequence are drawn alternating solid and dashed lines.
+* It is assumed that the first day is not a forecast, but a real reading.
+* When listing normals only dots are collected.
+* If 2 dots lie on the same day the mean is taken.
+* Normals are drawn using the Bezier's formula for splines.
 
 This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder:
 
@@ -120,6 +132,10 @@ Changing preferences and refreshing from console, see comments in code for scrol
 Displaying the normals over the details:
 
 ![Tel Aviv Zoomed with Normals](/docs/Tel_Aviv_Normal.png)
+
+
+
+
 
 # .6 compile
 
