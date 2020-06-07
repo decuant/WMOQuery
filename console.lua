@@ -20,23 +20,23 @@ local _gsub		= string.gsub
 local m_trace = trace.new("console")
 
 -- ----------------------------------------------------------------------------
+-- shell command to use, 1 of the 2
+-- (this has to be modified to work under Unix)
 --
-local tDefColours =
-{
-	clrDirListBack	= palette.Azure4,
-	clrDirListFore	= palette.Gray5,
-}
+local m_ShellExec = "explorer.exe /separate /select, "
+local m_ShellOpen = "explorer.exe /select, "
 
 -- ----------------------------------------------------------------------------
 --
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.6",
-	sRelDate 	= "2020/06/06",
+	sAppVer  	= "0.0.7",
+	sRelDate 	= "2020/06/07",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
+	sShellCmd	= m_ShellExec,
 
 	iMaxMem		= 5,	-- higher limit before forcing a collect call,
 						-- set 0 or very low for continuos memory reclaim
@@ -58,6 +58,15 @@ local m_Frame =
 
 	hWindowsTmr	= nil,	-- Windows Timer object attached to the frame
 	tmStatbar	= 0,	-- date for the statusbar
+}
+
+-- ----------------------------------------------------------------------------
+-- colors for the dir list control
+--
+local tDefColours =
+{
+	clrDirListBack	= palette.Azure4,
+	clrDirListFore	= palette.Gray5,
 }
 
 -- ----------------------------------------------------------------------------
@@ -297,6 +306,8 @@ end
 --
 local function WaitForComplete(inHFile, inMessage)
 
+	wx.wxBeginBusyCursor()
+	
 	if inHFile then
 		
 		local sStdOut = inHFile:read("l")
@@ -304,12 +315,14 @@ local function WaitForComplete(inHFile, inMessage)
 		
 		if sStdOut then	SetStatusText(inMessage .. ": " .. sStdOut) end
 	end
+	
+	wx.wxEndBusyCursor()
 end
 
 -- ----------------------------------------------------------------------------
 --
 local function OnDownloadFavorites()
-	m_trace:line("OnDownloadFavorites")
+--	m_trace:line("OnDownloadFavorites")
 
 	local hFile, sError = io.popen("lua ./download.lua --favorites", "r")
 
@@ -325,7 +338,7 @@ end
 -- ----------------------------------------------------------------------------
 --
 local function OnArchiveUpdates()
-	m_trace:line("OnArchiveUpdates")
+--	m_trace:line("OnArchiveUpdates")
 
 	local hFile, sError = io.popen("lua ./archive.lua", "r")
 
@@ -343,17 +356,26 @@ end
 local function DoOpenView(inFilename)
 --	m_trace:line("DoOpenView")
 
-	local _, sError = io.popen("lua ./view.lua \"" .. inFilename .. "\"", "r")
+	local sError
 
+	if inFilename:find(".json") then
+		
+		_, sError = io.popen("lua ./view.lua \"" .. inFilename .. "\"", "r")
+	else
+		
+		_, sError = io.popen(m_App.sShellCmd .. "\"" .. inFilename .. "\"", "r")
+	end
+	
 	if sError and 0 < #sError then
+		
 		DlgMessage(_format("Failed to open file\n%s", sError))
-	end	
+	end
 end
 
 -- ----------------------------------------------------------------------------
 --
 local function DoCompileDirectory(inDirectory)
-	m_trace:line("DoCompileDirectory")
+--	m_trace:line("DoCompileDirectory")
 
 	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\"", "r")
 
@@ -394,6 +416,17 @@ local function OnDrawStation()
 end
 
 -- ----------------------------------------------------------------------------
+-- reset values for pan/tilt and zooms
+--
+local function OnResetView()
+--	m_trace:line("OnResetView")
+
+	local panel = m_Frame.hPnlDraw
+	
+	panel:ResetView()
+end
+
+-- ----------------------------------------------------------------------------
 --
 local function LoadConfig()
 --	m_trace:line("LoadConfig")
@@ -423,8 +456,15 @@ local function LoadConfig()
 	if tOverride.sDefPath and 0 < #tOverride.sDefPath then
 		
 		m_App.sDefPath = tOverride.sDefPath
-		
 		m_Frame.hDirSel:SetPath(BuildDirName(m_App.sDefPath))
+	end
+	
+	-- which action on Shell Open command
+	--
+	if tOverride.bShellSelect then
+		m_App.sShellCmd = m_ShellOpen
+	else
+		m_App.sShellCmd = m_ShellExec
 	end
 	
 	-- options
@@ -602,6 +642,7 @@ local function CreateFrame(inAppTitle)
 	local rcMnuOpenFile = UniqueID()
 	local rcMnuViewDir  = UniqueID()
 	local rcMnuViewData = UniqueID()
+	local rcMnuViewReset= UniqueID()
 	local rcMnuConfig   = UniqueID()	
 	local rcMnuCompile  = UniqueID()	
 	local rcMnuDownload = UniqueID()
@@ -619,6 +660,7 @@ local function CreateFrame(inAppTitle)
 
 	local mnuView = wx.wxMenu("", wx.wxMENU_TEAROFF)
 	mnuView:Append(rcMnuViewData, "&Graph Dataset\tCtrl-G", "Graph data for a station")
+	mnuView:Append(rcMnuViewReset,"Re-set Graphics\tCtrl-Z", "Reset zoom and scaling")	
 	mnuView:Append(rcMnuConfig,   "&Refresh Config\tCtrl-R", "Reload the configuration file")
 	mnuView:Append(rcMnuViewDir,  "Toggle &view drives\tCtrl-V", "Show or hide the drives\' panel")
 
@@ -640,7 +682,7 @@ local function CreateFrame(inAppTitle)
 	-- create a statusbar
 	--
 	local stsBar = frame:CreateStatusBar(2, wx.wxST_SIZEGRIP)
-	stsBar:SetFont(wx.wxFont(10, wx.wxFONTFAMILY_DEFAULT, wx.wxFONTSTYLE_NORMAL, wx.wxFONTWEIGHT_NORMAL))
+	stsBar:SetFont(wx.wxFont(9, wx.wxFONTFAMILY_SWISS, wx.wxFONTSTYLE_NORMAL, wx.wxFONTWEIGHT_NORMAL))
 	stsBar:SetStatusWidths({-1, 275})
 
 	-- controls
@@ -663,15 +705,14 @@ local function CreateFrame(inAppTitle)
 
 	-- apply styles
 	--
-	local fntTree = wx.wxFont(  8, wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
-									wx.wxFONTWEIGHT_LIGHT, false, "Segoe UI", wx.wxFONTENCODING_SYSTEM)
 	local hTree = lsDir:GetTreeCtrl()
-	hTree:SetFont(fntTree)
+	hTree:SetFont(wx.wxFont(8, wx. wxFONTFAMILY_SWISS, wx.wxFONTSTYLE_NORMAL, wx.wxFONTWEIGHT_NORMAL))
 
 	-- assign event handlers for this frame
 	--
 	frame:Connect(rcMnuOpenFile, wx.wxEVT_COMMAND_MENU_SELECTED, OnOpenFile)
 	frame:Connect(rcMnuViewData, wx.wxEVT_COMMAND_MENU_SELECTED, OnDrawStation)
+	frame:Connect(rcMnuViewReset,wx.wxEVT_COMMAND_MENU_SELECTED, OnResetView)
 	frame:Connect(rcMnuConfig,   wx.wxEVT_COMMAND_MENU_SELECTED, OnReloadConfig)	
 	frame:Connect(rcMnuViewDir,  wx.wxEVT_COMMAND_MENU_SELECTED, OnToggleViewDirList)
 	frame:Connect(rcMnuCompile,  wx.wxEVT_COMMAND_MENU_SELECTED, OnCompileDirectory)
