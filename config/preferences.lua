@@ -76,9 +76,10 @@ end
 --
 local tConfiguration = 
 {
-	sCfgVersion		= "0.0.4",
+	sCfgVersion		= "0.0.5",
 	
 	sDefPath 		= "data/2020",		-- use today's date or might fail if no data available
+	bShellSelect	= false,			-- on Shell Open File open file's folder
 	
 	iGridMinTemp	= -5,				-- minimum temperature shown in grid
 	iGridMaxTemp	=  50,				-- maximum temperature shown in grid
@@ -88,7 +89,7 @@ local tConfiguration =
 	
 	-- comment this line or set value = nil to use defaults
 	--
-	tColourScheme	= tColours.blueprint,
+--	tColourScheme	= tColours.blueprint,
 	iLineSize		= 2,				-- size of line when drawing
 	iFontSize		= 8,				-- font size for the legenda
 	sFontFace		= "Liberation Mono",
