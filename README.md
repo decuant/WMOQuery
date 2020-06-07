@@ -107,7 +107,7 @@ The panel on the left draws the min/max forecast for a station on a compiled dat
 You can control it with [Alt] + 4 Cursors.
 
 * A dot is a reading on the very first day.
-* Two forecasts sequence are drawn alternating solid and dashed lines.
+* Two forecast sequences are drawn alternating solid and dashed lines.
 * It is assumed that the first day is not a forecast, but a real reading.
 * When listing normals only dots are collected.
 * If 2 dots lie on the same day the mean is taken.
