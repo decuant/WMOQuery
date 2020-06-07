@@ -28,7 +28,7 @@ local m_TList =
 
 -------------------------------------------------------------------------------
 --
-local m_BaseDir = "./log/"
+local m_BaseDir = "log/"
 
 -------------------------------------------------------------------------------
 --
@@ -70,6 +70,14 @@ function Trace.skip(self, inObject)
 end
 
 -- ----------------------------------------------------------------------------
+-- get the filename
+--
+function Trace.filename(self)
+	
+	return m_BaseDir .. self.sName .. ".log"
+end
+
+-- ----------------------------------------------------------------------------
 -- open a trace file for writing only
 -- returns the success of the operation
 --
@@ -81,9 +89,7 @@ function Trace.open(self)
 	
 	-- open file here
 	--
-	local sFilename = m_BaseDir .. self.sName .. ".log"
-	
-	self.hFile = io.open(sFilename, "w")
+	self.hFile = io.open(self:filename(), "w")
 	
 	return (nil == self.hFile)
 end
