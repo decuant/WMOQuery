@@ -24,8 +24,8 @@ local m_App =
 	-- private
 	--
 	sAppName 	= "schedule",
-	sAppVer  	= "0.0.1",
-	sRelDate 	= "11/05/2020",
+	sAppVer  	= "0.0.2",
+	sRelDate 	= "2020/06/09",
 	
 	sConfigFile	= "config/automatic.lua",
 	iCurDay		= -1,						-- launch day
@@ -294,13 +294,13 @@ local function Perform(inTableRow)
 			
 			local anError
 			
-			m_trace:time("Calling action", true)
+			m_trace:startwatch()
 			
 			anError = pcall(pCallbabk())
 			
 			if anError then m_trace:line("Execution error: " .. tostring(anError)) end
 			
-			m_trace:time("Action took")
+			m_trace:stopwatch("Action took")
 		else
 			
 			m_trace:line("Execution error: not a function")
