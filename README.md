@@ -104,7 +104,7 @@ GUI interface for launching a script or to plot a dataset. Much of the code of i
 The grid on the right side allows for file selection and menu operation. Uses a file filter.
 
 The panel on the left draws the min/max forecast for a station on a compiled dataset.
-You can control it with [Alt] + 4 Cursors.
+You can control it with [Alt] + Cursors or 1,2,3. See the code for move/zoom.
 
 * A dot is a reading on the very first day.
 * Two forecast sequences are drawn alternating solid and dashed lines.
@@ -112,6 +112,9 @@ You can control it with [Alt] + 4 Cursors.
 * When listing normals only dots are collected.
 * If 2 dots lie on the same day the mean is taken.
 * Normals are drawn using the Bezier's formula for splines.
+* Errors' calulation is a summation of forecast mis-predictions, with weights based on days' interval.
+
+Data extraction is within the panel's code and should be divided in a separate module.
 
 This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder:
 
@@ -133,8 +136,13 @@ Displaying the normals over the details:
 
 ![Tel Aviv Zoomed with Normals](/docs/Tel_Aviv_Normal.png)
 
+Forecast errors over the normals:
 
+![Auckland Errors with Normals](/docs/Auckland.png)
 
+A portion of the previous with the maximum temperature only:
+
+![Auckland Max Errors Zoom](/docs/Auckland_Max_Errors.png)
 
 
 # .6 compile
