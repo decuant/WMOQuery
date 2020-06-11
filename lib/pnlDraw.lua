@@ -7,12 +7,13 @@
 local wx		= require("wx")
 local trace 	= require("lib.trace")
 local utility 	= require("lib.utility")
+local statistic	= require("lib.statistic")
 local palette	= require("lib.wxX11Palette")
 
 local _format	= string.format
 local _floor	= math.floor
-local _abs		= math.abs
-local _sqrt		= math.sqrt
+--local _abs		= math.abs
+--local _sqrt		= math.sqrt
 local _remove	= table.remove
 local _todate	= utility.StringToDate
 
@@ -112,14 +113,12 @@ function pnlDraw.New()
 		
 		iSizeX		= 600,		-- width of the client area
 		iSizeY		= 400,		-- height of the client area
-
 								-- deflated coords of window's client rect
-
 		rcClip		= { left   = 0,
 						top    = 0,
 						right  = 0,
 						bottom = 0,
-						},
+					  },
 		
 		iOriginX	= 0,
 		iOriginY	= 0,
@@ -141,12 +140,13 @@ function pnlDraw.New()
 		hBackDc		= nil,		-- background device context
 		hForeDc		= nil,		-- device context for the window
 		
+		tColors		= tDefColours,		
 		sFontFace	= m_defFont,
 		iFntSize	= 11,		-- font size for legenda
+		fntLegenda	= nil,		-- font for the legenda
+		fntGridDate	= nil,		-- font for dates on grid		
+		
 		iLineSz 	= 3,		-- size of line drawn
-		
-		tColors		= tDefColours,
-		
 		penGrid		= nil,		-- pen for the grid
 		penOrigin	= nil,		-- pen for origin
 		penStart	= nil,		-- pen for start day
@@ -159,36 +159,13 @@ function pnlDraw.New()
 		
 		brushBack	= nil,		-- brush for background		
 		brExcursion = nil,
-
-		fntLegenda	= nil,		-- font for the legenda
-		fntGridDate	= nil,		-- font for dates on grid
 		
-		-- the data being shown
+		-- details
 		--
-		vSamples	= nil,		-- data
 		sCity		= "",		-- shortcut for city's name
 		sCityId		= "",		-- shortcut for city's id
-		
-		-- statistic
-		--
-		iMinDate	= 0,		-- time_t for the very first date
-		iMaxDate	= 0,
-		iTotDays	= 0,		-- total number of days
-		iPeriod		= 0,		-- longest forecast period
-		
-		tNormMin 	= { },		-- normalized vector for minimun
-		tNormMax 	= { },		-- idem for maximum
-		
-		tErrorsMin	= { },		-- forecast errors for minimum
-		tErrorsMax	= { },		-- idem for maximum
-		
-		tSpotList = 
-		{
-			["ExcursionLow"]	= {0, 0},
-			["ExcursionHigh"]	= {0, 0},
-			["TemperatureLow"]	= {0, 0},
-			["TemperatureHigh"]	= {0, 0},
-		}
+		tStatistic	= statistic.new(),
+		tLegenda	= { },
 	}
 
 	return setmetatable(t, pnlDraw)
@@ -201,6 +178,15 @@ function pnlDraw.GetHandle(self)
 --	m_trace:line("pnlDraw.GetHandle")
 
 	return self.hWindow
+end
+
+-- ----------------------------------------------------------------------------
+-- will return the wxWindow handle
+--
+function pnlDraw.IsValid(self)
+--	m_trace:line("pnlDraw.IsValid")
+
+	return nil ~= self.tStatistic.tSamples
 end
 
 -- ----------------------------------------------------------------------------
@@ -231,11 +217,12 @@ end
 -- ----------------------------------------------------------------------------
 -- get a table of strings describing forecast values
 --
-function pnlDraw.GetLegenda(self) 
---	m_trace:line("pnlDraw.GetLegenda")
+function pnlDraw.SetLegenda(self) 
+	m_trace:line("pnlDraw.SetLegenda")
 
 	local tLegenda  = { }
-	local tSpotList = self.tSpotList
+	local tStats	= self.tStatistic
+	local tSpotList = tStats.tSpotList
 	
 	tLegenda[#tLegenda + 1] =        ("City name:  " .. self.sCity)
 	tLegenda[#tLegenda + 1] =        ("Station ID: " .. self.sCityId)
@@ -250,12 +237,14 @@ function pnlDraw.GetLegenda(self)
 		tLegenda[#tLegenda + 1] = os.date("         :  %A %B %d %Y", tSpotList.ExcursionLow[1])
 	end
 
-	tLegenda[#tLegenda + 1] = os.date("First day:  %A %B %d %Y", self.iMinDate)
-	tLegenda[#tLegenda + 1] = os.date("Last day:   %A %B %d %Y", self.iMaxDate)
-	tLegenda[#tLegenda + 1] = _format("Forecast:   %d days", self.iPeriod)
-	tLegenda[#tLegenda + 1] = _format("Tot. days:  %d", self.iTotDays)
+	tLegenda[#tLegenda + 1] = os.date("First day:  %A %B %d %Y", tStats.iMinDate)
+	tLegenda[#tLegenda + 1] = os.date("Last day:   %A %B %d %Y", tStats.iMaxDate)
+	tLegenda[#tLegenda + 1] = _format("Forecast:   %d days", tStats.iPeriod)
+	tLegenda[#tLegenda + 1] = _format("Tot. days:  %d", tStats.iTotDays)
 
-	return tLegenda
+	-- store result
+	--
+	self.tLegenda = tLegenda
 end
 
 -- ----------------------------------------------------------------------------
@@ -395,7 +384,7 @@ function pnlDraw.SetTempBoxing(self, inTempMin, inTempMax, inAdaptive)
 
 	-- refresh
 	--
-	if self.vSamples then
+	if self:IsValid() then
 		
 		if inAdaptive then self:AdaptMinMaxTemp() else self:UpdateUnits() end
 	end
@@ -425,8 +414,9 @@ function pnlDraw.DrawLabels(self, inDc)
 
 	-- columns/days
 	--
+	local iMinDate	= self.tStatistic.iMinDate
 	local iDays		= self.iScaleDays * m_OneDay
-	local iDayRef	= self.iMinDate - iDays
+	local iDayRef	= iMinDate - iDays
 	local sDayRef
 	
 	for i = iXPos - (iExtX / 2), iRcRight, iXInc do
@@ -486,7 +476,7 @@ function pnlDraw.DrawLegenda(self, inDc)
 	inDc:SetFont(self.fntLegenda)
 	inDc:SetTextForeground(self.tColors.clrLegenda)
 	
-	local tLegenda	= self:GetLegenda()
+	local tLegenda	= self.tLegenda
 	local _, iExt	= inDc:GetTextExtent(tLegenda[1])
 
 	local iRcLeft	= self.rcClip.left + 5
@@ -570,12 +560,13 @@ end
 function pnlDraw.DrawDetails(self, inDc)
 --	m_trace:line("pnlDraw.DrawDetails")
 	
-	local tSamples	= self.vSamples
-	if not tSamples then return end	
+	if not self:IsValid() then return end
 	
-	local iLineSz		= self.iLineSz
-	local iDrawTemp		= self.iDrawTemp	-- which temp to draw
+	local tSamples	= self.tStatistic.tSamples
+	local iLineSz	= self.iLineSz
+	local iDrawTemp	= self.iDrawTemp	-- which temp to draw
 	local tByDate
+	local iMinDate	= self.tStatistic.iMinDate
 	local iStartDay
 	local penMinT
 	local penMaxT
@@ -607,7 +598,7 @@ function pnlDraw.DrawDetails(self, inDc)
 		-- the other days are sequential
 		--
 		iStartDay = _todate(tByDate[1][1])
-		iStartDay = (iStartDay - self.iMinDate) / m_OneDay
+		iStartDay = (iStartDay - iMinDate) / m_OneDay
 		
 		-- one cycle for the min and another for the max
 		--
@@ -657,18 +648,18 @@ end
 function pnlDraw.DrawNormalized(self, inDc)
 --	m_trace:line("pnlDraw.DrawNormalized")
 	
-	local tSamples	= self.vSamples
-	if not tSamples then return end
-
+	if not self:IsValid() then return end
+	
+	local tStats	= self.tStatistic
+	local iDrawTemp	= self.iDrawTemp	-- which temp to draw
+	
 	-- draw here
 	--
 	inDc:SetBrush(self.brushBack)
 	inDc:SetPen(self.penNormals)
-	
-	local iDrawTemp	= self.iDrawTemp	-- which temp to draw
-	
-	if 2 ~= iDrawTemp then inDc:DrawSpline(self:RemapArray(self.tNormMin)) end
-	if 1 ~= iDrawTemp then inDc:DrawSpline(self:RemapArray(self.tNormMax)) end
+
+	if 2 ~= iDrawTemp then inDc:DrawSpline(self:RemapArray(tStats.tNormalMin)) end
+	if 1 ~= iDrawTemp then inDc:DrawSpline(self:RemapArray(tStats.tNormalMax)) end
 end
 
 -- ----------------------------------------------------------------------------
@@ -677,20 +668,20 @@ end
 function pnlDraw.DrawErrors(self, inDc)
 --	m_trace:line("pnlDraw.DrawNormalized")
 	
-	local tSamples	= self.vSamples
-	if not tSamples then return end
+	if not self:IsValid() then return end
 	
 	if 0 == self.iDrawErrors then return end
 
-	local iOpt 	= self.iDrawErrors
+	local tStats = self.tStatistic
+	local iOpt 	 = self.iDrawErrors
 
 	-- draw here
 	--
 	inDc:SetBrush(self.brushBack)
 	inDc:SetPen(self.penErrors)
 
-	if 2 ~= iOpt then inDc:DrawSpline(self:RemapArray(self.tErrorsMin)) end
-	if 1 ~= iOpt then inDc:DrawSpline(self:RemapArray(self.tErrorsMax)) end
+	if 2 ~= iOpt then inDc:DrawSpline(self:RemapArray(tStats.tErrorsMin)) end
+	if 1 ~= iOpt then inDc:DrawSpline(self:RemapArray(tStats.tErrorsMax)) end
 end
 
 -- ----------------------------------------------------------------------------
@@ -699,8 +690,7 @@ end
 function pnlDraw.DrawSpotList(self, inDc)
 --	m_trace:line("pnlDraw.DrawSpotList")
 
-	local tSamples	= self.vSamples
-	if not tSamples then return end
+	if not self:IsValid() then return end
 
 	inDc:SetBrush(self.brExcursion)
 	inDc:SetPen(m_PenNull)
@@ -708,16 +698,17 @@ function pnlDraw.DrawSpotList(self, inDc)
 	local dHalfX  = 1.5 * (self.iUnitX * self.dZoomX)
 	local dHalfY  = 2.5 * (self.iUnitY * self.dZoomY)
 	
-	local tSpotList = self.tSpotList
+	local tSpotList = self.tStatistic.tSpotList
+	local iMinDate	= self.tStatistic.iMinDate
 	local iDrawTemp	= self.iDrawTemp	-- which temp to draw
 	
 	for tag, row in pairs(tSpotList) do
 		
 		if 	(2 ~= iDrawTemp and tag:find("Low")) or
 			(1 ~= iDrawTemp and tag:find("High")) then
-				
-			local iDay = (row[1] - self.iMinDate) / m_OneDay
-		
+			
+			local iDay = (row[1] - iMinDate) / m_OneDay
+			
 			self:DrawSpot(inDc, iDay, row[2], dHalfX, dHalfY)
 		end
 	end
@@ -751,7 +742,7 @@ function pnlDraw.NewMemDC(self)
 
 	-- quit if nothing to do
 	--
-	if 0 == self.iTotDays then return memDC end
+	if not self:IsValid() then return memDC end
 	
 	-- draw the points
 	--	
@@ -799,7 +790,7 @@ function pnlDraw.NewBackground(self)
 	
 	-- draw a grid
 	--
-	if 0 == self.iTotDays then
+	if not self:IsValid() then
 		
 		-- draw a standard grid
 		--
@@ -816,7 +807,6 @@ function pnlDraw.NewBackground(self)
 		for i = iYPos, iHeight, iYInc do
 			memDC:DrawLine(iXPos, i, iWidth, i)
 		end
-		
 	else
 		
 		self:DrawGrid(memDC)
@@ -985,7 +975,7 @@ function pnlDraw.OnMouseWheel(event)
 
 	local aSelf = RoutingTable_Get(event:GetId())
 	
-	if not aSelf.vSamples then return end			-- safety check
+	if not aSelf:IsValid() then return end			-- safety check
 	
 	-- filters with ALT and not CTRL because would mis-interpret gestures on touch screen
 	--
@@ -1022,11 +1012,12 @@ end
 function pnlDraw.OnKeyUp(event)
 --	m_trace:line("pnlDraw.OnKeyUp")
 
-	local aSelf = RoutingTable_Get(event:GetId())
-	local key	= event:GetKeyCode()
-	
-	if not aSelf.vSamples then return end			-- safety check
+	local aSelf 	= RoutingTable_Get(event:GetId())
+	local key		= event:GetKeyCode()
+	local bRefresh 	= false
 
+	if not aSelf:IsValid() then return end			-- safety check
+	
 	-- get the codes for '1', '2' and '3'
 	--
 	if 48 < key and 52 > key then
@@ -1035,20 +1026,20 @@ function pnlDraw.OnKeyUp(event)
 		if key ~= aSelf.iDrawOption then 
 			
 			aSelf.iDrawOption = key
+			
+			bRefresh = true
 		end
 	end
 
 	-- Update display
 	--
-	aSelf:Refresh()
+	if bRefresh then aSelf:Refresh() end
 end
 
 -- ----------------------------------------------------------------------------
 --
 function pnlDraw.NewOriginFromKey(self, inKey)
 --	m_trace:line("pnlDraw.NewOriginFromKey")
-
-	if not self.vSamples then return end			-- safety check
 
 	if wx.WXK_HOME == inKey then
 		
@@ -1080,8 +1071,6 @@ function pnlDraw.NewZoomFromKey(self, inKey)
 
 	local zoomX = self.dZoomX
 	local zoomY = self.dZoomY
-
-	if not self.vSamples then return end			-- safety check
 
 	if wx.WXK_HOME == inKey then
 		
@@ -1127,7 +1116,7 @@ function pnlDraw.OnKeyDown(event)
 	local key	= event:GetKeyCode()
 	local bAlt	= event:AltDown()
 	
-	if not aSelf.vSamples then return end			-- safety check
+	if not aSelf:IsValid() then return end			-- safety check
 
 	if bAlt then aSelf:NewZoomFromKey(key)
 	else 		 aSelf:NewOriginFromKey(key)
@@ -1143,7 +1132,9 @@ end
 function pnlDraw.UpdateUnits(self)
 --	m_trace:line("pnlDraw.UpdateUnits")
 
-	local iDays		= self.iTotDays - 1					-- don't count origin
+	if not self:IsValid() then return end
+
+	local iDays		= self.tStatistic.iTotDays - 1					-- don't count origin
 	local iTotDeg	= self.iGridMaxT - self.iGridMinT
 
 	local iSizeX	= self.rcClip.right - self.rcClip.left
@@ -1163,8 +1154,6 @@ end
 --
 function pnlDraw.UpdateScaling(self)
 --	m_trace:line("pnlDraw.UpdateScaling")
-	
-	if not self.vSamples then return end			-- safety check
 
 	local iScaleX
 	local iScaleY
@@ -1201,7 +1190,7 @@ end
 function pnlDraw.AdaptMinMaxTemp(self)
 --	m_trace:line("pnlDraw.AdaptMinMaxTemp")
 
-	if not self.vSamples then
+	if not self:IsValid() then
 		
 		self.iGridMinT = -10		-- minimum temperature shown in grid
 		self.iGridMaxT =  50	
@@ -1210,280 +1199,13 @@ function pnlDraw.AdaptMinMaxTemp(self)
 		return 
 	end
 	
-	self.iGridMinT = self.tSpotList.TemperatureLow[2]
-	self.iGridMaxT = self.tSpotList.TemperatureHigh[2]
+	local tSpotList = self.tStatistic.tSpotList
+	
+	self.iGridMinT = tSpotList.TemperatureLow[2]
+	self.iGridMaxT = tSpotList.TemperatureHigh[2]
 
 	self:UpdateUnits()
 	self:Refresh()
-end
-
--- ----------------------------------------------------------------------------
--- make an array of reading for the minimum temperature or the maximum
--- the inIndex parameter switch min or max
--- the returned array looks like this
---
---                               **       **
--- [read Y] [fore 1] [fore 2] [fore n]
---          [read Y] [fore 1] [fore 2] [fore n]
---                   [read Y] [fore 1] [fore 2] [fore n]
---                            [read Y] [fore 1] [fore 2] [fore n]
---                                     [read Y] [fore 1] [fore 2] [fore n]
---
-function pnlDraw._MakeArray(self, inIndex, inPeriod)
-	m_trace:line("pnlDraw._MakeArray")
-	
-	local tSamples	= self.vSamples
-	if not tSamples then return nil end
-
-	if 1 >= inPeriod then return nil end
-	
-	local tArray	= { }
-	local tCurrent	= { }
-	local tByDate
-	local iLastDay	= -1
-	local iCurrDay
-	local iWriteIdx	= 1
-	
-	tSamples = tSamples[3]				-- skip identification
-
-	-- cycle all samples
-	--
-	for iList=1, #tSamples do
-		
-		tByDate = tSamples[iList]		-- shortcut it
-		tByDate	= tByDate[2]			-- shortcut it
-		
-		-- get the day
-		--
-		iCurrDay = _todate(tByDate[1][1])
-		iCurrDay = (iCurrDay - self.iMinDate) / m_OneDay
-		
-		-- update duplicates
-		--
-		if iLastDay ~= iCurrDay then
-			
-			tCurrent  = { iCurrDay }
-			iWriteIdx = iWriteIdx + 1
-			
-		else
-			iWriteIdx = iWriteIdx + 0
-		end
-		
-		-- these will get offset of 1 on each row
-		--
-		for i=1, inPeriod do
-			
-			-- if the period is shorter for this issue date
-			-- then store the last good value, might propagate
-			--
-			if i <= #tByDate then
-				
-				tCurrent[iWriteIdx + i] = tByDate[i][inIndex]
-			else
-				
-				tCurrent[iWriteIdx + i] = tCurrent[iList + i - 1]
-			end
-			
-		end
-		
-		tArray[iWriteIdx] = tCurrent
-		
-		iLastDay = iCurrDay
-	end
-
-	return tArray
-end
-
--- ----------------------------------------------------------------------------
---
-function pnlDraw.ComputeErrors(self, inArray, inPeriod)
-	m_trace:line("pnlDraw.GetErrors")
-	
-	if not inArray then return nil end
-	if 1 >= inPeriod then return nil end
-	
-	-- allocate percentage
-	--
-	local tPercent = { }
-	
-	for i=1, inPeriod do tPercent[i] = 0.1 / (i + 1)  end
---	m_trace:table(tPercent)
-
-	local tErrors = { }
-	
-	-- go from maximum period on
-	--
-	for iRow = inPeriod, #inArray do
-		
-		local iDate = inArray[iRow][1]			-- day of column
-		local dReal = inArray[iRow][iRow + 1]	-- this is the real reading
-		local dSum  = 0.0						-- sum of forecasted values
-		local dCurr = 0.0
-		
-		for i=1, inPeriod do
-			
-			dCurr = inArray[iRow - 1][iRow + 1]		-- up column
-			
-			if dCurr ~= dReal then
-				
-				dSum = dSum + dCurr * tPercent[i]	 -- with weight
-			end
-		end
-		
-		-- make the error value
-		--
-		local dError = (dReal - dSum)
-		
-		tErrors[#tErrors + 1] = {iDate, dError}
-	end
-
-	return tErrors
-end
-
--- ----------------------------------------------------------------------------
---
-function pnlDraw.GetErrors(self)
-	m_trace:line("pnlDraw.GetErrors")
-
-	local tSamples	= self.vSamples
-	if not tSamples then return end
-	
-	local iPeriod = self.iPeriod
-	
-	local tErrorsMin = self:ComputeErrors(self:_MakeArray(2, iPeriod), iPeriod)
-	local tErrorsMax = self:ComputeErrors(self:_MakeArray(3, iPeriod), iPeriod)
-
-	-- update self
-	--
-	self.tErrorsMin = tErrorsMin or { }
-	self.tErrorsMax = tErrorsMax or { }
-end
-
--- ----------------------------------------------------------------------------
--- get the normalized vectors of min and max
---
-function pnlDraw.GetNormals(self)
---	m_trace:line("pnlDraw.GetNormals")
-
-	local tSamples	= self.vSamples
-	if not tSamples then return end
-
-	local tByDate
-	local iDay
-	local iPeriod	= 0
-	local tNormMin	= { }
-	local tNormMax	= { }
-
-	tSamples = tSamples[3]				-- skip identification
-
-	-- cycle all samples
-	--
-	for iList=1, #tSamples do
-		
-		tByDate = tSamples[iList]		-- shortcut it
-		tByDate	= tByDate[2]			-- shortcut it
-		
-		-- get the forecast period
-		--
-		if iPeriod < #tByDate then iPeriod = #tByDate end
-		
-		-- get the first day of the current row
-		--
-		iDay = _todate(tByDate[1][1])
-		iDay = (iDay - self.iMinDate) / m_OneDay
-		
-		local iMin = tByDate[1][2]
-		
-		if 0 < #tNormMin and iDay == tNormMin[#tNormMin][1] then
-			
-			tNormMin[#tNormMin][2] = ((tNormMin[#tNormMin][2] + iMin) / 2)
-		else
-			
-			tNormMin[#tNormMin + 1] = {iDay, iMin}
-		end
-		
-		local iMax = tByDate[1][3]
-		
-		if 0 < #tNormMax and iDay == tNormMax[#tNormMax][1] then
-			
-			tNormMax[#tNormMax][2] = ((tNormMax[#tNormMax][2] + iMax) / 2)
-		else
-			
-			tNormMax[#tNormMax + 1] = {iDay, iMax}
-		end	
-	end
-
-	-- update self
-	--
-	self.iPeriod  = iPeriod
-	self.tNormMin = tNormMin
-	self.tNormMax = tNormMax
-end
-
--- ----------------------------------------------------------------------------
--- get the normalized vectors of min and max
---
-function pnlDraw.GetSpotList(self)
---	m_trace:line("pnlDraw.GetSpotList")
-
-	local tSamples	= self.vSamples
-	if not tSamples then return end
-
-	local tSpotList = self.tSpotList	
-	local tByDate
-	local iTempMin
-	local iTempMax
-	local iLowT		=   100
-	local iHighT	= - 100
-	local iTempExcr = 0
-	local iMaxExcr	= 0
-
-	tSamples = self.vSamples[3]		-- skip identification	
-
-	-- assume first reading not being a forecast
-	--
-	for iList=1, #tSamples do
-		
-		tByDate = tSamples[iList]		-- shortcut
-		tByDate = tByDate[2][1]			--
-		
-		-- min/max
-		--
-		iTempMin = tByDate[2]
-		iTempMax = tByDate[3]
-		
-		if iTempMin < iLowT  then
-			
-			iLowT  = iTempMin
-			tSpotList.TemperatureLow[1] = tByDate[1]
-			tSpotList.TemperatureLow[2] = iTempMin
-		end
-		
-		if iTempMax > iHighT then
-			
-			iHighT = iTempMax
-			tSpotList.TemperatureHigh[1] = tByDate[1]
-			tSpotList.TemperatureHigh[2] = iTempMax
-		end
-		
-		-- excursion
-		--
-		iTempExcr = iTempMax - iTempMin
-		if iMaxExcr < iTempExcr then 
-			
-			iMaxExcr	= iTempExcr 
-			
-			tSpotList.ExcursionLow[1] = tByDate[1]
-			tSpotList.ExcursionLow[2] = iTempMin
-			
-			tSpotList.ExcursionHigh[1] = tByDate[1]
-			tSpotList.ExcursionHigh[2] = iTempMax
-		end
-	end
-
-	-- convert all dates from text to time_t
-	--
-	for _, row in next, tSpotList do row[1] = _todate(row[1]) end
 end
 
 -- ----------------------------------------------------------------------------
@@ -1491,57 +1213,31 @@ end
 function pnlDraw.SetSamples(self, inSamples)
 --	m_trace:line("pnlDraw.SetSamples")
 
+	-- recreate the statistics and forget old values
+	--
+	self.tStatistic = statistic.new()
+	
 	-- assign new samples
 	--
-	self.vSamples = inSamples
 	if not inSamples then
 		
 		self:Refresh()
 		return 
 	end
 
-	-- --------------------------
-	-- get references for drawing
-	--
-	local tSamples	= self.vSamples[3]		-- skip identification
-	local tByDate
-	local sMinDate
-	local sMaxDate
-	
-	tByDate  = tSamples[1][2]
-	sMinDate = tByDate[1][1]			-- first (it's a string)
-	
-	tByDate  = tSamples[#tSamples][2]
-	sMaxDate = tByDate[#tByDate][1]		--  last
-	
 	-- -------------
 	-- store results
 	--
-	self.sCityId	= self.vSamples[1]
-	self.sCity		= self.vSamples[2]
-	self.iMinDate	= _todate(sMinDate)
-	self.iMaxDate	= _todate(sMaxDate)
-	
-	-- must include the starting date as well
-	--
-	self.iTotDays	= utility.DaysInInterval(self.iMinDate, self.iMaxDate) + 1
-	
-	-- get the normalized vectors
-	--
-	self:GetNormals()
-	
-	-- eval the forecast errors
-	--
-	self:GetErrors()
+	self.sCityId	= inSamples[1]
+	self.sCity		= inSamples[2]
 
-	-- get list of spots
-	--
-	self:GetSpotList()
-	
+	self.tStatistic:SetSamples(inSamples)
+
 	-- will reset all values for zooming and pan/tilt
 	-- update the units
 	-- call a redraw
 	--
+	self:SetLegenda()
 	self:ResetView()
 end
 
