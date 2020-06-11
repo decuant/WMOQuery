@@ -385,7 +385,7 @@ local function SaveFile(inFilename, inBuffer)
 		
 		hFile:write(inBuffer)
 		hFile:close()
-
+		
 		return true
 	end
 

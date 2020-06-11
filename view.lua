@@ -432,7 +432,7 @@ local function CreateFrame()
 	-- create the frame
 	--
 	local frame = wx.wxFrame(wx.NULL, wx.wxID_ANY, m_App.sAppName,
-							 wx.wxPoint(800, 400), 
+							 wx.wxPoint(100, 100), 
 							 wx.wxSize(1900, 800))
 						
 	-- create the menu entries
@@ -472,11 +472,11 @@ local function CreateFrame()
 	
 	frame:Connect(wx.wxEVT_SIZE,			OnSize)
 	frame:Connect(wx.wxEVT_CLOSE_WINDOW,	OnClose)
-	
+
 	-- create a notebook style pane and apply styles
 	--
-	local notebook = wx.wxNotebook(frame, wx.wxID_ANY, wx.wxDefaultPosition, wx.wxSize(300, 200))
-	local fntNote = wx.wxFont( 13, wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
+	local notebook = wx.wxNotebook(frame, wx.wxID_ANY, wx.wxDefaultPosition, wx.wxSize(100, 100))
+	local fntNote = wx.wxFont( 11, wx.wxFONTFAMILY_MODERN, wx.wxFONTSTYLE_NORMAL,
 							   wx.wxFONTWEIGHT_BOLD, false, "Lucida Sans Unicode", 
 							   wx.wxFONTENCODING_SYSTEM)
 

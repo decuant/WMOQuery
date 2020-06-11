@@ -31,8 +31,8 @@ local m_ShellOpen = "explorer.exe /select, "
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.7",
-	sRelDate 	= "2020/06/07",
+	sAppVer  	= "0.0.9",
+	sRelDate 	= "2020/06/09",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
@@ -186,7 +186,7 @@ local function InstallTimers()
 	-- setup each tick timer resolution and enable state
 	-- values are in seconds
 	--
-	if not tTimers.Display:IsEnabled() then	tTimers.Display:Setup(6, false) end
+	if not tTimers.Display:IsEnabled() then	tTimers.Display:Setup(5, false) end
 	if not tTimers.Garbage:IsEnabled() then	tTimers.Garbage:Setup(30, true) end
 	if not tTimers.Today:IsEnabled() then tTimers.Today:Setup(60, true) end
 
@@ -469,8 +469,9 @@ local function LoadConfig()
 	
 	-- options
 	--
-	hPanel:SetDrawOpts(	tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace, 
-						tOverride.iDrawOption, tOverride.bRasterOp)
+	hPanel:SetDrawOpts(	tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace,
+						tOverride.iDrawTemp, tOverride.iDrawOption, tOverride.iDrawErrors, 
+						tOverride.bRasterOp)
 	hPanel:SetTempBoxing(tOverride.iGridMinTemp, tOverride.iGridMaxTemp, 
 						 tOverride.bAdaptiveTemp)
 	
@@ -526,15 +527,11 @@ local function OnOpenFile()
 	local hWin  = m_Frame.hDirSel
 	local item  = hWin:GetTreeCtrl():GetSelection()
 	
-	if item then
-		
-		local sFile = hWin:GetFilePath(item)	-- see docs, return only files not dirs
-		
-		if 0 < #sFile then
-			
-			DoOpenView(sFile)
-		end
-	end
+	if not item then return end
+	
+	local sFile = hWin:GetFilePath(item)	-- see docs, return only files not dirs
+	
+	if 0 < #sFile then DoOpenView(sFile) end
 end
 
 -- ----------------------------------------------------------------------------
@@ -545,18 +542,18 @@ local function OnCompileDirectory()
 	local hWin  = m_Frame.hDirSel
 	local item  = hWin:GetTreeCtrl():GetSelection()
 
-	if item then
+	if not item then return end
+
+	local sFile = hWin:GetFilePath(item)
+
+	if 0 == #sFile then
 		
-		local sFile = hWin:GetFilePath(item)
-		
-		if 0 == #sFile then
-			
-			sFile = hWin:GetPath(item)
-			DoCompileDirectory(sFile)
-		else
-			DlgMessage("Compile valid only for directories")
-		end
+		sFile = hWin:GetPath(item)
+		DoCompileDirectory(sFile)
+		return
 	end
+	
+	DlgMessage("Compile valid only for directories")
 end
 
 -- ----------------------------------------------------------------------------
@@ -682,7 +679,7 @@ local function CreateFrame(inAppTitle)
 	-- create a statusbar
 	--
 	local stsBar = frame:CreateStatusBar(2, wx.wxST_SIZEGRIP)
-	stsBar:SetFont(wx.wxFont(9, wx.wxFONTFAMILY_SWISS, wx.wxFONTSTYLE_NORMAL, wx.wxFONTWEIGHT_NORMAL))
+	stsBar:SetFont(wx.wxFont(8, wx.wxFONTFAMILY_SWISS, wx.wxFONTSTYLE_NORMAL, wx.wxFONTWEIGHT_NORMAL))
 	stsBar:SetStatusWidths({-1, 275})
 
 	-- controls
