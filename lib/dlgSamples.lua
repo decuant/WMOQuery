@@ -20,7 +20,6 @@ local function OnSelectCityDialog(inOwner, inFilename)
 	-- import table with multiple stations
 	--
 	local tSamples = dofile(inFilename)
-	
 	if not tSamples then return nil end
 
 	-- as aid sort alphabetically by station name
@@ -31,7 +30,7 @@ local function OnSelectCityDialog(inOwner, inFilename)
 	--
 	local tStrings = { }
 	
-	for _, v in ipairs(tSamples) do tStrings[#tStrings + 1] = v[2]	end
+	for i, v in next, tSamples do tStrings[i] = v[2] end
 
 	-- get user input
 	--

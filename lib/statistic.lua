@@ -304,7 +304,7 @@ function Statistic._ComputeErrors(self, inArray, inPeriod)
 	--
 	local tPercent = { }
 	
-	for i=1, inPeriod do tPercent[i] = 0.1 / (i + 1)  end
+	for i=1, inPeriod do tPercent[i] = 1.0 / (i + 1)  end
 --	m_trace:table(tPercent)
 
 	local tErrors = { }
@@ -324,7 +324,7 @@ function Statistic._ComputeErrors(self, inArray, inPeriod)
 			
 			if dCurr ~= dReal then
 				
-				dSum = dSum + dCurr * tPercent[i]	 -- with weight
+				dSum = dSum + ((dReal - dCurr) * tPercent[i])	 -- with weight
 			end
 		end
 		

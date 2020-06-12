@@ -181,16 +181,16 @@ function pnlDraw.GetHandle(self)
 end
 
 -- ----------------------------------------------------------------------------
--- will return the wxWindow handle
+-- check validity of samples in statistic module
 --
 function pnlDraw.IsValid(self)
 --	m_trace:line("pnlDraw.IsValid")
 
-	return nil ~= self.tStatistic.tSamples
+	return (self.tStatistic.tSamples and 0 < self.tStatistic.iTotDays)
 end
 
 -- ----------------------------------------------------------------------------
--- will return the wxWindow handle
+-- restore defaults for scaling and zooming
 --
 function pnlDraw.ResetView(self)
 --	m_trace:line("pnlDraw.ResetView")
@@ -218,7 +218,7 @@ end
 -- get a table of strings describing forecast values
 --
 function pnlDraw.SetLegenda(self) 
-	m_trace:line("pnlDraw.SetLegenda")
+--	m_trace:line("pnlDraw.SetLegenda")
 
 	local tLegenda  = { }
 	local tStats	= self.tStatistic
@@ -718,7 +718,7 @@ end
 --
 function pnlDraw.NewMemDC(self)
 --	m_trace:line("pnlDraw.NewMemDC")
-	
+
 	local iWidth  = self.iSizeX
 	local iHeight = self.iSizeY
 
@@ -737,19 +737,20 @@ function pnlDraw.NewMemDC(self)
 	-- draw the background
 	--
 	if not self.hBackDc then return nil end
-	
+
 	memDC:Blit(0, 0, iWidth, iHeight, self.hBackDc, 0, 0, wx.wxCOPY)
 
 	-- quit if nothing to do
 	--
 	if not self:IsValid() then return memDC end
-	
+
 	-- draw the points
 	--	
 	local oldRaster	= memDC:GetLogicalFunction()
 	local iOpt 		= self.iDrawOption
-	
+
 	self:DrawSpotList(memDC)
+	self:DrawErrors(memDC)
 
 	if self.bRasterOp then memDC:SetLogicalFunction(wx.wxOR_REVERSE) end
 
@@ -757,9 +758,7 @@ function pnlDraw.NewMemDC(self)
 	if 1 ~= iOpt then self:DrawNormalized(memDC) end
 
 	if self.bRasterOp then memDC:SetLogicalFunction(oldRaster) end
-	
-	self:DrawErrors(memDC)
-	
+
 	return memDC
 end
 
