@@ -18,11 +18,11 @@ local tColours =
 		clrGridLines	= palette.Wheat,
 		clrOrigin		= palette.SkyBlue4,
 		clrStartDay		= palette.Gray20,
-		clrMinimum		= palette.Turquoise,
+		clrMinimum		= palette.MediumPurple3,
 		clrMaximum		= palette.IndianRed,
 		clrExcursion	= palette.Gray0,
-		clrNormals		= palette.LightGoldenrod4,
-		clrError		= palette.Azure3,
+		clrNormals		= palette.Gray20,
+		clrError		= palette.Chartreuse3,
 		
 		clrLegenda		= palette.Chartreuse4,
 		clrGridText		= palette.SkyBlue3,
@@ -87,14 +87,14 @@ local tConfiguration =
 	iGridMinTemp	= -5,				-- minimum temperature shown in grid
 	iGridMaxTemp	=  50,				-- maximum temperature shown in grid
 	bAdaptiveTemp 	= false, 			-- adapt grid to samples' temperature values
-	iDrawTemp		= 2,				-- 1 minimum, 2 maximum, 3 both
+	iDrawTemp		= 3,				-- 1 minimum, 2 maximum, 3 both
 	iDrawOption		= 1,				-- 1 details, 2 normals, 3 both
-	iDrawErrors		= 2,				-- 0 none, 1 minimum, 2 maximum, 3 both
+	iDrawErrors		= 3,				-- 0 none, 1 minimum, 2 maximum, 3 both
 	bRasterOp		= false,			-- use a raster inverse
 	
 	-- comment this line or set value = nil to use defaults
 	--
-	tColourScheme	= tColours.blueprint,
+	tColourScheme	= tColours.pastel,
 	iLineSize		= 2,				-- size of line when drawing
 	iFontSize		= 7,				-- font size for the legenda
 	sFontFace		= "Liberation Mono",
