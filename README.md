@@ -9,7 +9,11 @@ Datasets are collected daily from the World Meteorology Organization, whose Inte
 
 Some stations provide 1 reading a day, some 2; the number of days in a forecast table are station dependent and range from 3 to 9; some stations provide less days than usual for weekends (possibly in bank holidays too). There might be missing values, usually the very first value for minimum temperature, a fixture for some (London), at random for others (Washington DC). Under developed countries or war zones don't provide updates at all (Afghanistan and Mexico are an example).
 
-Mainly aimed at meteorologists and scientists, code has been written in the most simple way and commented where necessary, assuming this a starting point and aimed at engineers with little practice of programming. As for statistics or predictions over long periods, data collection might take long to build up.
+The key point about this application is a stream of {x, y} tuples from a source, in this case a day and a temperature. Applying filters over the data.
+
+Code has been written in the most simple way and commented where necessary, assuming this a starting point and aimed at engineers with little practice of programming, can possibly be an example of using wxWidgets with Lua, both for GUI and facilities.
+
+As for statistics or predictions of temperatures over long periods, data collection might take long to build up, considering 1 packet a day.
 
 The project uses Lua as programming language and benefits of some external libraries. It was developed on Windows 10 and should be easily used on Unix provided some necessary modifications.  With this in mind code can possibly be an example of using wxWidgets with Lua, both for GUI and facilities. The IDE of choice is ``ZeroBrane``.
 
@@ -121,6 +125,7 @@ You can control it with [Alt] + Cursors or 1,2,3. See the code for move/zoom.
 * Errors' calulation is a summation of forecast mis-predictions, with weights based on days' interval.
 * If a plugin registers a vector it will be drawn automatically.
 
+Under the menu ``Functions`` a registered function can really do whatever with the input parameter ``statistic``, like saving to file or plot a new statistic. Plugins are an easy way to test parameters and code, profiting of being Lua interpreted it's only just reloading from menu and running the function (without shutdown and restart of the application).
 
 **Examples from the ``WMO Samples.dat`` that I left in the ``archived`` folder.**
 
