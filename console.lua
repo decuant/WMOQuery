@@ -31,8 +31,8 @@ local m_ShellOpen = "explorer.exe /select, "
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.9",
-	sRelDate 	= "2020/06/09",
+	sAppVer  	= "0.0.11",
+	sRelDate 	= "2020/06/15",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
@@ -466,7 +466,7 @@ local function LoadConfig()
 	else
 		m_App.sShellCmd = m_ShellExec
 	end
-	
+
 	-- options
 	--
 	hPanel:SetDrawOpts(	tOverride.iLineSize, tOverride.iFontSize, tOverride.sFontFace,
@@ -621,12 +621,64 @@ local function OnDirListShowMenu(event)
 end
 
 -- ----------------------------------------------------------------------------
+-- load functions from the module functions.lua
+-- re-create the menu entries
+--
+local rcMnuLoadFxs	= UniqueID()
+	
+local function OnLoadFunctions()
+--	m_trace:line("OnLoadFunctions")
+
+	-- find the menu "Functions"
+	--
+	local menuBar = m_Frame.hWindow:GetMenuBar()
+	local menuLoad, menuFxs = menuBar:FindItem(rcMnuLoadFxs)
+	
+	if not menuFxs then DlgMessage("Internal error!") return end
+
+	-- remove the menus except the very first
+	--
+	local iCount = menuFxs:GetMenuItemCount()
+
+	for i=1, iCount - 1 do
+		menuFxs:Remove(menuFxs:FindItemByPosition(1))
+	end
+
+	-- compile and import functions
+	--
+	local functions = dofile("lib/functions.lua")
+	
+	-- create the menu entries
+	--
+	for i, item in next, functions do
+		
+		local id = UniqueID()
+		
+		-- protected function to execute
+		--
+		ItemCmd = function()
+			
+			local bRet, bRedraw = pcall(item[1], m_Frame.hPnlDraw.tStatistic)
+			
+			if bRet and bRedraw then
+				
+				m_Frame.hPnlDraw:Refresh()
+			end
+			
+			return bRet
+		end
+		
+		menuFxs:Append(id, item[2], item[3])
+		m_Frame.hWindow:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED, ItemCmd)
+	end
+
+end
+-- ----------------------------------------------------------------------------
 --
 local function CreateFrame(inAppTitle)
 --	m_trace:line("CreateFrame")
 
 	local iWidthWin = m_Frame.iWidthWin
-	local iWidthDir = m_Frame.iWidthDir
 
 	-- create the frame
 	--
@@ -644,32 +696,36 @@ local function CreateFrame(inAppTitle)
 	local rcMnuCompile  = UniqueID()	
 	local rcMnuDownload = UniqueID()
 	local rcMnuArchive	= UniqueID()
-
+	
 	local mnuFile = wx.wxMenu("", wx.wxMENU_TEAROFF)
-	mnuFile:Append(rcMnuOpenFile,"&Open file\tCtrl-O", "Select a json file")
+	mnuFile:Append(rcMnuOpenFile,"Open file\tCtrl-O", "Select a json file")
 	mnuFile:AppendSeparator()	
-	mnuFile:Append(wx.wxID_EXIT, "E&xit\tCtrl-X", "Quit the application")
+	mnuFile:Append(wx.wxID_EXIT, "Exit\tCtrl-X", "Quit the application")
 
 	local mnuTools = wx.wxMenu("", wx.wxMENU_TEAROFF)
-	mnuTools:Append(rcMnuCompile, "&Compile Dataset\tCtrl-C", "Recurse directories to collect data")
-	mnuTools:Append(rcMnuDownload,"&Download favorites\tCtrl-D", "Launch download of favorites readings")
-	mnuTools:Append(rcMnuArchive, "&Archive Updates\tCtrl-A", "Copy data from updates to archive")
+	mnuTools:Append(rcMnuCompile, "Compile Dataset\tCtrl-C", "Recurse directories to collect data")
+	mnuTools:Append(rcMnuDownload,"Download favorites\tCtrl-D", "Launch download of favorites readings")
+	mnuTools:Append(rcMnuArchive, "Archive Updates\tCtrl-A", "Copy data from updates to archive")
 
 	local mnuView = wx.wxMenu("", wx.wxMENU_TEAROFF)
-	mnuView:Append(rcMnuViewData, "&Graph Dataset\tCtrl-G", "Graph data for a station")
+	mnuView:Append(rcMnuViewData, "Graph Dataset\tCtrl-G", "Graph data for a station")
 	mnuView:Append(rcMnuViewReset,"Re-set Graphics\tCtrl-Z", "Reset zoom and scaling")	
-	mnuView:Append(rcMnuConfig,   "&Refresh Config\tCtrl-R", "Reload the configuration file")
-	mnuView:Append(rcMnuViewDir,  "Toggle &view drives\tCtrl-V", "Show or hide the drives\' panel")
+	mnuView:Append(rcMnuConfig,   "Refresh Config\tCtrl-R", "Reload the configuration file")
+	mnuView:Append(rcMnuViewDir,  "Toggle view drives\tCtrl-V", "Show or hide the drives\' panel")
 
 	local mnuHelp = wx.wxMenu("", wx.wxMENU_TEAROFF)
-	mnuHelp:Append(wx.wxID_ABOUT, "&About " .. m_App.sAppName)
+	mnuHelp:Append(wx.wxID_ABOUT, "About " .. m_App.sAppName)
 
+	local mnuFunc = wx.wxMenu("", wx.wxMENU_TEAROFF)
+	mnuFunc:Append(rcMnuLoadFxs, "Reload Functions\tCtrl-L", "Load functions.lua, create menu entries")
+	
 	-- attach the menu
 	--
 	local menuBar = wx.wxMenuBar()
 	menuBar:Append(mnuFile,  "&File")
 	menuBar:Append(mnuTools, "&Tools")	
 	menuBar:Append(mnuView,  "&View")
+	menuBar:Append(mnuFunc,  "F&unctions")
 	menuBar:Append(mnuHelp,  "&Help")
 
 	-- assign the menubar to this frame
@@ -715,6 +771,7 @@ local function CreateFrame(inAppTitle)
 	frame:Connect(rcMnuCompile,  wx.wxEVT_COMMAND_MENU_SELECTED, OnCompileDirectory)
 	frame:Connect(rcMnuDownload, wx.wxEVT_COMMAND_MENU_SELECTED, OnDownloadFavorites)
 	frame:Connect(rcMnuArchive,  wx.wxEVT_COMMAND_MENU_SELECTED, OnArchiveUpdates)
+	frame:Connect(rcMnuLoadFxs,  wx.wxEVT_COMMAND_MENU_SELECTED, OnLoadFunctions)
 
 	frame:Connect(wx.wxID_EXIT,  wx.wxEVT_COMMAND_MENU_SELECTED, OnClose)	
 	frame:Connect(wx.wxID_ABOUT, wx.wxEVT_COMMAND_MENU_SELECTED, OnAbout)
@@ -770,6 +827,7 @@ local function RunApplication()
 	if CreateFrame(sAppTitle) then
 		
 		LoadConfig()
+		OnLoadFunctions()
 		
 		m_Frame.hWindow:Show(true)
 		
