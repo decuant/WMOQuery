@@ -7,10 +7,6 @@
 -- ----------------------------------------------------------------------------
 --
 local trace 	= require("lib.trace")
-local utility 	= require("lib.utility")
-
---local _todate	= utility.StringToDate
---local m_OneDay	= (60 * 60 * 24)	-- time_t value
 
 -- ----------------------------------------------------------------------------
 -- attach tracing to the container
@@ -41,20 +37,22 @@ end
 --
 local function Call_Horner()
 	m_trace:line("functions.Call_Horner")
-	
+
 	local tPolynomial	= { 1, 2, 3, 4, 5 }
 	local iValue		= 2
-	
+
 	local dResult = HornerPolynomial(tPolynomial, iValue)
-	
+
 	m_trace:line("functions.Call_Horner result: " .. tostring(dResult))
 end
 
 
 -- ----------------------------------------------------------------------------
+-- arithmetic mean of Y value in a set of point
+-- return a vactor of 2 points
 --
 local function _CalcMean(inNormal)
-	m_trace:line("functions._CalcMean")
+--	m_trace:line("functions._CalcMean")
 
 	if not inNormal then return nil end
 
@@ -85,14 +83,14 @@ local function _CalcMean(inNormal)
 end
 -- ----------------------------------------------------------------------------
 --
-local function Test_Mean(inStatistic)
-	m_trace:line("functions.Test_Mean")
+local function Draw_Mean(inStatistic)
+--	m_trace:line("functions.Draw_Mean")
 
 	if not inStatistic then return false end
 
-	local iDays   = inStatistic.iTotDays
-	m_trace:line("statistic days count " .. tostring(iDays))
-
+	-- will register 2 new vectors in inStatistic
+	-- 1 for minimum and 1 for maximum
+	--
 	local tVector
 
 	tVector = _CalcMean(inStatistic.tNormalMin)
@@ -101,6 +99,8 @@ local function Test_Mean(inStatistic)
 	tVector = _CalcMean(inStatistic.tNormalMax)
 	if tVector then inStatistic.tFunctions[#inStatistic.tFunctions + 1] = tVector end
 
+	-- ask for refresh
+	--
 	return true
 end
 
@@ -109,7 +109,7 @@ end
 local functions =
 {
 	{Call_Horner, "Horner Polynomial", "Test the Horner Polynomial"},
-	{Test_Mean, "Calc Mean", "Performs the arithmetic mean on both normals"},
+	{Draw_Mean, "Draw Mean", "Performs the arithmetic mean on both normals"},
 }
 
 return functions

@@ -691,22 +691,16 @@ end
 --
 function pnlDraw.DrawFunctions(self, inDc)
 --	m_trace:line("pnlDraw.DrawFunctions")
-	
-	if not self:IsValid() then return end
-	
---	if 0 == self.iDrawErrors then return end
 
-	local tStats = self.tStatistic
---	local iOpt 	 = self.iDrawErrors
+	if not self:IsValid() then return end
 
 	-- draw here
 	--
 	inDc:SetBrush(self.brushBack)
 	inDc:SetPen(self.penFunction)
 
---	if 2 ~= iOpt then inDc:DrawSpline(self:RemapArray(tStats.tErrorsMin)) end
---	if 1 ~= iOpt then inDc:DrawSpline(self:RemapArray(tStats.tErrorsMax)) end
-	
+	local tStats = self.tStatistic
+
 	for _, vector in next, tStats.tFunctions do
 		
 		if 4 > #vector then
@@ -717,7 +711,6 @@ function pnlDraw.DrawFunctions(self, inDc)
 			inDc:DrawSpline(self:RemapArray(vector))
 		end
 	end
-
 end
 
 -- ----------------------------------------------------------------------------
