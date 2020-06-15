@@ -30,10 +30,8 @@ function Statistic.new()
 
 	local t =
 	{
-		tSamples	= nil,		-- data
-		
-		-- statistic
-		--
+		sIdentity	= "",
+		sReference	= "",
 		iMinDate	= 0,		-- time_t for the very first date
 		iMaxDate	= 0,
 		iTotDays	= 0,		-- total number of days
@@ -44,6 +42,8 @@ function Statistic.new()
 		
 		tErrorsMin	= { },		-- forecast errors for minimum
 		tErrorsMax	= { },		-- idem for maximum
+		
+		tFunctions	= { },		-- additional run-time vectors
 		
 		tSpotList = 
 		{
@@ -59,44 +59,72 @@ end
 
 -- ----------------------------------------------------------------------------
 -- 
-function Statistic.SetSamples(self, inSamples)
+function Statistic.ProcessAll(self, inSamples)
 --	m_trace:line("Statistic.SetSamples")
 	
-	self.tSamples = inSamples
 	if not inSamples then return end
-	
-	local tSamples	= inSamples[3]		-- skip identification
-	local tByDate
-	local sMinDate
-	local sMaxDate
-	
-	tByDate  = tSamples[1][2]
-	sMinDate = tByDate[1][1]			-- first (it's a string)
-	
-	tByDate  = tSamples[#tSamples][2]
-	sMaxDate = tByDate[#tByDate][1]		--  last
-	
-	-- -------------
-	-- store results
-	--
-	self.iMinDate	= _todate(sMinDate)
-	self.iMaxDate	= _todate(sMaxDate)
-	self.iTotDays	= utility.DaysInInterval(self.iMinDate, self.iMaxDate) + 1
-	
-	self:GetNormals()
-	self:GetErrors()
-	self:GetSpotList()
+
+	self:GetHeader(inSamples)
+	self:GetNormals(inSamples)
+	self:GetErrors(inSamples)
+	self:GetSpotList(inSamples)
 end
 
 -- ----------------------------------------------------------------------------
 -- get the normalized vectors of min and max
 --
-function Statistic.GetSpotList(self)
+function Statistic.GetHeader(self, inSamples)
+--	m_trace:line("Statistic.GetHeader")
+
+	if not inSamples then return end
+	
+	local sCityId	= inSamples[1]
+	local sCity		= inSamples[2]
+	local tSamples	= inSamples[3]		-- skip identification
+	local tByDate
+	local sMinDate
+	local sMaxDate
+
+	tByDate  = tSamples[1][2]
+	sMinDate = tByDate[1][1]			-- first (it's a string)
+	
+	tByDate  = tSamples[#tSamples][2]
+	sMaxDate = tByDate[#tByDate][1]		--  last
+
+	-- scan all issue dates for the maximum period
+	--
+	local iPeriod	= 0
+
+	for iList=1, #tSamples do
+		
+		tByDate = tSamples[iList]		-- shortcut it
+		tByDate	= tByDate[2]			-- shortcut it
+		
+		-- get the maximum forecast period
+		--
+		if iPeriod < #tByDate then iPeriod = #tByDate end
+	end
+	
+	-- -------------
+	-- store results
+	--
+	self.sIdentity	= sCityId
+	self.sReference	= sCity
+	self.iMinDate	= _todate(sMinDate)
+	self.iMaxDate	= _todate(sMaxDate)
+	self.iTotDays	= utility.DaysInInterval(self.iMinDate, self.iMaxDate) + 1
+	self.iPeriod  	= iPeriod
+end
+
+-- ----------------------------------------------------------------------------
+-- get the normalized vectors of min and max
+--
+function Statistic.GetSpotList(self, inSamples)
 --	m_trace:line("Statistic.GetSpotList")
 
-	local tSamples	= self.tSamples
-	if not tSamples then return end
-
+	if not inSamples then return end
+	
+	local tSamples = inSamples[3]			-- skip identification	
 	local tSpotList = self.tSpotList	
 	local tByDate
 	local iTempMin
@@ -105,8 +133,6 @@ function Statistic.GetSpotList(self)
 	local iHighT	= - 100
 	local iTempExcr = 0
 	local iMaxExcr	= 0
-
-	tSamples = self.tSamples[3]			-- skip identification	
 
 	-- assume first reading not being a forecast
 	--
@@ -157,19 +183,16 @@ end
 -- ----------------------------------------------------------------------------
 -- get the normalized vectors of min and max
 --
-function Statistic.GetNormals(self)
+function Statistic.GetNormals(self, inSamples)
 --	m_trace:line("Statistic.GetNormals")
 
-	local tSamples	= self.tSamples
-	if not tSamples then return end
-
-	local tByDate
-	local iDay
-	local iPeriod	= 0
+	if not inSamples then return end
+	
+	local tSamples	= inSamples[3]				-- skip identification
 	local tNormMin	= { }
 	local tNormMax	= { }
-
-	tSamples = tSamples[3]				-- skip identification
+	local tByDate
+	local iDay
 
 	-- cycle all samples
 	--
@@ -177,10 +200,6 @@ function Statistic.GetNormals(self)
 		
 		tByDate = tSamples[iList]		-- shortcut it
 		tByDate	= tByDate[2]			-- shortcut it
-		
-		-- get the forecast period
-		--
-		if iPeriod < #tByDate then iPeriod = #tByDate end
 		
 		-- get the first day of the current row
 		--
@@ -210,7 +229,6 @@ function Statistic.GetNormals(self)
 
 	-- update statistics
 	--
-	self.iPeriod  	= iPeriod
 	self.tNormalMin = tNormMin
 	self.tNormalMax = tNormMax
 end
@@ -227,22 +245,20 @@ end
 --                            [read Y] [fore 1] [fore 2] [fore n]
 --                                     [read Y] [fore 1] [fore 2] [fore n]
 --
-function Statistic._MakeArray(self, inIndex, inPeriod)
+function Statistic._MakeArray(self, inSamples, inIndex, inPeriod)
 --	m_trace:line("Statistic._MakeArray")
-	
-	local tSamples	= self.tSamples
-	if not tSamples then return nil end
+
+	if not inSamples then return nil end
 
 	if 1 >= inPeriod then return nil end
 	
+	local tSamples	= inSamples[3]				-- skip identification
 	local tArray	= { }
 	local tCurrent	= { }
 	local tByDate
 	local iLastDay	= -1
 	local iCurrDay
 	local iWriteIdx	= 1
-	
-	tSamples = tSamples[3]				-- skip identification
 
 	-- cycle all samples
 	--
@@ -330,9 +346,7 @@ function Statistic._ComputeErrors(self, inArray, inPeriod)
 		
 		-- make the error value
 		--
-		local dError = (dReal - dSum)
-		
-		tErrors[#tErrors + 1] = {iDate, dError}
+		tErrors[#tErrors + 1] = {iDate, dReal - dSum}
 	end
 
 	return tErrors
@@ -340,18 +354,18 @@ end
 
 -- ----------------------------------------------------------------------------
 --
-function Statistic.GetErrors(self)
+function Statistic.GetErrors(self, inSamples)
 --	m_trace:line("Statistic.GetErrors")
 
-	if not self.tSamples then return end
+	if not inSamples then return end
 
 	local iPeriod = self.iPeriod
 	local tArray
 
-	tArray = self:_MakeArray(2, iPeriod) or { }
+	tArray = self:_MakeArray(inSamples, 2, iPeriod) or { }
 	self.tErrorsMin = self:_ComputeErrors(tArray, iPeriod) or { }
 	
-	tArray = self:_MakeArray(3, iPeriod) or { }
+	tArray = self:_MakeArray(inSamples, 3, iPeriod) or { }
 	self.tErrorsMax = self:_ComputeErrors(tArray, iPeriod) or { }
 end
 

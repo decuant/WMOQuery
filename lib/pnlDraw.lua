@@ -12,8 +12,6 @@ local palette	= require("lib.wxX11Palette")
 
 local _format	= string.format
 local _floor	= math.floor
---local _abs		= math.abs
---local _sqrt		= math.sqrt
 local _remove	= table.remove
 local _todate	= utility.StringToDate
 
@@ -33,6 +31,7 @@ local tDefColours =
 	clrExcursion	= palette.IndianRed3,
 	clrNormals		= palette.Gray20,
 	clrError		= palette.Orange1,
+	clrFunction		= palette.SteelBlue,
 	
 	clrLegenda		= palette.Gray40,
 	clrGridText		= palette.Tan4,
@@ -156,12 +155,14 @@ function pnlDraw.New()
 		penMaxTs	= nil,
 		penNormals	= nil,
 		penErrors	= nil,
+		penFunction = nil,
 		
 		brushBack	= nil,		-- brush for background		
 		brExcursion = nil,
 		
 		-- details
 		--
+		tSamples	= nil,		-- data
 		sCity		= "",		-- shortcut for city's name
 		sCityId		= "",		-- shortcut for city's id
 		tStatistic	= statistic.new(),
@@ -186,7 +187,7 @@ end
 function pnlDraw.IsValid(self)
 --	m_trace:line("pnlDraw.IsValid")
 
-	return (self.tStatistic.tSamples and 0 < self.tStatistic.iTotDays)
+	return (self.tSamples and 0 < self.tStatistic.iTotDays)
 end
 
 -- ----------------------------------------------------------------------------
@@ -224,8 +225,8 @@ function pnlDraw.SetLegenda(self)
 	local tStats	= self.tStatistic
 	local tSpotList = tStats.tSpotList
 	
-	tLegenda[#tLegenda + 1] =        ("City name:  " .. self.sCity)
-	tLegenda[#tLegenda + 1] =        ("Station ID: " .. self.sCityId)
+	tLegenda[#tLegenda + 1] =        ("City name:  " .. tStats.sReference)
+	tLegenda[#tLegenda + 1] =        ("Station ID: " .. tStats.sIdentity)
 	tLegenda[#tLegenda + 1] = _format("Lowest T:   %d C", tSpotList.TemperatureLow[2])
 	tLegenda[#tLegenda + 1] = _format("Highest T:  %d C", tSpotList.TemperatureHigh[2])
 
@@ -314,6 +315,7 @@ function pnlDraw.CreateGDIObjs(self)
 	self.penMaxTD	= wx.wxPen(tColors.clrMaximum, self.iLineSz, wx.wxDOT)
 	self.penNormals = wx.wxPen(tColors.clrNormals, self.iLineSz + 2, wx.wxSOLID)
 	self.penErrors	= wx.wxPen(tColors.clrError, self.iLineSz + 1, wx.wxSOLID)
+	self.penFunction= wx.wxPen(tColors.clrFunction, self.iLineSz, wx.wxSOLID)
 
 	self.brushBack	= wx.wxBrush(tColors.clrBackground, wx.wxSOLID)
 	self.brExcursion= wx.wxBrush(tColors.clrExcursion, wx.wxBRUSHSTYLE_FDIAGONAL_HATCH)
@@ -562,7 +564,7 @@ function pnlDraw.DrawDetails(self, inDc)
 	
 	if not self:IsValid() then return end
 	
-	local tSamples	= self.tStatistic.tSamples
+	local tSamples	= self.tSamples
 	local iLineSz	= self.iLineSz
 	local iDrawTemp	= self.iDrawTemp	-- which temp to draw
 	local tByDate
@@ -685,6 +687,40 @@ function pnlDraw.DrawErrors(self, inDc)
 end
 
 -- ----------------------------------------------------------------------------
+-- draw spline of normalized vectors
+--
+function pnlDraw.DrawFunctions(self, inDc)
+--	m_trace:line("pnlDraw.DrawFunctions")
+	
+	if not self:IsValid() then return end
+	
+--	if 0 == self.iDrawErrors then return end
+
+	local tStats = self.tStatistic
+--	local iOpt 	 = self.iDrawErrors
+
+	-- draw here
+	--
+	inDc:SetBrush(self.brushBack)
+	inDc:SetPen(self.penFunction)
+
+--	if 2 ~= iOpt then inDc:DrawSpline(self:RemapArray(tStats.tErrorsMin)) end
+--	if 1 ~= iOpt then inDc:DrawSpline(self:RemapArray(tStats.tErrorsMax)) end
+	
+	for _, vector in next, tStats.tFunctions do
+		
+		if 4 > #vector then
+			
+			inDc:DrawLines(self:RemapArray(vector))
+		else
+			
+			inDc:DrawSpline(self:RemapArray(vector))
+		end
+	end
+
+end
+
+-- ----------------------------------------------------------------------------
 -- draw the spot list
 --
 function pnlDraw.DrawSpotList(self, inDc)
@@ -749,15 +785,18 @@ function pnlDraw.NewMemDC(self)
 	local oldRaster	= memDC:GetLogicalFunction()
 	local iOpt 		= self.iDrawOption
 
+	if self.bRasterOp then memDC:SetLogicalFunction(wx.wxAND_REVERSE) end
+
 	self:DrawSpotList(memDC)
-	self:DrawErrors(memDC)
-
-	if self.bRasterOp then memDC:SetLogicalFunction(wx.wxOR_REVERSE) end
-
+	
 	if 2 ~= iOpt then self:DrawDetails(memDC) end
 	if 1 ~= iOpt then self:DrawNormalized(memDC) end
-
+	
+	self:DrawErrors(memDC)
+	
 	if self.bRasterOp then memDC:SetLogicalFunction(oldRaster) end
+	
+	self:DrawFunctions(memDC)
 
 	return memDC
 end
@@ -1208,6 +1247,7 @@ function pnlDraw.AdaptMinMaxTemp(self)
 end
 
 -- ----------------------------------------------------------------------------
+-- recreate statistics
 --
 function pnlDraw.SetSamples(self, inSamples)
 --	m_trace:line("pnlDraw.SetSamples")
@@ -1218,19 +1258,11 @@ function pnlDraw.SetSamples(self, inSamples)
 	
 	-- assign new samples
 	--
-	if not inSamples then
-		
-		self:Refresh()
-		return 
-	end
+	self.tSamples = inSamples
 
-	-- -------------
-	-- store results
+	-- make the statistics
 	--
-	self.sCityId	= inSamples[1]
-	self.sCity		= inSamples[2]
-
-	self.tStatistic:SetSamples(inSamples)
+	self.tStatistic:ProcessAll(inSamples)
 
 	-- will reset all values for zooming and pan/tilt
 	-- update the units
