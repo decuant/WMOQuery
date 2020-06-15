@@ -492,7 +492,7 @@ local function OnReloadConfig()
 	
 	LoadConfig()
 	
-	-- send a WM_PAINT message
+	-- query for update of units
 	--
 	m_Frame.hPnlDraw:Redraw()
 end
@@ -646,7 +646,7 @@ local function OnLoadFunctions()
 
 	-- compile and import functions
 	--
-	local functions = dofile("lib/functions.lua")
+	local functions	 = dofile("lib/functions.lua")
 	
 	-- create the menu entries
 	--
@@ -656,8 +656,12 @@ local function OnLoadFunctions()
 		
 		-- protected function to execute
 		--
-		ItemCmd = function()
+		MenuItemCmd = function()
 			
+			-- interpreted code at run time
+			-- locals are out of scope here at run time
+			-- use full names to select objects
+			--
 			local bRet, bRedraw = pcall(item[1], m_Frame.hPnlDraw.tStatistic)
 			
 			if bRet and bRedraw then
@@ -669,7 +673,7 @@ local function OnLoadFunctions()
 		end
 		
 		menuFxs:Append(id, item[2], item[3])
-		m_Frame.hWindow:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED, ItemCmd)
+		m_Frame.hWindow:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED, MenuItemCmd)
 	end
 
 end
