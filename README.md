@@ -101,7 +101,13 @@ GUI for viewing a dataset in tabular format. An example:
 
 GUI interface for launching a script or to plot a dataset. Much of the code of it is handling user events and drawing.
 
-The grid on the right side allows for file selection and menu operation. Uses a file filter.
+The grid on the right side allows for file selection and menu operation. Uses a file filter and supports context menu.
+
+There are 2 sets of menu commands, fixed and variable (plugins). The first set drives the download/archive of updates.
+
+The second sets are user-provided functions in ``functions.lua``. It offers the usal debugging within the IDE and can be reloaded at run time for execution.
+
+To select a station for display select a compiled ``.dat`` file and use the menu "Graph Dataset".
 
 The panel on the left draws the min/max forecast for a station on a compiled dataset.
 You can control it with [Alt] + Cursors or 1,2,3. See the code for move/zoom.
@@ -113,36 +119,37 @@ You can control it with [Alt] + Cursors or 1,2,3. See the code for move/zoom.
 * If 2 dots lie on the same day the mean is taken.
 * Normals are drawn using the Bezier's formula for splines.
 * Errors' calulation is a summation of forecast mis-predictions, with weights based on days' interval.
+* If a plugin registers a vector it will be drawn automatically.
 
-Data extraction is within the panel's code and should be divided in a separate module.
 
-This is an example from the ``WMO Samples.dat`` that I left in the ``archived`` folder:
+**Examples from the ``WMO Samples.dat`` that I left in the ``archived`` folder.**
 
-![Moscow Small All Options](/docs/Moscow_Archived.png)
 
-These ``.dat`` files contain more than 1 station, so the user must select which one:
+``.dat`` files contain more than 1 station, so the user must select which one:
 
 ![Choose Station](/docs/Choose_Station.png)
 
-Another example, with much inconsistent data from a station (Algiers):
 
-![Algiers Archived](/docs/Algiers_Archived.png)
+
+The normals, the errors and a plugin function that gets the mean temperatures:
+
+![Berlin Normal Error Mean](/docs/Berlin-Mean.png)
+
+
 
 Changing preferences and refreshing from console, see comments in code for scroll/zoom/options:
 
 ![Berlin Big Details Only](/docs/Berlin_Big.png)
 
+
+
 Displaying the normals over the details:
 
 ![Tel Aviv Zoomed with Normals](/docs/Tel_Aviv_Normal.png)
 
-Forecast errors over the normals:
 
-![Auckland Errors with Normals](/docs/Auckland.png)
 
-A portion of the previous with the maximum temperature only:
 
-![Auckland Max Errors Zoom](/docs/Auckland_Max_Errors.png)
 
 
 # .6 compile
