@@ -1,6 +1,6 @@
 #  **WMOQuery**
 
-## Project description - rel. 0.0.3 (30-May-2020)
+## Project description - rel. 0.0.4 (2020-June-15)
 
 **WMOQuery** is a set of tiny scripts for monitoring weather world wide and retrieve statistics on it. Only forecast temperatures can be analyzed because climate values are shipped as aggregates over a year course and they are not updated by stations anymore.
 
@@ -15,7 +15,7 @@ Code has been written in the most simple way and commented where necessary, assu
 
 As for statistics or predictions of temperatures over long periods, data collection might take long to build up, considering 1 packet a day.
 
-The project uses Lua as programming language and benefits of some external libraries. It was developed on Windows 10 and should be easily used on Unix provided some necessary modifications.  With this in mind code can possibly be an example of using wxWidgets with Lua, both for GUI and facilities. The IDE of choice is ``ZeroBrane``.
+The project uses Lua as programming language and benefits of some external libraries. It was developed on Windows 10 and should be easily used on Unix provided some necessary modifications. The IDE of choice is ``ZeroBrane``.
 
 Binaries for Lua and wxWidgets (64 bits for Windows) can be found here: https://github.com/decuant/wxLua535Win10
 
