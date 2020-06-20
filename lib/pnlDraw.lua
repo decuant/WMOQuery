@@ -825,8 +825,8 @@ function pnlDraw.NewBackground(self)
 		
 		-- draw a standard grid
 		--
-		local iXPos, iXInc = 0, 100
-		local iYPos, iYInc = 0, 100
+		local iXPos, iXInc = 0, (iWidth / 20)
+		local iYPos, iYInc = 0, (iHeight /20)
 		
 		memDC:SetPen(self.penGrid)						-- prepare pen for grid with color
 		memDC:SetBrush(self.brushBack)					-- check for back brush same colour as background		
@@ -1039,25 +1039,46 @@ function pnlDraw.OnMouseWheel(event)
 end
 
 -- ----------------------------------------------------------------------------
+-- handle drawing's options from keyboard
 --
 function pnlDraw.OnKeyUp(event)
 --	m_trace:line("pnlDraw.OnKeyUp")
 
 	local aSelf 	= RoutingTable_Get(event:GetId())
-	local key		= event:GetKeyCode()
+	local key		= event:GetKeyCode() - 48
 	local bRefresh 	= false
 
 	if not aSelf:IsValid() then return end			-- safety check
 	
-	-- get the codes for '1', '2' and '3'
+	-- necessary to mimic the keyboard's layout
 	--
-	if 48 < key and 52 > key then
+	if 0 == key then key = 10 end					
+	
+	-- select which option to change
+	--
+	if 1 <= key and 3 >= key then
 		
-		key = key - 48
+		if key ~= aSelf.iDrawTemp then 
+			
+			aSelf.iDrawTemp = key
+			bRefresh = true
+		end
+		
+	elseif 4 <= key and 6 >= key then
+		
+		key = key - 3
 		if key ~= aSelf.iDrawOption then 
 			
 			aSelf.iDrawOption = key
+			bRefresh = true
+		end
+		
+	elseif 7 <= key and 10 >= key then
+		
+		key = key - 7
+		if key ~= aSelf.iDrawErrors then 
 			
+			aSelf.iDrawErrors = key
 			bRefresh = true
 		end
 	end
