@@ -31,8 +31,8 @@ local m_ShellOpen = "explorer.exe /select, "
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.11",
-	sRelDate 	= "2020/06/15",
+	sAppVer  	= "0.0.13",
+	sRelDate 	= "2020/06/20",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
