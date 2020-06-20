@@ -32,8 +32,8 @@ local m_App =
 	-- private
 	--
 	sAppName 	= "archive",
-	sAppVer  	= "0.0.4",
-	sRelDate 	= "2020/06/06",
+	sAppVer  	= "0.0.5",
+	sRelDate 	= "2020/06/20",
 	
 	sConfigFile	= "config/folders.lua",
 	
@@ -274,26 +274,26 @@ end
 --
 local function RunApplication(...)
 --	m_trace:line("RunApplication")
-	
+
 	local sAppTitle = m_App.sAppName .. " [" .. m_App.sAppVer .. "]"
-	
+
 	m_trace:time(sAppTitle .. " started")	
 
 	assert(os.setlocale('us', 'all'))
 	m_trace:line("Current locale is [" .. os.setlocale() .. "]")
-	
+
 	-- try opening the application's associated configuration file
 	--
 	LoadConfig()
 
 	m_App.sTargetFldr	= BuildDirName(m_App.sTargetFldr)
 	m_App.sSourceFldr	= BuildDirName(m_App.sSourceFldr)
-	
+
 	-- this is a test both for valid source directory
 	-- and for number of files to copy
 	--
 	m_App.iTotFound = GetNumberOfFiles()
-	
+
 	m_trace:line("SOURCE directory [" .. m_App.sSourceFldr .. "] Files [" .. m_App.iTotFound .. "] Ext. [" .. m_App.sExtFilter .. "]")
 	
 	if 0 < m_App.iTotFound then
@@ -303,24 +303,20 @@ local function RunApplication(...)
 		
 		m_trace:line("Nothing to do")
 	end
-	
+
 	-- give feedback
 	--
 	m_trace:summary("Copied files [" .. m_App.iTotCopies .. "] out of [" .. m_App.iTotFound .. "]")
-	
+
 	-- give feedback
 	--
 	local iTotal   = m_App.iTotFound 
 	local iSuccess = m_App.iTotCopies
 	local iFailed  = iTotal - iSuccess
 
-	m_trace:summary("Downloaded [" .. iTotal .. "] Failed: [" .. iFailed .. "]")
-	
 	-- report to caller
 	--
-	io.stdout:write(_format("%d/%d\n", iSuccess, iTotal))	
-	
-	
+	io.stdout:write(_format("%d/%d\n", iSuccess, iTotal))
 end
 
 -- ----------------------------------------------------------------------------
