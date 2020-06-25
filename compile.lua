@@ -6,6 +6,7 @@
 *   Output a file containing only the forecast values.
 *   All cities are collected, there's no way to specify compiling of 1 city only.
 *
+*   Specifying the '--purge' option will delete all invalid or duplicated files. 
 ]]
 
 local wx		= require("wx")
@@ -25,11 +26,11 @@ local m_trace = trace.new("compile")
 local m_App = 
 {
 	sAppName = "compile",
-	sAppVer  = "0.0.2",
-	sRelDate = "2020/06/06",
+	sAppVer  = "0.0.3",
+	sRelDate = "2020/06/25",
 	
 	sDefPath	= "D:\\USR_2\\LUA\\WMOQuery\\data\\update",		-- default path	
-	tFilters	= { },										-- table with result data
+	bPurge		= false,									-- remove duplicated files
 	iTotScan	= 0,										-- total files processed
 	iFailed		= 0,										-- counter for any error
 }
@@ -258,14 +259,24 @@ local function ProcessDirectory(inPathname)
 	-- scan for matching files
 	--
 	local _, sFilename = dir:GetFirst("*.json", wx.wxDIR_FILES)
+	local sFullpath
 	
 	while sFilename and 0 < #sFilename do
 		
 		m_App.iTotScan = m_App.iTotScan + 1
 		
-		if not ProcessFile(inPathname .. "\\" .. sFilename) then
+		sFullpath = inPathname .. "\\" .. sFilename
+		
+		if not ProcessFile(sFullpath) then
 			
 			m_App.iFailed = m_App.iFailed + 1
+			
+			-- delete the file
+			--
+			if m_App.bPurge then
+				
+				os.remove(sFullpath) 
+			end
 		end
 		
 		_, sFilename = dir:GetNext()
@@ -294,10 +305,12 @@ local function SaveCompiledTable(inRootDir)
 	local hFile		= io.open(sObjFile, "w")
 	local sBuffer	= serpent.dump(m_Samples)
 	
-	if hFile then 
+	if hFile then
+		
 		hFile:write(sBuffer)
 		hFile:close()
 	else
+		
 		m_trace:line("---> Failed to save compiled datasets in [" .. sObjFile .. "]")
 		return false
 	end
@@ -330,7 +343,16 @@ local function RunApplication(...)
 	--
 	local tArgs = { }
 
-	for i, v in ipairs{...} do tArgs[i] = v	end	
+	for _, v in ipairs{...} do
+		
+		if "--purge" == v then
+			
+			m_App.bPurge = true
+		else
+			
+			tArgs[#tArgs + 1] = v
+		end
+	end	
 	
 	-- get the root directory
 	--
