@@ -31,8 +31,8 @@ local m_ShellOpen = "explorer.exe /select, "
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.13",
-	sRelDate 	= "2020/06/20",
+	sAppVer  	= "0.0.14",
+	sRelDate 	= "2020/06/25",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
@@ -377,7 +377,7 @@ end
 local function DoCompileDirectory(inDirectory)
 --	m_trace:line("DoCompileDirectory")
 
-	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\"", "r")
+	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\" --purge", "r")
 
 	if not hFile or (sError and 0 < #sError) then
 		
@@ -650,7 +650,7 @@ local function OnLoadFunctions()
 	
 	-- create the menu entries
 	--
-	for i, item in next, functions do
+	for _, item in next, functions do
 		
 		local id = UniqueID()
 		
@@ -737,6 +737,7 @@ local function CreateFrame(inAppTitle)
 	frame:SetMenuBar(menuBar)
 
 	-- create a statusbar
+	-- (this will cause an additional WM_SIZE event)
 	--
 	local stsBar = frame:CreateStatusBar(2, wx.wxST_SIZEGRIP)
 	stsBar:SetFont(wx.wxFont(8, wx.wxFONTFAMILY_SWISS, wx.wxFONTSTYLE_NORMAL, wx.wxFONTWEIGHT_NORMAL))
