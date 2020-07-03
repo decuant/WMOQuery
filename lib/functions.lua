@@ -6,7 +6,8 @@
 
 -- ----------------------------------------------------------------------------
 --
-local trace 	= require("lib.trace")
+local trace 	 = require("lib.trace")
+local sFxVersion = "0.0.2"
 
 -- ----------------------------------------------------------------------------
 -- attach tracing to the container
@@ -81,6 +82,47 @@ local function _CalcMean(inNormal)
 
 	return tVector
 end
+
+-- ----------------------------------------------------------------------------
+--
+local function _MeanPerWeek(inRegister, inStatistic, inTag, inDays)
+--	m_trace:line("functions._MeanPerWeek")
+
+	local iDayStart = inStatistic[1][1]
+	local iDayEnd	= iDayStart + inDays
+	local iDayCurr	= iDayStart
+	local iIndex	= 1
+	local iTagStep	= 1
+	
+	while iIndex <= #inStatistic do
+		
+		local tVector = { }
+		
+		while iDayCurr < iDayEnd do
+			
+			tVector[#tVector + 1] = {iDayCurr, inStatistic[iIndex][2]}
+			
+			iIndex = iIndex + 1
+			
+			if iIndex > #inStatistic then break end
+			
+			iDayCurr = inStatistic[iIndex][1]
+		end
+		
+		-- do the partial mean
+		--
+		tVector = _CalcMean(tVector)
+		if tVector then 
+			inRegister:Register({tVector, inTag .. tostring(iTagStep)})
+		end
+		
+		iDayStart = iDayEnd - 1
+		iDayCurr  = iDayStart
+		iDayEnd   = iDayStart + inDays
+		iTagStep  = iTagStep + 1
+	end
+end
+
 -- ----------------------------------------------------------------------------
 --
 local function Draw_Mean(inStatistic)
@@ -88,16 +130,10 @@ local function Draw_Mean(inStatistic)
 
 	if not inStatistic then return false end
 
-	-- will register 2 new vectors in inStatistic
-	-- 1 for minimum and 1 for maximum
+	-- will register x new vectors in inStatistic
 	--
-	local tVector
-
-	tVector = _CalcMean(inStatistic.tNormalMin)
-	if tVector then inStatistic.tFunctions[#inStatistic.tFunctions + 1] = tVector end
-
-	tVector = _CalcMean(inStatistic.tNormalMax)
-	if tVector then inStatistic.tFunctions[#inStatistic.tFunctions + 1] = tVector end
+	_MeanPerWeek(inStatistic, inStatistic.tNormalMin, "Min Mean ", 14)
+	_MeanPerWeek(inStatistic, inStatistic.tNormalMax, "Max Mean ", 14)
 
 	-- ask for refresh
 	--
