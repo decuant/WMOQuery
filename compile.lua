@@ -6,7 +6,9 @@
 *   Output a file containing only the forecast values.
 *   All cities are collected, there's no way to specify compiling of 1 city only.
 *
-*   Specifying the '--purge' option will delete all invalid or duplicated files. 
+*	Options:
+*   '--purge' will delete all invalid or duplicated json files.
+*   '--import' will reuse an existing dat file and skip json files in dir tree.
 ]]
 
 local wx		= require("wx")
@@ -29,8 +31,10 @@ local m_App =
 	sAppVer  = "0.0.3",
 	sRelDate = "2020/06/25",
 	
-	sDefPath	= "D:\\USR_2\\LUA\\WMOQuery\\data\\update",		-- default path	
+	sDefPath	= "D:\\USR_2\\LUA\\WMOQuery\\data\\update",		-- default path
+	sRootDir	= nil,										-- root directory
 	bPurge		= false,									-- remove duplicated files
+	bImport		= false,									-- import dat files
 	iTotScan	= 0,										-- total files processed
 	iFailed		= 0,										-- counter for any error
 }
@@ -243,6 +247,62 @@ local function ProcessFile(inFilename)
 end
 
 -- ----------------------------------------------------------------------------
+-- import data from the dat file
+--
+local function ProcessImport(inFilename)
+	m_trace:newline("ProcessImport [" .. inFilename .. "]")
+	
+	-- import table with multiple stations
+	--
+	local tSamples = dofile(inFilename)
+	if not tSamples then return false end
+	
+	for _, tCity in ipairs(tSamples) do
+		
+		m_trace:line("Importing forecast data for city: " .. tCity[1] .. " [" .. tCity[2] .. "]")
+		
+		-- get the table for the city
+		-- create if not existing
+		--
+		local tCityTbl = FindCityIdTable(tCity[1], tCity[2], true)
+		local iTotals  = 0
+		
+		for _, tEntry in ipairs(tCity[3]) do
+			
+			-- get the date-time of forecast
+			-- ask to fail if non-existent
+			--
+			local tIssueDate = FindIssueDate(tCityTbl, tEntry[1], false)
+			
+			-- this is not possible
+			--
+			if tIssueDate then
+				
+				m_trace:line("---> Collect: duplicate found, ignoring contents")
+
+			else		
+				-- now it is safe to create the entry for selected date
+				--
+				tIssueDate = FindIssueDate(tCityTbl, tEntry[1], true)
+			
+				-- simply pour rows from a table to the other
+				--
+				for _, tRow in ipairs(tEntry[2]) do
+					
+					_insert(tIssueDate[2], tRow)
+				end
+				
+				iTotals = iTotals + #tEntry[2]
+			end
+		end
+		
+		m_trace:line("Imported for city: " .. tCity[2] .. " " .. iTotals .. " rows")
+	end
+
+	return true
+end
+
+-- ----------------------------------------------------------------------------
 -- recurse directories and inspect pertinent files
 --
 local function ProcessDirectory(inPathname)
@@ -256,43 +316,68 @@ local function ProcessDirectory(inPathname)
 		return
 	end
 	
-	-- scan for matching files
-	--
-	local _, sFilename = dir:GetFirst("*.json", wx.wxDIR_FILES)
-	local sFullpath
+	local bSkipJson = false
 	
-	while sFilename and 0 < #sFilename do
+	-- scan for matching dat files
+	-- will not process the very first root directory
+	--
+	if m_App.bImport and m_App.sRootDir ~= inPathname then
 		
-		m_App.iTotScan = m_App.iTotScan + 1
+		local _, sFilename = dir:GetFirst("*.dat", wx.wxDIR_FILES)
+		local sFullpath
 		
-		sFullpath = inPathname .. "\\" .. sFilename
-		
-		if not ProcessFile(sFullpath) then
+		if sFilename and 0 < #sFilename then
 			
-			m_App.iFailed = m_App.iFailed + 1
+			sFullpath = inPathname .. "\\" .. sFilename
 			
-			-- delete the file
+			-- if fails to import data from existing file
+			-- then fallback to process files
 			--
-			if m_App.bPurge then
-				
-				os.remove(sFullpath) 
-			end
+			bSkipJson = ProcessImport(sFullpath)
+			
 		end
-		
-		_, sFilename = dir:GetNext()
 	end
 	
-	-- scan further down
+	-- scan for matching json files
 	--
-	local _, sDirectory = dir:GetFirst("*", wx.wxDIR_DIRS | wx.wxDIR_NO_FOLLOW)
+	if not bSkipJson then
+		
+		local _, sFilename = dir:GetFirst("*.json", wx.wxDIR_FILES)
+		local sFullpath
+		
+		while sFilename and 0 < #sFilename do
+			
+			m_App.iTotScan = m_App.iTotScan + 1
+			
+			sFullpath = inPathname .. "\\" .. sFilename
+			
+			if not ProcessFile(sFullpath) then
+				
+				m_App.iFailed = m_App.iFailed + 1
+				
+				-- delete the file
+				--
+				if m_App.bPurge then
+					
+					os.remove(sFullpath) 
+				end
+			end
+			
+			_, sFilename = dir:GetNext()
+		end
 	
-	while sDirectory and 0 < #sDirectory do
+		-- scan further down
+		--
+		local _, sDirectory = dir:GetFirst("*", wx.wxDIR_DIRS | wx.wxDIR_NO_FOLLOW)
 		
-		ProcessDirectory(inPathname .. "\\" .. sDirectory)
-		
-		_, sDirectory = dir:GetNext()
+		while sDirectory and 0 < #sDirectory do
+			
+			ProcessDirectory(inPathname .. "\\" .. sDirectory)
+			
+			_, sDirectory = dir:GetNext()
+		end
 	end
-
+	
 	dir:Close()
 end
 
@@ -348,6 +433,11 @@ local function RunApplication(...)
 		if "--purge" == v then
 			
 			m_App.bPurge = true
+			
+		elseif "--import" == v then
+			
+			m_App.bImport = true
+			
 		else
 			
 			tArgs[#tArgs + 1] = v
@@ -371,6 +461,10 @@ local function RunApplication(...)
 		m_trace:line("---> Cannot open directory [" .. sRootDir .. "], aborting")
 		return
 	end
+	
+	-- now store the root directory
+	--
+	m_App.sRootDir = sRootDir
 
 	-- work it
 	--
