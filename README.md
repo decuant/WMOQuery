@@ -1,6 +1,6 @@
 #  **WMOQuery**
 
-## Project description - rel. 0.0.4 (2020-June-15)
+## Project description - rel. 0.0.5 (2020-November-17)
 
 **WMOQuery** is a set of tiny scripts for monitoring weather world wide and retrieve statistics on it. Only forecast temperatures can be analyzed because climate values are shipped as aggregates over a year course and they are not updated by stations anymore.
 
@@ -107,9 +107,9 @@ GUI interface for launching a script or to plot a dataset. Much of the code of i
 
 The grid on the right side allows for file selection and menu operation. Uses a file filter and supports context menu.
 
-There are 2 sets of menu commands, fixed and variable (plugins). The first set drives the download/archive of updates.
+There are 2 sets of menu commands, fixed and variable (plug-ins). The first set drives the download/archive of updates.
 
-The second sets are user-provided functions in ``functions.lua``. It offers the usal debugging within the IDE and can be reloaded at run time for execution.
+The second sets are user-provided functions in ``functions.lua``. It offers the usual debugging within the IDE and can be reloaded at run time for execution.
 
 To select a station for display select a compiled ``.dat`` file and use the menu "Graph Dataset".
 
@@ -122,10 +122,10 @@ You can control it with [Alt] + Cursors or 1,2,3. See the code for move/zoom.
 * When listing normals only dots are collected.
 * If 2 dots lie on the same day the mean is taken.
 * Normals are drawn using the Bezier's formula for splines.
-* Errors' calulation is a summation of forecast mis-predictions, with weights based on days' interval.
-* If a plugin registers a vector it will be drawn automatically.
+* Errors' calculation is a summation of forecast mis-predictions, with weights based on days' interval.
+* If a plug-in registers a vector it will be drawn automatically.
 
-Under the menu ``Functions`` a registered function can really do whatever with the input parameter ``statistic``, like saving to file or plot a new statistic. Plugins are an easy way to test parameters and code, profiting of being Lua interpreted it's only just reloading from menu and running the function (without shutdown and restart of the application).
+Under the menu ``Functions`` a registered function can really do whatever with the input parameter ``statistic``, like saving to file or plot a new statistic. Plug-ins are an easy way to test parameters and code, profiting of being Lua interpreted it's only just reloading from menu and running the function (without shutdown and restart of the application).
 
 **Examples from the ``WMO Samples.dat`` that I left in the ``archived`` folder.**
 
@@ -136,7 +136,7 @@ Under the menu ``Functions`` a registered function can really do whatever with t
 
 
 
-The normals, the errors and a plugin function that gets the mean temperatures:
+The normals, the errors and a plug-in function that gets the mean temperatures:
 
 ![Berlin Normal Error Mean](/docs/Berlin-Mean.png)
 
@@ -174,6 +174,11 @@ File format:
 },
 
 ```
+
+When the number of datasets is more than 4 or 5 thousands, or generally to avoid recompiling again and again the same datasets, it can be useful to group datasets by month and compile only per month, then a complete compile can be performed on the top directory (as per the example below) :
+
+![Directory structure](/docs/datasets.png)
+
 
 
 
