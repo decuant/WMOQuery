@@ -74,7 +74,7 @@ local tDefColours =
 --
 local m_FileFilter =
 	[[WMO site datasets|*.json|
-	Compiiled datasets|*.dat|
+	Compiled datasets|*.dat|
 	All files except hidden|*.*]]
 
 -- ----------------------------------------------------------------------------
@@ -140,6 +140,8 @@ local function SetStatusText(inText, inCellNo)
 		
 		tTimers.Display:Reset()
 		tTimers.Display:Enable(true)
+		
+		m_trace:line(inText)			-- add line to log
 	end
 end
 
@@ -377,7 +379,7 @@ end
 local function DoCompileDirectory(inDirectory)
 --	m_trace:line("DoCompileDirectory")
 
-	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\" --purge", "r")
+	local hFile, sError = io.popen("lua ./compile.lua \"" .. inDirectory .. "\" --purge --import", "r")
 
 	if not hFile or (sError and 0 < #sError) then
 		
@@ -847,7 +849,7 @@ end
 -- open logging
 --
 m_trace:open()
-	
+
 -- run
 --
 RunApplication()
