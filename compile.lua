@@ -28,8 +28,8 @@ local m_trace = trace.new("compile")
 local m_App = 
 {
 	sAppName = "compile",
-	sAppVer  = "0.0.3",
-	sRelDate = "2020/06/25",
+	sAppVer  = "0.0.4",
+	sRelDate = "2020/11/18",
 	
 	sDefPath	= "D:\\USR_2\\LUA\\WMOQuery\\data\\update",		-- default path
 	sRootDir	= nil,										-- root directory
@@ -269,6 +269,8 @@ local function ProcessImport(inFilename)
 		
 		for _, tEntry in ipairs(tCity[3]) do
 			
+			m_App.iTotScan = m_App.iTotScan + 1
+			
 			-- get the date-time of forecast
 			-- ask to fail if non-existent
 			--
@@ -279,8 +281,8 @@ local function ProcessImport(inFilename)
 			if tIssueDate then
 				
 				m_trace:line("---> Collect: duplicate found, ignoring contents")
-
-			else		
+				
+			else
 				-- now it is safe to create the entry for selected date
 				--
 				tIssueDate = FindIssueDate(tCityTbl, tEntry[1], true)
