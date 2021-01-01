@@ -1,7 +1,7 @@
 --[[
 *	console.lua
 *
-*   Provides a GUI fot the scripts in the set.
+*   Provides a GUI for scripts in set.
 ]]
 
 local wx		= require("wx")
@@ -31,8 +31,8 @@ local m_ShellOpen = "explorer.exe /select, "
 local m_App = 
 {
 	sAppName 	= "console",
-	sAppVer  	= "0.0.15",
-	sRelDate 	= "2020/11/18",
+	sAppVer  	= "0.0.16",
+	sRelDate 	= "2021/01/01",
 	sConfigFile	= "config/preferences.lua",
 
 	sDefPath 	= "data",
