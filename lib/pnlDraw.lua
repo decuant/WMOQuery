@@ -655,6 +655,10 @@ function pnlDraw.DrawNormalized(self, inDc)
 	local tStats	= self.tStatistic
 	local iDrawTemp	= self.iDrawTemp	-- which temp to draw
 	
+	-- check, a spline needs 4 points at least
+	--
+	if 4 > #tStats.tNormalMin then return end
+	
 	-- draw here
 	--
 	inDc:SetBrush(self.brushBack)
@@ -665,7 +669,7 @@ function pnlDraw.DrawNormalized(self, inDc)
 end
 
 -- ----------------------------------------------------------------------------
--- draw spline of normalized vectors
+-- draw spline of errors over normalized vectors
 --
 function pnlDraw.DrawErrors(self, inDc)
 --	m_trace:line("pnlDraw.DrawNormalized")
@@ -676,6 +680,10 @@ function pnlDraw.DrawErrors(self, inDc)
 
 	local tStats = self.tStatistic
 	local iOpt 	 = self.iDrawErrors
+	
+	-- check, a spline needs 4 points at least
+	--	
+	if 4 > #tStats.tErrorsMin then return end	
 
 	-- draw here
 	--
@@ -687,7 +695,7 @@ function pnlDraw.DrawErrors(self, inDc)
 end
 
 -- ----------------------------------------------------------------------------
--- draw spline of normalized vectors
+-- draw spline of functions
 --
 function pnlDraw.DrawFunctions(self, inDc)
 --	m_trace:line("pnlDraw.DrawFunctions")
